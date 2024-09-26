@@ -1,15 +1,12 @@
-import { Link, Outlet, createRootRouteWithContext } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import type { QueryClient } from '@tanstack/react-query'
-import { ThemeToggle } from '~/components/ThemeToggle'
+import { Link, Outlet, createRootRouteWithContext } from "@tanstack/react-router"
+import { TanStackRouterDevtools } from "@tanstack/router-devtools"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import "~/styles/globals.css"
 import "@unocss/reset/tailwind.css"
-import { Header } from '~/components/Header'
+import "virtual:uno.css"
+import { Header } from "~/components/Header"
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient
-}>()({
+export const Route = createRootRouteWithContext()({
   component: RootComponent,
   notFoundComponent: () => {
     return (
@@ -23,12 +20,11 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   return (
-    <>
-      <Header/>
-      <ThemeToggle/>
+    <div className="p-10">
+      <Header />
       <Outlet />
       <ReactQueryDevtools buttonPosition="bottom-left" />
       <TanStackRouterDevtools position="bottom-right" />
-    </>
+    </div>
   )
 }

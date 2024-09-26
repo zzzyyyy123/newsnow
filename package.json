@@ -16,18 +16,22 @@
     "@tanstack/react-query-devtools": "^5.58.0",
     "@tanstack/react-router": "^1.58.9",
     "@tanstack/router-devtools": "^1.58.9",
+    "@tanstack/virtual-file-routes": "^1.56.0",
     "@unocss/reset": "^0.62.4",
     "h3": "^1.12.0",
     "jotai": "^2.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-use": "^17.5.1",
-    "vite-tsconfig-paths": "^5.0.1"
+    "vite-tsconfig-paths": "^5.0.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@analogjs/vite-plugin-nitro": "^1.8.1",
     "@eslint-react/eslint-plugin": "^1.14.2",
+    "@iconify-json/ph": "^1.2.0",
     "@ourongxing/eslint-config": "3.2.3-beta.4",
+    "@ourongxing/tsconfig": "^0.0.4",
     "@tanstack/router-plugin": "^1.58.10",
     "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",

@@ -1,7 +1,7 @@
-import ReactDOM from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { routeTree } from './routeTree.gen'
+import ReactDOM from "react-dom/client"
+import { RouterProvider, createRouter } from "@tanstack/react-router"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { routeTree } from "./routeTree.gen"
 
 const queryClient = new QueryClient()
 
@@ -10,17 +10,17 @@ const router = createRouter({
   context: {
     queryClient,
   },
-  defaultPreload: 'intent',
+  defaultPreload: "intent",
   defaultPreloadStaleTime: 0,
 })
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router
   }
 }
 
-const rootElement = document.getElementById('root')!
+const rootElement = document.getElementById("root")!
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)

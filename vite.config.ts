@@ -1,9 +1,10 @@
+import process from "node:process"
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react-swc"
 import nitro from "vite-plugin-with-nitro"
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
-import process from "node:process"
 import tsconfigPath from "vite-tsconfig-paths"
+import unocss from "unocss/vite"
 
 export default defineConfig({
   resolve: {
@@ -13,6 +14,7 @@ export default defineConfig({
     TanStackRouterVite({
       autoCodeSplitting: true,
     }),
+    unocss(),
     tsconfigPath(),
     react(),
     nitro({ ssr: false }, {

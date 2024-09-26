@@ -1,6 +1,6 @@
 html,
 body,
-#app {
+#root {
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -21,8 +21,4 @@ body {
 button:disabled {
   cursor: not-allowed;
   pointer-events: all !important;
-}
-
-th:nth-child(2) {
-  width: 100%;
 }

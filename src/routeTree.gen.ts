@@ -12,12 +12,18 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SettingImport } from './routes/setting'
+import { Route as SectionImport } from './routes/section'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
 const SettingRoute = SettingImport.update({
   path: '/setting',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SectionRoute = SectionImport.update({
+  path: '/section',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,6 +43,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/section': {
+      id: '/section'
+      path: '/section'
+      fullPath: '/section'
+      preLoaderRoute: typeof SectionImport
+      parentRoute: typeof rootRoute
+    }
     '/setting': {
       id: '/setting'
       path: '/setting'
@@ -51,36 +64,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/section': typeof SectionRoute
   '/setting': typeof SettingRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/section': typeof SectionRoute
   '/setting': typeof SettingRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/section': typeof SectionRoute
   '/setting': typeof SettingRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/setting'
+  fullPaths: '/' | '/section' | '/setting'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/setting'
-  id: '__root__' | '/' | '/setting'
+  to: '/' | '/section' | '/setting'
+  id: '__root__' | '/' | '/section' | '/setting'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SectionRoute: typeof SectionRoute
   SettingRoute: typeof SettingRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SectionRoute: SectionRoute,
   SettingRoute: SettingRoute,
 }
 
@@ -97,11 +115,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/section",
         "/setting"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/section": {
+      "filePath": "section.tsx"
     },
     "/setting": {
       "filePath": "setting.tsx"

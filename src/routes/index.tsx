@@ -1,13 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute('/')({
-  component: Home,
+export const Route = createFileRoute("/")({
+  component: Index,
 })
 
-function Home() {
-  return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-    </div>
-  )
+function Index() {
+  return <Link to="/section" search={{ n: "focus" }}> 关注 </Link>
 }

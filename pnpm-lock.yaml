@@ -20,6 +20,9 @@ importers:
       '@tanstack/router-devtools':
         specifier: ^1.58.9
         version: 1.58.9(@tanstack/react-router@1.58.9(@tanstack/router-generator@1.58.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tanstack/virtual-file-routes':
+        specifier: ^1.56.0
+        version: 1.56.0
       '@unocss/reset':
         specifier: ^0.62.4
         version: 0.62.4
@@ -41,6 +44,9 @@ importers:
       vite-tsconfig-paths:
         specifier: ^5.0.1
         version: 5.0.1(typescript@5.6.2)(vite@5.4.8(@types/node@22.6.1)(terser@5.33.0))
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@analogjs/vite-plugin-nitro':
         specifier: ^1.8.1
@@ -48,9 +54,15 @@ importers:
       '@eslint-react/eslint-plugin':
         specifier: ^1.14.2
         version: 1.14.2(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2)
+      '@iconify-json/ph':
+        specifier: ^1.2.0
+        version: 1.2.0
       '@ourongxing/eslint-config':
         specifier: 3.2.3-beta.4
         version: 3.2.3-beta.4(@eslint-react/eslint-plugin@1.14.2(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2))(@typescript-eslint/utils@8.7.0(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2))(@vue/compiler-sfc@3.5.8)(eslint-plugin-react-hooks@5.1.0-rc-fb9a90fa48-20240614(eslint@9.11.1(jiti@1.21.6)))(eslint-plugin-react-refresh@0.4.12(eslint@9.11.1(jiti@1.21.6)))(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2)
+      '@ourongxing/tsconfig':
+        specifier: ^0.0.4
+        version: 0.0.4
       '@tanstack/router-plugin':
         specifier: ^1.58.10
         version: 1.58.10(vite@5.4.8(@types/node@22.6.1)(terser@5.33.0))
@@ -867,6 +879,9 @@ packages:
     resolution: {integrity: sha512-d2CGZR2o7fS6sWB7DG/3a95bGKQyHMACZ5aW8qGkkqQpUoZV6C0X7Pc7l4ZNMZkfNBf4VWNe9E1jRsf0G146Ew==}
     engines: {node: '>=18.18'}
 
+  '@iconify-json/ph@1.2.0':
+    resolution: {integrity: sha512-013eLpgTmX1lACOuDnkuhC7gRHyYj9w/j8SyDmlyUYvsKQrwdRsv1otcXtwH3DevuDAzSkreeeRsCeez+gTyVA==}
+
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
@@ -990,6 +1005,9 @@ packages:
         optional: true
       svelte-eslint-parser:
         optional: true
+
+  '@ourongxing/tsconfig@0.0.4':
+    resolution: {integrity: sha512-km6cJv5Evtjf7qzN8FLr7S7mu3tgm82i0RFNzsm8s2VER9IXS2NuH2YqJFlJ1lznnsdsyM+PK8A8bD0vz94qTg==}
 
   '@parcel/watcher-android-arm64@2.4.1':
     resolution: {integrity: sha512-LOi/WTbbh3aTn2RYddrO8pnapixAziFl6SMxHM69r3tvdSm94JtCenaKgk1GRg5FJ5wpMCpHeW+7yqPlvZv7kg==}
@@ -4697,6 +4715,10 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.0': {}
 
+  '@iconify-json/ph@1.2.0':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify/types@2.0.0': {}
 
   '@iconify/utils@2.1.33':
@@ -4848,6 +4870,8 @@ snapshots:
       - svelte
       - typescript
       - vitest
+
+  '@ourongxing/tsconfig@0.0.4': {}
 
   '@parcel/watcher-android-arm64@2.4.1':
     optional: true
