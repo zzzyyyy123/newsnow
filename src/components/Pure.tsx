@@ -14,7 +14,7 @@ export function Main() {
       id="grid-container"
       className="grid w-full gap-5 mt-10"
       style={{
-        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
       }}
     >
       {currentSection.sourceList.map(id => (
