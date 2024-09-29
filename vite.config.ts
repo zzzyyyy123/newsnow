@@ -1,4 +1,5 @@
 import process from "node:process"
+import { fileURLToPath } from "node:url"
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react-swc"
 import nitro from "vite-plugin-with-nitro"
@@ -19,11 +20,17 @@ export default defineConfig({
     react(),
     nitro({ ssr: false }, {
       srcDir: "server",
+      alias: {
+        "@shared": fileURLToPath(new URL("shared", import.meta.url)),
+      },
+      runtimeConfig: {
+        // apiPrefix: "",
+      },
+      typescript: {
+        generateTsConfig: true,
+      },
       minify: false,
       preset: process.env.VERCEL ? "vercel-edge" : "node-server",
-      experimental: {
-        websocket: true,
-      },
     }),
   ],
 })

@@ -28,6 +28,7 @@ export default defineConfig({
     "btn-action": "border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-hover",
     "btn-action-sm": "btn-action text-sm",
     "btn-action-active": "color-active border-active! bg-active op100!",
+    "skeleton": "bg-gray-400/10 rounded-md h-5 w-full animate-pulse",
   },
   theme: {
     colors: {

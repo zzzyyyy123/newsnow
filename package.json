@@ -1,5 +1,5 @@
 {
-  "name": "vite-project",
+  "name": "newsnow",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -9,25 +9,31 @@
     "build": "vite  build",
     "nitro": "nitro build",
     "lint": "eslint .",
+    "test": "vitest",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@tanstack/react-query": "^5.56.2",
     "@tanstack/react-query-devtools": "^5.58.0",
     "@tanstack/react-router": "^1.58.9",
     "@tanstack/router-devtools": "^1.58.9",
-    "@tanstack/virtual-file-routes": "^1.56.0",
     "@unocss/reset": "^0.62.4",
+    "array-differences": "^3.0.2",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "framer-motion": "^11.8.0",
     "h3": "^1.12.0",
     "jotai": "^2.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-intersection-observer": "^9.13.1",
     "react-use": "^17.5.1",
-    "vite-tsconfig-paths": "^5.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@analogjs/vite-plugin-nitro": "^1.8.1",
     "@eslint-react/eslint-plugin": "^1.14.2",
     "@iconify-json/ph": "^1.2.0",
     "@ourongxing/eslint-config": "3.2.3-beta.4",
@@ -45,6 +51,8 @@
     "typescript-eslint": "^8.7.0",
     "unocss": "^0.62.4",
     "vite": "^5.4.8",
-    "vite-plugin-with-nitro": "0.0.0-beta.4"
+    "vite-plugin-with-nitro": "0.0.0-beta.4",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.1.1"
   }
 }

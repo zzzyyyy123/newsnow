@@ -1,9 +1,42 @@
+import { metadata, sectionIds } from "@shared/data"
+import type { SectionID } from "@shared/types"
 import { Link, createFileRoute } from "@tanstack/react-router"
+import clsx from "clsx"
+import { useSetAtom } from "jotai"
+import { useEffect } from "react"
+import { currentSectionAtom } from "~/atoms"
+// import { Main } from "~/components/Main"
+import { Main } from "~/components/Pure"
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  validateSearch: (search: any) => ({
+    section: (search.section as SectionID),
+  }),
+  component: IndexComponent,
 })
 
-function Index() {
-  return <Link to="/section" search={{ n: "focus" }}> 关注 </Link>
+function IndexComponent() {
+  const { section: id = "focus" } = Route.useSearch()
+  const setCurrentSectionAtom = useSetAtom(currentSectionAtom)
+  useEffect(() => {
+    setCurrentSectionAtom(id)
+  }, [setCurrentSectionAtom, id])
+
+  return id && (
+    <div className="flex flex-col justify-center items-center">
+      <section className="flex gap-2">
+        {sectionIds.map(section => (
+          <Link
+            key={section}
+            to="/"
+            search={{ section }}
+            className={clsx("btn-action-sm", id === section && "btn-action-active")}
+          >
+            {metadata[section].name}
+          </Link>
+        ))}
+      </section>
+      <Main />
+    </div>
+  )
 }

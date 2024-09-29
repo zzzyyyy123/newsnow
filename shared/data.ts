@@ -1,24 +1,40 @@
-import type { Section } from "./types"
+import type { Metadata } from "./types"
 
-export const sections = [
-  {
+export const sectionIds = ["focus", "social", "china", "world", "digital"] as const
+
+export const sourceList = {
+  "36kr": "36氪",
+  "douyin": "抖音",
+  "hupu": "虎扑",
+  "zhihu": "知乎",
+  "weibo": "微博",
+  "tieba": "贴吧",
+  "zaobao": "联合早报",
+  "thepaper": "澎湃新闻",
+  "toutiao": "今日头条",
+  "cankaoxiaoxi": "参考消息",
+  "peopledaily": "人民日报",
+} as const satisfies Record<string, string | false>
+
+export const metadata: Metadata = {
+  focus: {
     name: "关注",
-    id: "focus",
+    sourceList: [],
   },
-  {
-    name: "综合",
-    id: "main",
+  social: {
+    name: "社交媒体",
+    sourceList: ["douyin", "hupu", "tieba", "weibo"],
   },
-  {
+  china: {
     name: "国内",
-    id: "china",
+    sourceList: ["peopledaily", "36kr", "toutiao"],
   },
-  {
+  world: {
     name: "国外",
-    id: "world",
+    sourceList: ["zaobao"],
   },
-  {
+  digital: {
     name: "数码",
-    id: "digital",
+    sourceList: ["36kr"],
   },
-] as const satisfies Section[]
+}

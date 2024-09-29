@@ -1,5 +1,5 @@
 {
-  "extends": "@ourongxing/tsconfig",
+  "extends": ["./tsconfig.base.json", "./dist/.nitro/types/tsconfig.json"],
   "compilerOptions": {
     "lib": ["ES2020"],
     "baseUrl": ".",
@@ -8,5 +8,5 @@
       "@shared/*": ["shared/*"]
     }
   },
-  "include": ["server", "*.config.*", "shared"]
+  "include": ["server", "*.config.*", "shared", "test"]
 }
