@@ -6,6 +6,7 @@ import "@unocss/reset/tailwind.css"
 import "virtual:uno.css"
 import type { QueryClient } from "@tanstack/react-query"
 import { Header } from "~/components/Header"
+import { useOnReload } from "~/hooks/useOnReload"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -21,6 +22,7 @@ export const Route = createRootRouteWithContext<{
 })
 
 export function RootComponent() {
+  useOnReload()
   return (
     <div className="p-10">
       <Header />

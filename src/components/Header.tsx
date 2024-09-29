@@ -1,11 +1,9 @@
 import { Link } from "@tanstack/react-router"
 import { useCallback } from "react"
-import { useAtomValue } from "jotai"
-import type { SourceID } from "@shared/types"
-import { queryClient } from "~/main"
+import { useAtomValue, useSetAtom } from "jotai"
 import logo from "~/assets/react.svg"
 import { useDark } from "~/hooks/useDark"
-import { currentSectionAtom } from "~/atoms"
+import { currentSectionAtom, refetchSourceAtom } from "~/atoms"
 
 function ThemeToggle() {
   const { toggleDark } = useDark()
@@ -21,13 +19,14 @@ function ThemeToggle() {
 
 function RefreshButton() {
   const currentSection = useAtomValue(currentSectionAtom)
-  const refreshAll = useCallback(async () => {
-    await queryClient.refetchQueries({
-      predicate(query) {
-        return currentSection.sourceList.includes(query.queryKey[0] as SourceID)
-      },
-    })
-  }, [currentSection])
+  const setRefetchSource = useSetAtom(refetchSourceAtom)
+  const refreshAll = useCallback(() => {
+    const obj = Object.fromEntries(currentSection.sourceList.map(id => [id, Date.now()]))
+    setRefetchSource(prev => ({
+      ...prev,
+      ...obj,
+    }))
+  }, [currentSection, setRefetchSource])
 
   return (
     <button type="button" className="i-ph:arrow-clockwise btn-pure" onClick={refreshAll} />

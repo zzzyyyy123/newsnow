@@ -5,7 +5,7 @@ import clsx from "clsx"
 import { useInView } from "react-intersection-observer"
 import { useAtom, useAtomValue } from "jotai"
 import { useCallback } from "react"
-import { currentSectionAtom, focusSourcesAtom } from "~/atoms"
+import { currentSectionAtom, focusSourcesAtom, refetchSourceAtom } from "~/atoms"
 
 export function Main() {
   const currentSection = useAtomValue(currentSectionAtom)
@@ -40,15 +40,32 @@ function NewsCard({ id, inView }: { id: SourceID, inView: boolean }) {
   const addFocusList = useCallback(() => {
     setFocusSources(focusSources.includes(id) ? focusSources.filter(i => i !== id) : [...focusSources, id])
   }, [setFocusSources, focusSources, id])
-  const { isPending, error, isFetching, data, refetch } = useQuery({
-    queryKey: [id],
-    queryFn: async () => {
-      const response = await fetch(`/api/${id}?latest`)
+  const [refetchSource, setRefetchSource] = useAtom(refetchSourceAtom)
+  const { isPending, error, isFetching, data } = useQuery({
+    queryKey: [id, refetchSource[id]],
+    queryFn: async ({ queryKey }) => {
+      const [_id, _refetchTime] = queryKey as [SourceID, number]
+      let url = `/api/${_id}`
+      if (Date.now() - _refetchTime < 1000) {
+        url = `/api/${_id}?latest`
+      }
+      const response = await fetch(url)
       return await response.json() as SourceInfo
     },
+    // refetch 时显示原有的数据
+    placeholderData: prev => prev,
+    staleTime: 1000 * 60 * 5,
     enabled: inView,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
   })
+
+  const manualRefetch = useCallback(() => {
+    setRefetchSource(prev => ({
+      ...prev,
+      [id]: Date.now(),
+    }))
+  }, [setRefetchSource, id])
+
   if (isPending || !data) {
     return (
       <>
@@ -84,8 +101,14 @@ function NewsCard({ id, inView }: { id: SourceID, inView: boolean }) {
           <span>
             {formatTime(data!.updateTime)}
           </span>
-          <button type="button" className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star")} onClick={addFocusList} />
-          <button type="button" className={clsx("i-ph:arrow-clockwise", isFetching && "animate-spin")} onClick={() => refetch()} />
+          <div className="flex gap-1">
+            <button
+              type="button"
+              className={clsx("i-ph:arrow-clockwise", isFetching && "animate-spin")}
+              onClick={manualRefetch}
+            />
+            <button type="button" className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star")} onClick={addFocusList} />
+          </div>
         </div>
       </>
     )
