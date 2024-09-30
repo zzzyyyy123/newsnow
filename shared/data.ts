@@ -2,19 +2,55 @@ import type { Metadata } from "./types"
 
 export const sectionIds = ["focus", "social", "china", "world", "digital"] as const
 
-export const sourceList = {
-  "36kr": "36氪",
-  "douyin": "抖音",
-  "hupu": "虎扑",
-  "zhihu": "知乎",
-  "weibo": "微博",
-  "tieba": "贴吧",
-  "zaobao": "联合早报",
-  "thepaper": "澎湃新闻",
-  "toutiao": "今日头条",
-  "cankaoxiaoxi": "参考消息",
-  "peopledaily": "人民日报",
-} as const satisfies Record<string, string | false>
+export const sources = {
+  "36kr": {
+    name: "36氪",
+    home: "https://36kr.com",
+  },
+  "douyin": {
+    name: "抖音",
+    home: "https://www.douyin.com",
+  },
+  "hupu": {
+    name: "虎扑",
+    home: "https://hupu.com",
+  },
+  "zhihu": {
+    name: "知乎",
+    home: "https://www.zhihu.com",
+  },
+  "weibo": {
+    name: "微博",
+    home: "https://weibo.com",
+  },
+  "tieba": {
+    name: "百度贴吧",
+    home: "https://tieba.baidu.com",
+  },
+  "zaobao": {
+    name: "联合早报",
+    home: "https://www.zaobao.com",
+  },
+  "thepaper": {
+    name: "澎湃新闻",
+    home: "https://www.thepaper.cn",
+  },
+  "toutiao": {
+    name: "今日头条",
+    home: "https://www.toutiao.com",
+  },
+  "cankaoxiaoxi": {
+    name: "参考消息",
+    home: "http://www.cankaoxiaoxi.com",
+  },
+  "peopledaily": {
+    name: "人民日报",
+    home: "http://paper.people.com.cn",
+  },
+} as const satisfies Record<string, {
+  name: string
+  home: string
+}>
 
 export const metadata: Metadata = {
   focus: {

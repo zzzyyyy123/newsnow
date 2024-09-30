@@ -6,8 +6,8 @@ import clsx from "clsx"
 import { CSS } from "@dnd-kit/utilities"
 import { useInView } from "react-intersection-observer"
 import { useAtom } from "jotai"
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react"
-import { sourceList } from "@shared/data"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { sources } from "@shared/data"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
 import { useSortable } from "@dnd-kit/sortable"
 import { focusSourcesAtom, refetchSourceAtom } from "~/atoms"
@@ -25,22 +25,13 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, withOpa
     threshold: 0,
   })
 
-  // const bindRef = useCallback((node: HTMLDivElement) => {
-  //   inViewRef(node)
-  //   if (typeof dndRef === "function") {
-  //     dndRef(node)
-  //   } else if (dndRef) {
-  //     dndRef.current = node
-  //   }
-  // }, [inViewRef, dndRef])
-
   useImperativeHandle(dndRef, () => ref.current as HTMLDivElement)
   useImperativeHandle(inViewRef, () => ref.current as HTMLDivElement)
 
   return (
     <div
       ref={ref}
-      className={clsx("flex flex-col border rounded-md px-2 h-500px", withOpacity && "op-50", isDragging ? "scale-105" : "")}
+      className={clsx("flex flex-col bg-base border rounded-md px-2 h-500px", withOpacity && "op-50", isDragging ? "" : "")}
       key={id}
       style={{
         transformOrigin: "50% 50%",
@@ -95,7 +86,7 @@ interface Query {
 
 function SubTitle({ query }: Query) {
   const subTitle = query.data?.type
-  if (subTitle) return <span>{subTitle}</span>
+  if (subTitle) return <span className="text-xs">{subTitle}</span>
 }
 
 function UpdateTime({ query }: Query) {
@@ -108,7 +99,7 @@ function UpdateTime({ query }: Query) {
 function Num({ num }: { num: number }) {
   const color = ["bg-red-900", "bg-red-500", "bg-red-400"]
   return (
-    <span className={clsx("bg-active min-w-6 flex justify-center items-center rounded-md", color[num - 1])}>
+    <span className={clsx("bg-active min-w-6 flex justify-center items-center rounded-md", false && color[num - 1])}>
       {num}
     </span>
   )
@@ -122,12 +113,12 @@ function NewsList({ query }: Query) {
         {items.slice(0, 20).map((item, i) => (
           <div key={item.title} className="flex gap-2 items-center">
             <Num num={i + 1} />
-            <a href={item.url} target="_blank" className="my-1 flex flex-wrap w-full justify-between items-end flex-wrap-reverse">
-              <span>
+            <a href={item.url} target="_blank" className="my-1 w-full flex items-center justify-between flex-wrap">
+              <span className="flex-1 mr-2">
                 {item.title}
               </span>
               {item.timestamp && (
-                <span className="text-xs">
+                <span className="text-xs text-gray-4/80">
                   {relativeTime(item.timestamp)}
                 </span>
               )}
@@ -182,10 +173,13 @@ export function NewsCard({ id, inView, isDragging, listeners }: NewsCardProps) {
 
   return (
     <>
-      <div {...listeners} className={clsx("flex justify-between py-2", isDragging ? "cursor-grabbing" : "cursor-grab")}>
-        <span className="text-lg font-bold">
-          {sourceList[id]}
-        </span>
+      <div {...listeners} className={clsx("flex justify-between py-2 items-center", listeners && (isDragging ? "cursor-grabbing" : "cursor-grab"))}>
+        <div className="flex items-center gap-2">
+          <img src={`/icons/${id}.png`} className="w-4 h-4 rounded" alt={id} onError={e => e.currentTarget.hidden = true} />
+          <span className="text-md font-bold">
+            {sources[id].name}
+          </span>
+        </div>
         <SubTitle query={query} />
       </div>
       <div className="overflow-auto h-full">

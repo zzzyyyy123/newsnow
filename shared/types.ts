@@ -1,6 +1,6 @@
-import type { sectionIds, sourceList } from "./data"
+import type { sectionIds, sources } from "./data"
 
-export type SourceID = keyof(typeof sourceList)
+export type SourceID = keyof(typeof sources)
 export type SectionID = (typeof sectionIds)[number]
 export type Metadata = Record<SectionID, Section>
 
@@ -29,6 +29,5 @@ export interface SourceInfo {
   total: number
   link?: string
   updateTime: string
-  fromCache: boolean
   data: NewsItem[]
 }

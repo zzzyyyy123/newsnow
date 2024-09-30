@@ -24,7 +24,7 @@ export const Route = createRootRouteWithContext<{
 export function RootComponent() {
   useOnReload()
   return (
-    <div className="p-10">
+    <div className="md:p-10 p-4">
       <Header />
       <Outlet />
       <ReactQueryDevtools buttonPosition="bottom-left" />

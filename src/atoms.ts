@@ -1,10 +1,10 @@
 import { atom } from "jotai"
 import type { SectionID, SourceID } from "@shared/types"
-import { metadata, sourceList } from "@shared/data"
+import { metadata, sources } from "@shared/data"
 import { atomWithLocalStorage } from "./hooks/atomWithLocalStorage"
 
 export const focusSourcesAtom = atomWithLocalStorage<SourceID[]>("focusSources", [], (stored) => {
-  return stored.filter(item => item in sourceList)
+  return stored.filter(item => item in sources)
 })
 
 function initRefetchSource() {
@@ -17,7 +17,7 @@ function initRefetchSource() {
   if (!Number.isNaN(quitTime) && now - quitTime < 1000) {
     time = now
   }
-  return Object.fromEntries(Object.keys(sourceList).map(k => [k, time])) as Record<SourceID, number>
+  return Object.fromEntries(Object.keys(sources).map(k => [k, time])) as Record<SourceID, number>
 }
 
 export const refetchSourceAtom = atom(initRefetchSource())

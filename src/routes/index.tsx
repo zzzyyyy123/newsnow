@@ -24,7 +24,7 @@ function IndexComponent() {
 
   return id && (
     <div className="flex flex-col justify-center items-center">
-      <section className="flex gap-2">
+      <section className="flex gap-2 py-4">
         {sectionIds.map(section => (
           <Link
             key={section}

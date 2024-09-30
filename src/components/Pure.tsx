@@ -6,7 +6,7 @@ import { currentSectionAtom } from "~/atoms"
 export function GridContainer({ children }: PropsWithChildren) {
   return (
     <div
-      className="grid w-full gap-5 mt-10"
+      className="grid w-full gap-5"
       style={{
         gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
       }}
