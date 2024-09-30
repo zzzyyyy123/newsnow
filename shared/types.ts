@@ -15,6 +15,7 @@ export interface NewsItem {
   author?: string
   desc?: string
   url: string
+  timestamp?: number
   mobileUrl?: string
 }
 
@@ -22,7 +23,6 @@ export interface NewsItem {
 export interface SourceInfo {
   name: string
   title: string
-  subtitle?: string
   type: string
   description?: string
   params?: Record<string, string | object>

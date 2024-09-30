@@ -1,4 +1,4 @@
-import type { CSSProperties, HTMLAttributes, PropsWithChildren } from "react"
+import type { CSSProperties, HTMLAttributes } from "react"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { forwardRef } from "react"
@@ -10,14 +10,6 @@ type ItemProps = HTMLAttributes<HTMLDivElement> & {
   withOpacity?: boolean
   isDragging?: boolean
   listeners?: SyntheticListenerMap
-}
-
-export function GridContainer({ children }: PropsWithChildren) {
-  return (
-    <div className="grid gap-2 max-w-4xl mt-20 grid-cols-4">
-      {children}
-    </div>
-  )
 }
 
 export const Item = forwardRef<HTMLDivElement, ItemProps>(({ id, withOpacity, isDragging, listeners, style, ...props }, ref) => {
@@ -40,16 +32,14 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({ id, withOpacity, is
       style={inlineStyles}
       {...props}
     >
+      <div
+        className={clsx("border-b", isDragging ? "cursor-grabbing" : "cursor-grab")}
+        {...listeners}
+      >
+        你好
+      </div>
       <div>
-        <div
-          className={clsx("border-b", isDragging ? "cursor-grabbing" : "cursor-grab")}
-          {...listeners}
-        >
-          你好
-        </div>
-        <div>
-          {id}
-        </div>
+        {id}
       </div>
     </div>
   )
@@ -76,6 +66,7 @@ export function SortableItem(props: ItemProps) {
       ref={setNodeRef}
       style={style}
       withOpacity={isDragging}
+      isDragging={isDragging}
       listeners={listeners}
       {...attributes}
       {...props}

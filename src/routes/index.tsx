@@ -5,8 +5,8 @@ import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import { useEffect } from "react"
 import { currentSectionAtom } from "~/atoms"
-// import { Main } from "~/components/Main"
-import { Main } from "~/components/Pure"
+import { Main as DndMain } from "~/components/Dnd"
+import { Main as PureMain } from "~/components/Pure"
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: any) => ({
@@ -36,7 +36,9 @@ function IndexComponent() {
           </Link>
         ))}
       </section>
-      <Main />
+      {
+        id === "focus" ? <DndMain /> : <PureMain />
+      }
     </div>
   )
 }

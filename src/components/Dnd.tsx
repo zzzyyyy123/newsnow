@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useState } from "react"
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core"
 import {
   DndContext,
@@ -9,14 +9,15 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core"
-import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable"
-import type { SectionID } from "@shared/types"
-import { metadata } from "@shared/data"
-import { Item, SortableItem } from "./NewsCard"
+import { SortableContext, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable"
+import { useAtom } from "jotai"
+import type { SourceID } from "@shared/types"
+import { GridContainer } from "./Pure"
+import { CardWrapper, SortableCardWrapper } from "./Card"
+import { focusSourcesAtom } from "~/atoms"
 
-export function Main({ sectionId }: { sectionId: SectionID }) {
-  // const [items, setItems] = useState(metadata?.[sectionId]?.sourceList ?? [])
-  const items = useMemo(() => metadata?.[sectionId]?.sourceList ?? [], [sectionId])
+export function Main() {
+  const [items, setItems] = useAtom(focusSourcesAtom)
   const [activeId, setActiveId] = useState<string | null>(null)
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
@@ -27,16 +28,16 @@ export function Main({ sectionId }: { sectionId: SectionID }) {
     const { active, over } = event
 
     if (active.id !== over?.id) {
-      // setItems((items) => {
-      //   const oldIndex = items.indexOf(active.id as any)
-      //   const newIndex = items.indexOf(over!.id as any)
+      setItems((items) => {
+        const oldIndex = items.indexOf(active.id as any)
+        const newIndex = items.indexOf(over!.id as any)
 
-      //   return arrayMove(items, oldIndex, newIndex)
-      // })
+        return arrayMove(items, oldIndex, newIndex)
+      })
     }
 
     setActiveId(null)
-  }, [])
+  }, [setItems])
   const handleDragCancel = useCallback(() => {
     setActiveId(null)
   }, [])
@@ -50,20 +51,14 @@ export function Main({ sectionId }: { sectionId: SectionID }) {
       onDragCancel={handleDragCancel}
     >
       <SortableContext items={items} strategy={rectSortingStrategy}>
-        <div
-          id="grid-container"
-          className="grid w-full gap-5 mt-10"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          }}
-        >
+        <GridContainer>
           {items.map(id => (
-            <SortableItem key={id} id={id} />
+            <SortableCardWrapper key={id} id={id} />
           ))}
-        </div>
+        </GridContainer>
       </SortableContext>
       <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
-        {!!activeId && <Item id={activeId} isDragging />}
+        {!!activeId && <CardWrapper id={activeId as SourceID} isDragging />}
       </DragOverlay>
     </DndContext>
   )
