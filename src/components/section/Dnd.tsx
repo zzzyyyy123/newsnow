@@ -66,8 +66,7 @@ export function Dnd() {
   )
 }
 
-function SortableCardWrapper(props: ItemsProps) {
-  const { id } = props
+function SortableCardWrapper({ id, ...props }: ItemsProps) {
   const {
     isDragging,
     attributes,
@@ -79,15 +78,16 @@ function SortableCardWrapper(props: ItemsProps) {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition || undefined,
+    transition,
   }
 
   return (
     <CardWrapper
       ref={setNodeRef}
+      id={id}
       style={style}
       isDragged={isDragging}
-      listeners={listeners}
+      handleListeners={listeners}
       {...attributes}
       {...props}
     />

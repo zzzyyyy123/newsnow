@@ -17,7 +17,7 @@ export interface ItemsProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   isDragged?: boolean
   isOverlay?: boolean
-  listeners?: SyntheticListenerMap
+  handleListeners?: SyntheticListenerMap
 }
 
 interface NewsCardProps {
@@ -31,7 +31,7 @@ interface Query {
   query: UseQueryResult<SourceInfo, Error>
 }
 
-export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragged, isOverlay, listeners, style, ...props }, dndRef) => {
+export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragged, isOverlay, handleListeners, style, ...props }, dndRef) => {
   const ref = useRef<HTMLDivElement>(null)
   const { ref: inViewRef, inView } = useInView({
     threshold: 0,
@@ -48,14 +48,13 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
         isDragged && "op-50",
         isOverlay ? "bg-glass" : "",
       )}
-      key={id}
       style={{
         transformOrigin: "50% 50%",
         ...style,
       }}
       {...props}
     >
-      <NewsCard id={id} inView={inView} isOverlay={isOverlay} handleListeners={listeners} />
+      <NewsCard id={id} inView={inView} isOverlay={isOverlay} handleListeners={handleListeners} />
     </div>
   )
 })
