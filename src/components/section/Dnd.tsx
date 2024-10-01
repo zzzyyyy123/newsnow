@@ -9,14 +9,16 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core"
-import { SortableContext, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable"
+import { SortableContext, arrayMove, rectSortingStrategy, useSortable } from "@dnd-kit/sortable"
 import { useAtom } from "jotai"
 import type { SourceID } from "@shared/types"
+import { CSS } from "@dnd-kit/utilities"
 import { GridContainer } from "./Pure"
-import { CardWrapper, SortableCardWrapper } from "./Card"
+import type { ItemsProps } from "./Card"
+import { CardWrapper } from "./Card"
 import { focusSourcesAtom } from "~/atoms"
 
-export function Main() {
+export function Dnd() {
   const [items, setItems] = useAtom(focusSourcesAtom)
   const [activeId, setActiveId] = useState<string | null>(null)
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
@@ -58,8 +60,36 @@ export function Main() {
         </GridContainer>
       </SortableContext>
       <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
-        {!!activeId && <CardWrapper id={activeId as SourceID} isDragging />}
+        {!!activeId && <CardWrapper id={activeId as SourceID} isOverlay />}
       </DragOverlay>
     </DndContext>
+  )
+}
+
+function SortableCardWrapper(props: ItemsProps) {
+  const { id } = props
+  const {
+    isDragging,
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition || undefined,
+  }
+
+  return (
+    <CardWrapper
+      ref={setNodeRef}
+      style={style}
+      isDragged={isDragging}
+      listeners={listeners}
+      {...attributes}
+      {...props}
+    />
   )
 }

@@ -15,8 +15,7 @@ export default defineConfig({
     "bg-base": "bg-white dark:bg-[#1d1c1c]",
     "border-base": "border-gray-500/30",
 
-    "bg-tooltip": "bg-white:75 dark:bg-neutral-900:75 backdrop-blur-8",
-    "bg-glass": "bg-white:75 dark:bg-neutral-900:75 backdrop-blur-5",
+    "bg-glass": "bg-white:75 dark:bg-[#1d1c1c]:75 backdrop-blur-5",
     "bg-code": "bg-gray5:5",
     "bg-hover": "bg-primary-400:5",
 

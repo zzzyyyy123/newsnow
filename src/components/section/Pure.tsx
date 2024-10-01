@@ -16,7 +16,7 @@ export function GridContainer({ children }: PropsWithChildren) {
   )
 }
 
-export function Main() {
+export function Pure() {
   const currentSection = useAtomValue(currentSectionAtom)
   return (
     <GridContainer>
