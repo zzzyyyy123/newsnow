@@ -1,4 +1,5 @@
 import type { SourceID, SourceInfo } from "@shared/types"
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 import type { UseQueryResult } from "@tanstack/react-query"
 import { useQuery } from "@tanstack/react-query"
 import { relativeTime } from "@shared/utils"
@@ -44,7 +45,7 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col bg-base border rounded-md px-2 h-500px",
+        "flex flex-col bg-base border rounded-md h-500px",
         isDragged && "op-50",
         isOverlay ? "bg-glass" : "",
       )}
@@ -92,7 +93,14 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
 
   return (
     <>
-      <div {...handleListeners} className={clsx("flex justify-between py-2 items-center", handleListeners && "cursor-grab", isOverlay && "cursor-grabbing")}>
+      <div
+        {...handleListeners}
+        className={clsx([
+          "flex justify-between p-2 items-center",
+          handleListeners && "cursor-grab",
+          isOverlay && "cursor-grabbing",
+        ])}
+      >
         <div className="flex items-center gap-2">
           <img src={`/icons/${id}.png`} className="w-4 h-4 rounded" alt={id} onError={e => e.currentTarget.hidden = true} />
           <span className="text-md font-bold">
@@ -101,10 +109,15 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
         </div>
         <SubTitle query={query} />
       </div>
-      <div className="overflow-auto h-full">
+      <OverlayScrollbarsComponent
+        defer
+        className="h-full pl-2 pr-3 mr-1"
+        element="div"
+        options={{ scrollbars: { autoHide: "scroll" } }}
+      >
         <NewsList query={query} />
-      </div>
-      <div className="py-2 flex items-center justify-between">
+      </OverlayScrollbarsComponent>
+      <div className="p-2 flex items-center justify-between">
         <UpdateTime query={query} />
         <div className="flex gap-1">
           <button
