@@ -15,7 +15,7 @@ const columns = [
   "国际视野",
 ] as const
 export async function zaobao(type: typeof columns[number] = "中国聚焦"): Promise<SourceInfo> {
-  const response = await $fetch("https://www.kzaobao.com/top.html", {
+  const response: ArrayBuffer = await $fetch("https://www.kzaobao.com/top.html", {
     responseType: "arrayBuffer",
   })
   const base = "https://www.kzaobao.com"
@@ -23,7 +23,7 @@ export async function zaobao(type: typeof columns[number] = "中国聚焦"): Pro
   const $ = cheerio.load(utf8String)
   // const all = []
   // columns.forEach((column, index) => {
-  const $main = $(`#cd0${2}`)
+  const $main = $(`#cd0${columns.indexOf(type) + 1}`)
   const news: NewsItem[] = []
   $main.find("tr").each((_, el) => {
     const a = $(el).find("h3>a")

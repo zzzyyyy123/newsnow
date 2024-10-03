@@ -1,18 +1,22 @@
 import { TTL } from "@shared/consts"
 import type { CacheInfo } from "@shared/types"
+import type { Database } from "db0"
 
 export class Cache {
   private db
-  constructor(db: any) {
+  constructor(db: Database) {
     this.db = db
-    this.db.exec(`
+  }
+
+  async init() {
+    await this.db.prepare(`
       CREATE TABLE IF NOT EXISTS cache (
         id TEXT PRIMARY KEY,
         data TEXT,
         updated INTEGER,
         expires INTEGER
       );
-    `)
+    `).run()
   }
 
   async set(key: string, value: any) {
@@ -23,7 +27,7 @@ export class Cache {
   }
 
   async get(key: string): Promise<CacheInfo> {
-    const row = await this.db.prepare(`SELECT id, data, updated, expires FROM cache WHERE id = ?`).get(key)
+    const row: any = await this.db.prepare(`SELECT id, data, updated, expires FROM cache WHERE id = ?`).get(key)
     return row
       ? {
           ...row,

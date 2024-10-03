@@ -1,12 +1,14 @@
 import process from "node:process"
-import { fileURLToPath } from "node:url"
-import nitroCloudflareBindings from "nitro-cloudflare-dev"
+import { join } from "node:path"
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react-swc"
 import nitro from "vite-plugin-with-nitro"
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import tsconfigPath from "vite-tsconfig-paths"
 import unocss from "unocss/vite"
+import { projectDir } from "./shared/dir"
+
+const isCF = process.env.CF_PAGES
 
 export default defineConfig({
   resolve: {
@@ -21,13 +23,12 @@ export default defineConfig({
     react(),
     nitro({ ssr: false }, {
       srcDir: "server",
-      modules: [nitroCloudflareBindings],
       experimental: {
         database: true,
       },
       database: {
         default: {
-          connector: "cloudflare-d1",
+          connector: isCF ? "cloudflare-d1" : "libsql",
           options: {
             bindingName: "CACHE_DB",
           },
@@ -35,14 +36,14 @@ export default defineConfig({
       },
       devDatabase: {
         default: {
-          connector: "sqlite",
+          connector: "libsql",
         },
       },
       alias: {
-        "@shared": fileURLToPath(new URL("shared", import.meta.url)),
-        "#": fileURLToPath(new URL("server", import.meta.url)),
+        "@shared": join(projectDir, "shared"),
+        "#": join(projectDir, "server"),
       },
-      preset: "cloudflare-pages",
+      preset: isCF ? "cloudflare-pages" : "node-server",
     }),
   ],
 })

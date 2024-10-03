@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
     const db = useDatabase()
     const cacheStore = db ? new Cache(db) : undefined
     if (cacheStore) {
+      await cacheStore.init()
       const cache = await cacheStore.get(id)
       if (cache) {
         if (!latest && cache.expires > Date.now()) {
@@ -29,14 +30,14 @@ export default defineEventHandler(async (event) => {
 
     if (!sources[id]) {
       const data = await fallback(id)
-      if (cacheStore) cacheStore.set(id, data)
+      if (cacheStore) await cacheStore.set(id, data)
       return {
         status: "success",
         data,
       }
     } else {
       const data = await sources[id]()
-      if (cacheStore) cacheStore.set(id, data)
+      if (cacheStore) await cacheStore.set(id, data)
       return {
         status: "success",
         data,
