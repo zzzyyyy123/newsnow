@@ -1,24 +1,52 @@
-import { defineEventHandler, getRouterParam } from "h3"
 import { fallback, sources } from "#/sources"
-// import { cache } from "#/cache"
+import { Cache } from "#/cache"
 
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, "id") as keyof typeof sources
-  // const { latest } = getQuery(event)
-  // console.log(id, latest)
-  if (!id) throw new Error("Invalid source id")
-  // if (!latest) {
-  //   const _ = cache.get(id)
-  //   if (_) return _
-  // }
+  try {
+    const id = getRouterParam(event, "id") as keyof typeof sources
+    const query = getQuery(event)
+    const latest = query.latest !== undefined && query.latest !== "false"
 
-  if (!sources[id]) {
-    const _ = await fallback(id)
-    // cache.set(id, _)
-    return _
-  } else {
-    const _ = await sources[id]()
-    // cache.set(id, _)
-    return _
+    if (!id) throw new Error("Invalid source id")
+    const db = useDatabase()
+    const cacheStore = db ? new Cache(db) : undefined
+    if (cacheStore) {
+      const cache = await cacheStore.get(id)
+      if (cache) {
+        if (!latest && cache.expires > Date.now()) {
+          return {
+            status: "cache",
+            data: cache.data,
+          }
+        } else if (latest && Date.now() - cache.updated < 60 * 1000) {
+          return {
+            status: "success",
+            data: cache.data,
+          }
+        }
+      }
+    }
+
+    if (!sources[id]) {
+      const data = await fallback(id)
+      if (cacheStore) cacheStore.set(id, data)
+      return {
+        status: "success",
+        data,
+      }
+    } else {
+      const data = await sources[id]()
+      if (cacheStore) cacheStore.set(id, data)
+      return {
+        status: "success",
+        data,
+      }
+    }
+  } catch (e: any) {
+    console.error(e)
+    return {
+      status: "error",
+      message: e.message ?? e,
+    }
   }
 })

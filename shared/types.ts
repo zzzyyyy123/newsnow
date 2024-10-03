@@ -41,3 +41,10 @@ export interface RSS2JSON {
   published: number
   created: number
 }
+
+export interface CacheInfo {
+  id: SourceID
+  data: SourceInfo
+  updated: number
+  expires: number
+}

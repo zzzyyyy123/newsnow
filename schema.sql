@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS cache;
+CREATE TABLE IF NOT EXISTS cache (
+  id TEXT PRIMARY KEY,
+  data TEXT,
+  updated INTEGER,
+  expires INTEGER
+);

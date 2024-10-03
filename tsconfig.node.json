@@ -8,5 +8,5 @@
       "@shared/*": ["shared/*"]
     }
   },
-  "include": ["server", "*.config.*", "shared", "test", "scripts"]
+  "include": ["server", "*.config.*", "shared", "test", "scripts", "dist/.nitro/types"]
 }

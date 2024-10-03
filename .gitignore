@@ -4,3 +4,5 @@ dist/
 .output
 .vinxi
 .cache
+.data
+.wrangler

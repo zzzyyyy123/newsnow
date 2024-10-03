@@ -1,0 +1,4 @@
+[[d1_databases]]
+binding = "CACHE_DB" # i.e. available in your Worker on env.CACHE_DB
+database_name = "newsnow-cache"
+database_id = "1e091d20-2f57-48b4-b735-690ec65c725e"

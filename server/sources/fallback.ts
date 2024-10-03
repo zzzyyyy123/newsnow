@@ -1,5 +1,4 @@
-import type { OResponse } from "@shared/types"
-import { $fetch } from "ofetch"
+import type { SourceInfo } from "@shared/types"
 
 export interface Res {
   code: number
@@ -18,24 +17,22 @@ export interface Res {
   }[]
 }
 
-export async function fallback(id: string): Promise<OResponse> {
-  const res: Res = await $fetch(`https://smzdk.top/api/${id}/new`)
+export async function fallback(id: string): Promise<SourceInfo> {
+  const url = `https://smzdk.top/api/${id}/new`
+  const res: Res = await $fetch(url)
   if (res.code !== 200 || !res.data) throw new Error(res.message)
   return {
-    status: "success",
-    data: {
-      name: res.title,
-      type: res.subtitle,
-      updateTime: res.updateTime,
-      items: res.data.map(item => ({
-        extra: {
-          date: item.time,
-        },
-        id: item.url,
-        title: item.title,
-        url: item.url,
-        mobileUrl: item.mobileUrl,
-      })),
-    },
+    name: res.title,
+    type: res.subtitle,
+    updateTime: res.updateTime,
+    items: res.data.map(item => ({
+      extra: {
+        date: item.time,
+      },
+      id: item.url,
+      title: item.title,
+      url: item.url,
+      mobileUrl: item.mobileUrl,
+    })),
   }
 }
