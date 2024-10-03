@@ -10,24 +10,34 @@ export interface Section {
 }
 
 export interface NewsItem {
+  id: string | number // unique
   title: string
-  cover?: string
-  author?: string
-  desc?: string
   url: string
-  timestamp?: number
   mobileUrl?: string
+  extra?: Record<string, any>
 }
 
 // 路由数据
 export interface SourceInfo {
   name: string
-  title: string
   type: string
-  description?: string
-  params?: Record<string, string | object>
-  total: number
-  link?: string
-  updateTime: string
-  data: NewsItem[]
+  updateTime: number | string
+  items: NewsItem[]
+}
+
+export type OResponse = {
+  status: "success" | "cache"
+  data: SourceInfo
+} | {
+  status: "error"
+  message?: string
+}
+
+export interface RSS2JSON {
+  id?: string
+  title: string
+  description: string
+  link: string
+  published: number
+  created: number
 }

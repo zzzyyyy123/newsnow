@@ -22,14 +22,11 @@ export default defineConfig({
       srcDir: "server",
       alias: {
         "@shared": fileURLToPath(new URL("shared", import.meta.url)),
+        "#": fileURLToPath(new URL("server", import.meta.url)),
       },
       runtimeConfig: {
         // apiPrefix: "",
       },
-      typescript: {
-        generateTsConfig: true,
-      },
-      minify: false,
       preset: process.env.VERCEL ? "vercel-edge" : "node-server",
     }),
   ],

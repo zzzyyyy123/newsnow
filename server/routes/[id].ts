@@ -1,10 +1,24 @@
-import { defineEventHandler, getQuery, getRouterParam, sendProxy } from "h3"
+import { defineEventHandler, getRouterParam } from "h3"
+import { fallback, sources } from "#/sources"
+// import { cache } from "#/cache"
 
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, "id")
-  const { latest } = getQuery(event)
-  // https://api-hot.efefee.cn/weibo?cache=false
-  // https://smzdk.top/api/${id}/new
-  if (latest !== undefined) return await sendProxy(event, `https://api-hot.efefee.cn/${id}?cache=false`)
-  return await sendProxy(event, `https://api-hot.efefee.cn/${id}?cache=true`)
+  const id = getRouterParam(event, "id") as keyof typeof sources
+  // const { latest } = getQuery(event)
+  // console.log(id, latest)
+  if (!id) throw new Error("Invalid source id")
+  // if (!latest) {
+  //   const _ = cache.get(id)
+  //   if (_) return _
+  // }
+
+  if (!sources[id]) {
+    const _ = await fallback(id)
+    // cache.set(id, _)
+    return _
+  } else {
+    const _ = await sources[id]()
+    // cache.set(id, _)
+    return _
+  }
 })
