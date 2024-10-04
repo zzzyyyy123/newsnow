@@ -22,7 +22,8 @@ function initRefetchSource() {
 
 export const refetchSourceAtom = atom(initRefetchSource())
 
-const currentSectionIDAtom = atom<SectionID>("focus")
+export const currentSectionIDAtom = atom<SectionID>("focus")
+
 export const currentSectionAtom = atom((get) => {
   const id = get(currentSectionIDAtom)
   if (id === "focus") {
@@ -36,6 +37,4 @@ export const currentSectionAtom = atom((get) => {
     id,
     ...metadata[id],
   }
-}, (_, set, update: SectionID) => {
-  set(currentSectionIDAtom, update)
 })

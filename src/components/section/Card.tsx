@@ -10,6 +10,7 @@ import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
 import { sources } from "@shared/data"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
 import { focusSourcesAtom, refetchSourceAtom } from "~/atoms"
+import { useRelativeTime } from "~/hooks/useRelativeTime"
 
 export interface ItemsProps extends React.HTMLAttributes<HTMLDivElement> {
   id: SourceID
@@ -138,8 +139,8 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
 }
 
 function UpdateTime({ query }: Query) {
-  const updateTime = query.data?.updatedTime
-  if (updateTime) return <span>{`${relativeTime(updateTime)}更新`}</span>
+  const updatedTime = useRelativeTime(query.data?.updatedTime ?? "")
+  if (updatedTime) return <span>{`${updatedTime}更新`}</span>
   if (query.isError) return <span>获取失败</span>
   return <span className="skeleton w-20" />
 }

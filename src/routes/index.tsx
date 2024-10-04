@@ -2,9 +2,9 @@ import { metadata, sectionIds } from "@shared/data"
 import type { SectionID } from "@shared/types"
 import { Link, createFileRoute } from "@tanstack/react-router"
 import clsx from "clsx"
-import { useSetAtom } from "jotai"
+import { useAtom } from "jotai"
 import { useEffect } from "react"
-import { currentSectionAtom } from "~/atoms"
+import { currentSectionIDAtom } from "~/atoms"
 import { Dnd } from "~/components/section/Dnd"
 import { Pure } from "~/components/section/Pure"
 
@@ -17,12 +17,12 @@ export const Route = createFileRoute("/")({
 
 function IndexComponent() {
   const { section: id = "focus" } = Route.useSearch()
-  const setCurrentSectionAtom = useSetAtom(currentSectionAtom)
+  const [currentSectionID, setCurrentSectionID] = useAtom(currentSectionIDAtom)
   useEffect(() => {
-    setCurrentSectionAtom(id)
-  }, [setCurrentSectionAtom, id])
+    setCurrentSectionID(id)
+  }, [setCurrentSectionID, id])
 
-  return id && (
+  return currentSectionID === id && (
     <div className="flex flex-col justify-center items-center">
       <section className="flex gap-2 py-4">
         {sectionIds.map(section => (
