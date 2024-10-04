@@ -52,3 +52,18 @@ export interface CacheInfo {
   updated: number
   expires: number
 }
+
+export interface RSSHubInfo {
+  title: string
+  home_page_url: string
+  description: string
+  items: RSSHubItem[]
+}
+
+export interface RSSHubItem {
+  id: string
+  url: string
+  title: string
+  content_html: string
+  date_published: string
+}

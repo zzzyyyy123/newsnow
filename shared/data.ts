@@ -3,12 +3,18 @@ import type { Metadata } from "./types"
 export const sectionIds = ["focus", "social", "china", "world", "digital"] as const
 
 export const sources = {
-  "36kr": {
-    name: "36氪",
-    type: "人气榜",
+  "wallstreetcn": {
+    name: "华尔街见闻",
     interval: 10,
-    home: "https://36kr.com",
+    home: "https://wallstreetcn.com/",
+    type: "快讯",
   },
+  // "36kr": {
+  //   name: "36氪",
+  //   type: "人气榜",
+  //   interval: 10,
+  //   home: "https://36kr.com",
+  // },
   "36kr-quick": {
     name: "36氪",
     type: "快讯",
@@ -83,19 +89,19 @@ export const metadata: Metadata = {
     sourceList: [],
   },
   social: {
-    name: "社交媒体",
-    sourceList: ["douyin", "hupu", "tieba", "weibo"],
+    name: "实时",
+    sourceList: ["douyin", "weibo", "36kr-quick", "wallstreetcn", "zaobao"],
   },
   china: {
     name: "国内",
-    sourceList: ["peopledaily", "36kr", "toutiao", "36kr-quick"],
+    sourceList: ["peopledaily", "toutiao"],
   },
   world: {
     name: "国外",
-    sourceList: ["zaobao"],
+    sourceList: [],
   },
   digital: {
     name: "数码",
-    sourceList: ["36kr"],
+    sourceList: [],
   },
 }

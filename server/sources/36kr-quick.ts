@@ -1,3 +1,3 @@
-import { defineRSSSource } from "#/utils"
+import { defineRSSHubSource } from "#/utils"
 
-export default defineRSSSource("https://rsshub.rssforever.com/36kr/newsflashes")
+export default defineRSSHubSource("/36kr/newsflashes")
