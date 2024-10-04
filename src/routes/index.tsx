@@ -2,9 +2,9 @@ import { metadata, sectionIds } from "@shared/data"
 import type { SectionID } from "@shared/types"
 import { Link, createFileRoute } from "@tanstack/react-router"
 import clsx from "clsx"
-import { useAtom } from "jotai"
-import { useEffect } from "react"
-import { currentSectionIDAtom } from "~/atoms"
+import { useAtom, useAtomValue } from "jotai"
+import { useEffect, useMemo } from "react"
+import { currentSectionIDAtom, focusSourcesAtom } from "~/atoms"
 import { Dnd } from "~/components/section/Dnd"
 import { Pure } from "~/components/section/Pure"
 
@@ -16,11 +16,23 @@ export const Route = createFileRoute("/")({
 })
 
 function IndexComponent() {
-  const { section: id = "focus" } = Route.useSearch()
+  const { section } = Route.useSearch()
+  const focusSources = useAtomValue(focusSourcesAtom)
+  const nav = Route.useNavigate()
   const [currentSectionID, setCurrentSectionID] = useAtom(currentSectionIDAtom)
+  const id = useMemo(() => {
+    if (sectionIds.includes(section)) return section
+    else return focusSources.length ? "focus" : "social"
+  }, [section, focusSources])
+
   useEffect(() => {
     setCurrentSectionID(id)
-  }, [setCurrentSectionID, id])
+    nav({
+      to: "/",
+      search: { section: id },
+      replace: true,
+    })
+  }, [setCurrentSectionID, id, nav])
 
   return currentSectionID === id && (
     <div className="flex flex-col justify-center items-center">
