@@ -1,4 +1,4 @@
-import type { OResponse, SourceID, SourceInfo } from "@shared/types"
+import type { NewsItem, SourceID, SourceInfo } from "@shared/types"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 import type { UseQueryResult } from "@tanstack/react-query"
 import { useQuery } from "@tanstack/react-query"
@@ -6,7 +6,7 @@ import { relativeTime } from "@shared/utils"
 import clsx from "clsx"
 import { useInView } from "react-intersection-observer"
 import { useAtom } from "jotai"
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
 import { sources } from "@shared/data"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
 import { focusSourcesAtom, refetchSourceAtom } from "~/atoms"
@@ -45,7 +45,7 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col bg-base border rounded-md h-450px border-gray-500/40",
+        "flex flex-col h-500px aspect-auto border border-gray-100 rounded-xl shadow-2xl shadow-gray-600/10 bg-base dark:( border-gray-700 shadow-none)",
         isDragged && "op-50",
         isOverlay ? "bg-glass" : "",
       )}
@@ -106,12 +106,13 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
         ])}
       >
         <div className="flex items-center gap-2">
-          <img src={`/icons/${id}.png`} className="w-4 h-4 rounded" alt={id} onError={e => e.currentTarget.hidden = true} />
+          <img src={`/icons/${id.split("-")[0]}.png`} className="w-4 h-4 rounded" alt={id} onError={e => e.currentTarget.hidden = true} />
           <span className="text-md font-bold">
             {sources[id].name}
           </span>
         </div>
-        <SubTitle query={query} />
+        {/* @ts-expect-error -_- */}
+        <span className="text-xs">{sources[id]?.type}</span>
       </div>
       <OverlayScrollbarsComponent
         defer
@@ -136,13 +137,8 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
   )
 }
 
-function SubTitle({ query }: Query) {
-  const subTitle = query.data?.type
-  if (subTitle) return <span className="text-xs">{subTitle}</span>
-}
-
 function UpdateTime({ query }: Query) {
-  const updateTime = query.data?.updateTime
+  const updateTime = query.data?.updatedTime
   if (updateTime) return <span>{`${relativeTime(updateTime)}更新`}</span>
   if (query.isError) return <span>获取失败</span>
   return <span className="skeleton w-20" />
@@ -157,6 +153,24 @@ function Num({ num }: { num: number }) {
   )
 }
 
+function ExtraInfo({ item }: { item: NewsItem }) {
+  if (item?.extra?.date) {
+    return (
+      <span className="text-xs text-gray-4/80 self-center">
+        {relativeTime(item.extra.date)}
+      </span>
+    )
+  }
+
+  if (item?.extra?.icon) {
+    return (
+      <span className="text-xs text-gray-4/80 self-start">
+        <img src={item.extra.icon} className="w-2em" />
+      </span>
+    )
+  }
+}
+
 function NewsList({ query }: Query) {
   const items = query.data?.items
   if (items?.length) {
@@ -165,15 +179,11 @@ function NewsList({ query }: Query) {
         {items.slice(0, 20).map((item, i) => (
           <div key={item.title} className="flex gap-2 items-center">
             <Num num={i + 1} />
-            <a href={item.url} target="_blank" className="my-1 w-full flex items-center justify-between flex-wrap">
-              <span className="flex-1 mr-2 hover:(underline underline-offset-4)">
+            <a href={item.url} target="_blank" className="my-1 w-full flex justify-between flex-wrap">
+              <span className="flex-1 mr-2">
                 {item.title}
               </span>
-              {item?.extra?.date && (
-                <span className="text-xs text-gray-4/80">
-                  {relativeTime(item.extra.date)}
-                </span>
-              )}
+              <ExtraInfo item={item} />
             </a>
           </div>
         ))}

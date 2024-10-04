@@ -1,8 +1,9 @@
+import type { RSSInfo } from "@shared/types"
 import { XMLParser } from "fast-xml-parser"
 import { $fetch } from "ofetch"
 
-export async function rss2json(url: string) {
-  if (!/^https?:\/\/[^\s$.?#].\S*/i.test(url)) return null
+export async function rss2json(url: string): Promise<RSSInfo | undefined> {
+  if (!/^https?:\/\/[^\s$.?#].\S*/i.test(url)) return
 
   const data = await $fetch(url)
 
@@ -23,6 +24,7 @@ export async function rss2json(url: string) {
     link: channel.link && channel.link.href ? channel.link.href : channel.link,
     image: channel.image ? channel.image.url : channel["itunes:image"] ? channel["itunes:image"].href : "",
     category: channel.category || [],
+    updatedTime: channel.lastBuildDate ?? channel.updated,
     items: [],
   }
 
@@ -39,8 +41,7 @@ export async function rss2json(url: string) {
       description: val.summary && val.summary.$text ? val.summary.$text : val.description,
       link: val.link && val.link.href ? val.link.href : val.link,
       author: val.author && val.author.name ? val.author.name : val["dc:creator"],
-      published: val.created ? Date.parse(val.created) : val.pubDate ? Date.parse(val.pubDate) : Date.now(),
-      created: val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : val.created ? Date.parse(val.created) : Date.now(),
+      created: val.updated ?? val.pubDate ?? val.created,
       category: val.category || [],
       content: val.content && val.content.$text ? val.content.$text : val["content:encoded"],
       enclosures: val.enclosure ? (Array.isArray(val.enclosure) ? val.enclosure : [val.enclosure]) : [],

@@ -9,6 +9,7 @@ export class Cache {
   }
 
   async init() {
+    const last = performance.now()
     await this.db.prepare(`
       CREATE TABLE IF NOT EXISTS cache (
         id TEXT PRIMARY KEY,
@@ -17,23 +18,29 @@ export class Cache {
         expires INTEGER
       );
     `).run()
+    console.log(`init: `, performance.now() - last)
   }
 
   async set(key: string, value: any) {
     const now = Date.now()
-    return await this.db.prepare(
+    const last = performance.now()
+    await this.db.prepare(
       `INSERT OR REPLACE INTO cache (id, data, updated, expires) VALUES (?, ?, ?, ?)`,
     ).run(key, JSON.stringify(value), now, now + TTL)
+    console.log(`set ${key}: `, performance.now() - last)
   }
 
   async get(key: string): Promise<CacheInfo> {
+    const last = performance.now()
     const row: any = await this.db.prepare(`SELECT id, data, updated, expires FROM cache WHERE id = ?`).get(key)
-    return row
+    const r = row
       ? {
           ...row,
           data: JSON.parse(row.data),
         }
       : undefined
+    console.log(`get ${key}: `, performance.now() - last)
+    return r
   }
 
   async delete(key: string) {

@@ -1,58 +1,43 @@
 import { Buffer } from "node:buffer"
 import * as cheerio from "cheerio"
 import iconv from "iconv-lite"
-import type { NewsItem, OResponse, SourceInfo } from "@shared/types"
+import type { NewsItem } from "@shared/types"
+import { $fetch } from "ofetch"
 import { tranformToUTC } from "#/utils/date"
+import { defineSource } from "#/utils"
 
-const columns = [
-  "人物记事",
-  "观点评论",
-  "中国聚焦",
-  "香港澳门",
-  "台湾新闻",
-  "国际时政",
-  "国际军事",
-  "国际视野",
-] as const
-export async function zaobao(type: typeof columns[number] = "中国聚焦"): Promise<SourceInfo> {
+export default defineSource(async () => {
   const response: ArrayBuffer = await $fetch("https://www.kzaobao.com/top.html", {
     responseType: "arrayBuffer",
   })
   const base = "https://www.kzaobao.com"
   const utf8String = iconv.decode(Buffer.from(response), "gb2312")
   const $ = cheerio.load(utf8String)
-  // const all = []
-  // columns.forEach((column, index) => {
-  const $main = $(`#cd0${columns.indexOf(type) + 1}`)
+  const $main = $("div[id^='cd0'] tr")
   const news: NewsItem[] = []
-  $main.find("tr").each((_, el) => {
+  $main.each((_, el) => {
     const a = $(el).find("h3>a")
     // https://www.kzaobao.com/shiju/20241002/170659.html
     const url = a.attr("href")
     const title = a.text()
-    if (url && title) {
-      const date = $(el).find("td:nth-child(3)").text()
+    const date = $(el).find("td:nth-child(3)").text()
+    if (url && title && date) {
       news.push({
         url: base + url,
         title,
         id: url,
         extra: {
-          date: date && tranformToUTC(date),
+          origin: date,
         },
       })
     }
   })
-  // all.push({
-  //   type: column,
-  //   items: news,
-  // })
-  // })
-  // console.log(all)
-  return {
-    name: `联合早报`,
-    type,
-    updateTime: Date.now(),
-    // items: all[0].items,
-    items: news,
-  }
-}
+  return news.sort((m, n) => n.extra!.origin > m.extra!.origin ? 1 : -1)
+    .slice(0, 20)
+    .map(item => ({
+      ...item,
+      extra: {
+        date: tranformToUTC(item.extra!.origin),
+      },
+    }))
+})

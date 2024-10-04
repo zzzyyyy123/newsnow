@@ -19,9 +19,7 @@ export interface NewsItem {
 
 // 路由数据
 export interface SourceInfo {
-  name: string
-  type: string
-  updateTime: number | string
+  updatedTime: number | string
   items: NewsItem[]
 }
 
@@ -33,13 +31,19 @@ export type OResponse = {
   message?: string
 }
 
-export interface RSS2JSON {
-  id?: string
+export interface RSSInfo {
   title: string
   description: string
   link: string
-  published: number
-  created: number
+  image: string
+  updatedTime: string
+  items: RSSItem[]
+}
+export interface RSSItem {
+  title: string
+  description: string
+  link: string
+  created?: string
 }
 
 export interface CacheInfo {

@@ -28,8 +28,12 @@ export function RootComponent() {
     >
       <Header />
       <Outlet />
-      <ReactQueryDevtools buttonPosition="bottom-left" />
-      <TanStackRouterDevtools position="bottom-right" />
+      { import.meta.env.DEV && (
+        <>
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+          <TanStackRouterDevtools position="bottom-right" />
+        </>
+      )}
     </OverlayScrollbarsComponent>
   )
 }

@@ -22,9 +22,7 @@ export async function fallback(id: string): Promise<SourceInfo> {
   const res: Res = await $fetch(url)
   if (res.code !== 200 || !res.data) throw new Error(res.message)
   return {
-    name: res.title,
-    type: res.subtitle,
-    updateTime: res.updateTime,
+    updatedTime: res.updateTime,
     items: res.data.map(item => ({
       extra: {
         date: item.time,

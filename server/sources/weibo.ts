@@ -1,4 +1,4 @@
-import type { SourceInfo } from "@shared/types"
+import { defineSource } from "#/utils"
 
 interface Res {
   ok: number // 1 is ok
@@ -26,15 +26,14 @@ interface Res {
   }
 }
 
-export async function weibo(): Promise<SourceInfo> {
+export default defineSource(async () => {
   const url = "https://weibo.com/ajax/side/hotSearch"
   const res: Res = await $fetch(url)
   if (!res.ok || res.data.realtime.length === 0) throw new Error("Cannot fetch data")
-  return {
-    name: "微博热搜",
-    updateTime: Date.now(),
-    type: "热搜",
-    items: res.data.realtime.filter(k => !k.icon_desc || k.icon_desc !== "荐").map((k) => {
+  return res.data.realtime
+    .filter(k => !k.icon_desc || k.icon_desc !== "荐")
+    .slice(0, 20)
+    .map((k) => {
       const keyword = k.word_scheme ? k.word_scheme : `#${k.word}#`
       return {
         id: k.num,
@@ -45,6 +44,5 @@ export async function weibo(): Promise<SourceInfo> {
         url: `https://s.weibo.com/weibo?q=${encodeURIComponent(keyword)}`,
         mobileUrl: `https://m.weibo.cn/search?containerid=231522type%3D1%26q%3D${encodeURIComponent(keyword)}&_T_WM=16922097837&v_p=42`,
       }
-    }),
-  }
-}
+    })
+})
