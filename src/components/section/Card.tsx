@@ -2,7 +2,6 @@ import type { NewsItem, SourceID, SourceInfo } from "@shared/types"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 import type { UseQueryResult } from "@tanstack/react-query"
 import { useQuery } from "@tanstack/react-query"
-import { relativeTime } from "@shared/utils"
 import clsx from "clsx"
 import { useInView } from "react-intersection-observer"
 import { useAtom } from "jotai"
@@ -83,7 +82,6 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
     placeholderData: prev => prev,
     staleTime: 1000 * 60 * 5,
     enabled: inView,
-    refetchOnWindowFocus: true,
   })
 
   const addFocusList = useCallback(() => {
@@ -155,8 +153,9 @@ function Num({ num }: { num: number }) {
 }
 
 function ExtraInfo({ item }: { item: NewsItem }) {
-  if (item?.extra?.date) {
-    return relativeTime(item.extra.date)
+  const relativeTime = useRelativeTime(item?.extra?.date)
+  if (relativeTime) {
+    return <>{relativeTime}</>
   }
 
   if (item?.extra?.icon) {
