@@ -12,9 +12,18 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   component: RootComponent,
+  notFoundComponent: NotFoundComponent,
 })
 
-export function RootComponent() {
+function NotFoundComponent() {
+  const nav = Route.useNavigate()
+  nav({
+    to: "/",
+  })
+  return <div></div>
+}
+
+function RootComponent() {
   useOnReload()
   return (
     <OverlayScrollbarsComponent
