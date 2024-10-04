@@ -119,7 +119,7 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
         defer
         className="h-full pl-2 pr-3 mr-1"
         element="div"
-        options={{ scrollbars: { autoHide: "scroll" } }}
+        options={{ scrollbars: { autoHide: "scroll" }, overflow: { x: "hidden" } }}
       >
         <NewsList query={query} />
       </OverlayScrollbarsComponent>
@@ -156,18 +156,12 @@ function Num({ num }: { num: number }) {
 
 function ExtraInfo({ item }: { item: NewsItem }) {
   if (item?.extra?.date) {
-    return (
-      <span className="text-xs text-gray-4/80 self-center">
-        {relativeTime(item.extra.date)}
-      </span>
-    )
+    return relativeTime(item.extra.date)
   }
 
   if (item?.extra?.icon) {
     return (
-      <span className="text-xs text-gray-4/80 self-start">
-        <img src={item.extra.icon} className="w-2em" />
-      </span>
+      <img src={item.extra.icon} className="w-5 inline" />
     )
   }
 }
@@ -180,11 +174,13 @@ function NewsList({ query }: Query) {
         {items.slice(0, 20).map((item, i) => (
           <div key={item.title} className="flex gap-2 items-center">
             <Num num={i + 1} />
-            <a href={item.url} target="_blank" className="my-1 w-full flex justify-between flex-wrap">
-              <span className="flex-1 mr-2">
+            <a href={item.url} target="_blank" className="my-1">
+              <span className="mr-2">
                 {item.title}
               </span>
-              <ExtraInfo item={item} />
+              <span className="text-xs text-gray-4/80 truncate align-middle">
+                <ExtraInfo item={item} />
+              </span>
             </a>
           </div>
         ))}
