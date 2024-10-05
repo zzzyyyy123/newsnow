@@ -5,7 +5,7 @@ import "~/styles/globals.css"
 import "virtual:uno.css"
 import type { QueryClient } from "@tanstack/react-query"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
-import { Header } from "~/components/Header"
+import { Header } from "~/components/header"
 import { useOnReload } from "~/hooks/useOnReload"
 
 export const Route = createRootRouteWithContext<{
@@ -16,11 +16,11 @@ export const Route = createRootRouteWithContext<{
 })
 
 function NotFoundComponent() {
-  const nav = Route.useNavigate()
-  nav({
-    to: "/",
-  })
-  return <div></div>
+  // const nav = Route.useNavigate()
+  // nav({
+  //   to: "/",
+  // })
+  // return <div></div>
 }
 
 function RootComponent() {

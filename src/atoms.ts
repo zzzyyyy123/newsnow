@@ -7,7 +7,7 @@ export const focusSourcesAtom = atomWithLocalStorage<SourceID[]>("focusSources",
   return stored.filter(item => item in sources)
 })
 
-function initRefetchSource() {
+function initRefetchSources() {
   let time = 0
   // useOnReload
   // 没有放在 useOnReload 里面, 可以避免初始化后再修改 refetchSourceAtom，导致多次请求 API
@@ -20,7 +20,7 @@ function initRefetchSource() {
   return Object.fromEntries(Object.keys(sources).map(k => [k, time])) as Record<SourceID, number>
 }
 
-export const refetchSourceAtom = atom(initRefetchSource())
+export const refetchSourcesAtom = atom(initRefetchSources())
 
 export const currentSectionIDAtom = atom<SectionID>("focus")
 

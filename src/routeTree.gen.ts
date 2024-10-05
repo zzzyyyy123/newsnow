@@ -11,18 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SettingImport } from './routes/setting'
 import { Route as IndexImport } from './routes/index'
+import { Route as SSectionImport } from './routes/s.$section'
 
 // Create/Update Routes
 
-const SettingRoute = SettingImport.update({
-  path: '/setting',
+const IndexRoute = IndexImport.update({
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  path: '/',
+const SSectionRoute = SSectionImport.update({
+  path: '/s/$section',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,11 +37,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/setting': {
-      id: '/setting'
-      path: '/setting'
-      fullPath: '/setting'
-      preLoaderRoute: typeof SettingImport
+    '/s/$section': {
+      id: '/s/$section'
+      path: '/s/$section'
+      fullPath: '/s/$section'
+      preLoaderRoute: typeof SSectionImport
       parentRoute: typeof rootRoute
     }
   }
@@ -51,37 +51,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/setting': typeof SettingRoute
+  '/s/$section': typeof SSectionRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/setting': typeof SettingRoute
+  '/s/$section': typeof SSectionRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/setting': typeof SettingRoute
+  '/s/$section': typeof SSectionRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/setting'
+  fullPaths: '/' | '/s/$section'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/setting'
-  id: '__root__' | '/' | '/setting'
+  to: '/' | '/s/$section'
+  id: '__root__' | '/' | '/s/$section'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SettingRoute: typeof SettingRoute
+  SSectionRoute: typeof SSectionRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SettingRoute: SettingRoute,
+  SSectionRoute: SSectionRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +97,14 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/setting"
+        "/s/$section"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/setting": {
-      "filePath": "setting.tsx"
+    "/s/$section": {
+      "filePath": "s.$section.tsx"
     }
   }
 }
