@@ -8,6 +8,7 @@ import { useAtom } from "jotai"
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
 import { sources } from "@shared/data"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
+import { ofetch } from "ofetch"
 import { focusSourcesAtom, refetchSourcesAtom } from "~/atoms"
 import { useRelativeTime } from "~/hooks/useRelativeTime"
 
@@ -71,7 +72,7 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
       if (Date.now() - _refetchTime < 1000) {
         url = `/api/${_id}?latest`
       }
-      const response: SourceResponse = await fetch(url).then(res => res.json())
+      const response: SourceResponse = await ofetch(url, { timeout: 5000 })
       if (response.status === "error") {
         throw new Error(response.message)
       } else {

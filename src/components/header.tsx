@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router"
 import { useCallback } from "react"
 import { useAtomValue, useSetAtom } from "jotai"
+import { useIsFetching } from "@tanstack/react-query"
+import clsx from "clsx"
+import type { SourceID } from "@shared/types"
 import logo from "~/assets/react.svg"
 import { useDark } from "~/hooks/useDark"
 import { currentSectionAtom, refetchSourcesAtom } from "~/atoms"
@@ -28,8 +31,14 @@ function RefreshButton() {
     }))
   }, [currentSection, setRefetchSource])
 
+  const isFetching = useIsFetching({
+    predicate: (query) => {
+      return currentSection.sourceList.includes(query.queryKey[0] as SourceID)
+    },
+  })
+
   return (
-    <button type="button" className="i-ph:arrow-clockwise btn-pure" onClick={refreshAll} />
+    <button type="button" className={clsx("btn-pure i-ph:arrow-clockwise", isFetching && "animate-spin")} onClick={refreshAll} />
   )
 }
 
