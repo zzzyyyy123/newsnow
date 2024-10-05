@@ -3,7 +3,9 @@ import weibo from "./weibo"
 import zaobao from "./zaobao"
 
 export const sourcesFn = {
-  "peopledaily": defineRSSSource("https://feedx.net/rss/people.xml"),
+  "peopledaily": defineRSSSource("https://feedx.net/rss/people.xml", {
+    hiddenDate: true,
+  }),
   weibo,
   "douyin": defineFallbackSource("douyin"),
   zaobao,

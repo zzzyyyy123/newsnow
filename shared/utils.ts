@@ -1,13 +1,14 @@
 export function relativeTime(timestamp: string | number) {
+  if (!timestamp) return undefined
   const date = new Date(timestamp)
+  if (Number.isNaN(date.getDay())) return undefined
+
   const now = new Date()
   const diffInSeconds = (now.getTime() - date.getTime()) / 1000
   const diffInMinutes = diffInSeconds / 60
   const diffInHours = diffInMinutes / 60
 
-  if (Number.isNaN(date.getDay())) {
-    return undefined
-  } else if (diffInSeconds < 60) {
+  if (diffInSeconds < 60) {
     return "刚刚"
   } else if (diffInMinutes < 60) {
     const minutes = Math.floor(diffInMinutes)

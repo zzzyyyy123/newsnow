@@ -6,6 +6,3 @@ export const TTL = 30 * 60 * 1000
  * 默认刷新间隔
  */
 export const Interval = 10 * 60 * 1000
-
-export const RSSHubBase = "https://rsshub.rssforever.com"
-// export const RSSHubBase = "https://rsshub.pseudoyu.com"
