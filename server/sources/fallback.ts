@@ -1,4 +1,4 @@
-import type { SourceInfo } from "@shared/types"
+import type { NewsItem } from "@shared/types"
 
 export interface Res {
   code: number
@@ -17,20 +17,17 @@ export interface Res {
   }[]
 }
 
-export async function fallback(id: string): Promise<SourceInfo> {
+export async function fallback(id: string): Promise<NewsItem[]> {
   const url = `https://smzdk.top/api/${id}/new`
   const res: Res = await $fetch(url)
   if (res.code !== 200 || !res.data) throw new Error(res.message)
-  return {
-    updatedTime: res.updateTime,
-    items: res.data.map(item => ({
-      extra: {
-        date: item.time,
-      },
-      id: item.url,
-      title: item.title,
-      url: item.url,
-      mobileUrl: item.mobileUrl,
-    })),
-  }
+  return res.data.map(item => ({
+    extra: {
+      date: item.time,
+    },
+    id: item.url,
+    title: item.title,
+    url: item.url,
+    mobileUrl: item.mobileUrl,
+  }))
 }

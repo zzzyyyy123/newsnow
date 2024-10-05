@@ -1,28 +1,22 @@
 import { RSSHubBase } from "@shared/consts"
-import type { NewsItem, RSSHubInfo, SourceInfo } from "@shared/types"
+import type { NewsItem, RSSHubInfo } from "@shared/types"
 
-export function defineSource(source: () => Promise<NewsItem[]>): () => Promise<SourceInfo> {
-  return async () => ({
-    updatedTime: Date.now(),
-    items: await source(),
-  })
+export function defineSource(source: () => Promise<NewsItem[]>): () => Promise<NewsItem[]> {
+  return source
 }
 
-export function defineRSSSource(url: string): () => Promise<SourceInfo> {
+export function defineRSSSource(url: string): () => Promise<NewsItem[]> {
   return async () => {
     const data = await rss2json(url)
     if (!data?.items.length) throw new Error("Cannot fetch data")
-    return {
-      updatedTime: data.updatedTime ?? Date.now(),
-      items: data.items.slice(0, 20).map(item => ({
-        title: item.title,
-        url: item.link,
-        id: item.link,
-        extra: {
-          date: item.created,
-        },
-      })),
-    }
+    return data.items.slice(0, 20).map(item => ({
+      title: item.title,
+      url: item.link,
+      id: item.link,
+      extra: {
+        date: item.created,
+      },
+    }))
   }
 }
 
@@ -32,7 +26,7 @@ interface Option {
   // default: 20
   limit?: number
 }
-export function defineRSSHubSource(route: string, option?: Option): () => Promise<SourceInfo> {
+export function defineRSSHubSource(route: string, option?: Option): () => Promise<NewsItem[]> {
   return async () => {
     const url = new URL(route, RSSHubBase)
     url.searchParams.set("format", "json")
@@ -45,16 +39,13 @@ export function defineRSSHubSource(route: string, option?: Option): () => Promis
       url.searchParams.set(key, value.toString())
     })
     const data: RSSHubInfo = await $fetch(url)
-    return {
-      updatedTime: Date.now(),
-      items: data.items.slice(0, 20).map(item => ({
-        title: item.title,
-        url: item.url,
-        id: item.id ?? item.url,
-        extra: {
-          date: item.date_published,
-        },
-      })),
-    }
+    return data.items.slice(0, 20).map(item => ({
+      title: item.title,
+      url: item.url,
+      id: item.id ?? item.url,
+      extra: {
+        date: item.date_published,
+      },
+    }))
   }
 }

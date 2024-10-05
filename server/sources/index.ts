@@ -1,4 +1,4 @@
-import type { SourceID, SourceInfo } from "@shared/types"
+import type { NewsItem, SourceID } from "@shared/types"
 import peopledaily from "./peopledaily"
 import weibo from "./weibo"
 import zaobao from "./zaobao"
@@ -8,11 +8,11 @@ import wallstreetcn from "./wallstreetcn"
 
 export { fallback } from "./fallback"
 
-export const sources = {
+export const sourcesFn = {
   peopledaily,
   weibo,
   zaobao,
   wallstreetcn,
   "36kr-quick": krQ,
   // "36kr": kr,
-} as Record<SourceID, () => Promise<SourceInfo>>
+} as Record<SourceID, () => Promise<NewsItem[]>>

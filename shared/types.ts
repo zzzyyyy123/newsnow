@@ -23,7 +23,7 @@ export interface SourceInfo {
   items: NewsItem[]
 }
 
-export type OResponse = {
+export type SourceResponse = {
   status: "success" | "cache"
   data: SourceInfo
 } | {
@@ -48,9 +48,8 @@ export interface RSSItem {
 
 export interface CacheInfo {
   id: SourceID
-  data: SourceInfo
+  data: NewsItem[]
   updated: number
-  expires: number
 }
 
 export interface RSSHubInfo {

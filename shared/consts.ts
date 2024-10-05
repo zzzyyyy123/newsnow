@@ -1,8 +1,11 @@
-export const TTL = 15 * 60 * 1000
 /**
- * 默认刷新间隔，否则复用缓存
+ * 缓存过期时间
  */
-export const Interval = 30 * 60 * 1000
+export const TTL = 30 * 60 * 1000
+/**
+ * 默认刷新间隔
+ */
+export const Interval = 10 * 60 * 1000
 
 export const RSSHubBase = "https://rsshub.rssforever.com"
 // export const RSSHubBase = "https://rsshub.pseudoyu.com"

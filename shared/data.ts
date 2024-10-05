@@ -5,8 +5,8 @@ export const sectionIds = ["focus", "social", "china", "world", "digital"] as co
 export const sources = {
   "wallstreetcn": {
     name: "华尔街见闻",
-    interval: 10,
     home: "https://wallstreetcn.com/",
+    interval: 3 * 60 * 1000,
     type: "快讯",
   },
   // "36kr": {
@@ -18,12 +18,12 @@ export const sources = {
   "36kr-quick": {
     name: "36氪",
     type: "快讯",
-    interval: 3,
+    interval: 3 * 60 * 1000,
     home: "https://36kr.com",
   },
   "douyin": {
     name: "抖音",
-    interval: 1,
+    interval: 3 * 60 * 1000,
     home: "https://www.douyin.com",
   },
   "hupu": {
@@ -32,24 +32,21 @@ export const sources = {
   },
   "zhihu": {
     name: "知乎",
-    interval: 10,
     home: "https://www.zhihu.com",
   },
   "weibo": {
     name: "微博",
     type: "实时热搜",
-    interval: 1,
+    interval: 1 * 60 * 1000,
     home: "https://weibo.com",
   },
   "tieba": {
     name: "百度贴吧",
-    interval: 2,
     home: "https://tieba.baidu.com",
   },
   "zaobao": {
     name: "联合早报",
     type: "实时新闻",
-    interval: 10,
     home: "https://www.zaobao.com",
   },
   "thepaper": {
@@ -58,7 +55,6 @@ export const sources = {
   },
   "toutiao": {
     name: "今日头条",
-    interval: 2,
     home: "https://www.toutiao.com",
   },
   "cankaoxiaoxi": {
@@ -73,13 +69,9 @@ export const sources = {
   name: string
   type?: string
   /**
-   * 分钟，刷新的间隔时间，复用缓存
+   * 刷新的间隔时间，复用缓存
    */
   interval?: number
-  /**
-   * 每天刷新一次
-   */
-  once?: number
   home: string
 }>
 

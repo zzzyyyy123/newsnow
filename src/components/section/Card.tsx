@@ -1,4 +1,4 @@
-import type { NewsItem, SourceID, SourceInfo } from "@shared/types"
+import type { NewsItem, SourceID, SourceInfo, SourceResponse } from "@shared/types"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 import type { UseQueryResult } from "@tanstack/react-query"
 import { useQuery } from "@tanstack/react-query"
@@ -71,11 +71,11 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
       if (Date.now() - _refetchTime < 1000) {
         url = `/api/${_id}?latest`
       }
-      const response = await fetch(url).then(res => res.json())
+      const response: SourceResponse = await fetch(url).then(res => res.json())
       if (response.status === "error") {
         throw new Error(response.message)
       } else {
-        return response.data as SourceInfo
+        return response.data
       }
     },
     // refetch 时显示原有的数据
