@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url"
 import { join } from "node:path"
 import { Buffer } from "node:buffer"
 import { getLogos } from "favicons-scraper"
+import { consola } from "consola"
 import { sources } from "../shared/data"
 
 const projectDir = fileURLToPath(new URL("..", import.meta.url))
@@ -16,9 +17,9 @@ async function downloadImage(url: string, outputPath: string, id: string) {
 
     const image = await (await fetch(url)).arrayBuffer()
     fs.writeFileSync(outputPath, Buffer.from(image))
-    console.log(`${id}: downloaded successfully.`)
+    consola.success(`${id}: downloaded successfully.`)
   } catch (error) {
-    console.error(`${id}: error downloading the image. `, error)
+    consola.error(`${id}: error downloading the image. `, error)
   }
 }
 
@@ -28,7 +29,7 @@ async function main() {
       try {
         const icon = join(iconsDir, `${id.split("-")[0]}.png`)
         if (fs.existsSync(icon)) {
-          console.log(`${id}: icon exists. skip.`)
+          consola.info(`${id}: icon exists. skip.`)
           return
         }
         if (!source.home) return
@@ -37,7 +38,7 @@ async function main() {
           await downloadImage(res[0].src, icon, id)
         }
       } catch (e) {
-        console.error(id, "\n", e)
+        consola.error(id, "\n", e)
       }
     }),
   )

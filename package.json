@@ -25,6 +25,7 @@
     "@unocss/reset": "^0.62.4",
     "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
+    "consola": "^3.2.3",
     "dayjs": "^1.11.13",
     "db0": "npm:@ourongxing/db0@latest",
     "fast-xml-parser": "^4.5.0",
