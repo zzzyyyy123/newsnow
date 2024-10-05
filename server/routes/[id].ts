@@ -1,7 +1,7 @@
 import { Interval, TTL } from "@shared/consts"
 import type { SourceResponse } from "@shared/types"
 import { sources } from "@shared/data"
-import { fallback, sourcesFn } from "#/sources"
+import { sourcesFn } from "#/sources"
 import { Cache } from "#/cache"
 
 export default defineEventHandler(async (event): Promise<SourceResponse> => {
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
     const query = getQuery(event)
     const latest = query.latest !== undefined && query.latest !== "false"
 
-    if (!id || !sources[id]) throw new Error("Invalid source id")
+    if (!id || !sources[id] || !sourcesFn[id]) throw new Error("Invalid source id")
     const db = useDatabase()
     const cacheStore = db ? new Cache(db) : undefined
     const now = Date.now()
@@ -42,33 +42,18 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
       }
     }
 
-    if (sourcesFn[id]) {
-      const last = performance.now()
-      const data = await sourcesFn[id]()
-      console.log(`fetch: ${id}`, performance.now() - last)
-      if (cacheStore) event.waitUntil(cacheStore.set(id, data))
-      return {
-        status: "success",
-        data: {
-          updatedTime: now,
-          items: data,
-        },
-      }
-    } else {
-      const last = performance.now()
-      const data = await fallback(id)
-      console.log(`fetch: ${id}`, performance.now() - last)
-      if (cacheStore) event.waitUntil(cacheStore.set(id, data))
-      return {
-        status: "success",
-        data: {
-          updatedTime: now,
-          items: data,
-        },
-      }
+    const data = await sourcesFn[id]()
+    logger.success(`fetch ${id} latest`)
+    if (cacheStore) event.waitUntil(cacheStore.set(id, data))
+    return {
+      status: "success",
+      data: {
+        updatedTime: now,
+        items: data,
+      },
     }
   } catch (e: any) {
-    console.error(e)
+    logger.error(e)
     return {
       status: "error",
       message: e.message ?? e,

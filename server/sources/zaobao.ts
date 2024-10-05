@@ -3,8 +3,6 @@ import * as cheerio from "cheerio"
 import iconv from "iconv-lite"
 import type { NewsItem } from "@shared/types"
 import { $fetch } from "ofetch"
-import { tranformToUTC } from "#/utils/date"
-import { defineSource } from "#/utils"
 
 export default defineSource(async () => {
   const response: ArrayBuffer = await $fetch("https://www.kzaobao.com/top.html", {

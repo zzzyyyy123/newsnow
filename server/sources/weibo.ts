@@ -1,5 +1,3 @@
-import { defineSource } from "#/utils"
-
 interface Res {
   ok: number // 1 is ok
   data: {

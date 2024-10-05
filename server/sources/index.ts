@@ -1,18 +1,14 @@
 import type { NewsItem, SourceID } from "@shared/types"
-import peopledaily from "./peopledaily"
 import weibo from "./weibo"
 import zaobao from "./zaobao"
-import krQ from "./36kr-quick"
-import wallstreetcn from "./wallstreetcn"
-// import kr from "./36kr"
-
-export { fallback } from "./fallback"
 
 export const sourcesFn = {
-  peopledaily,
+  "peopledaily": defineRSSSource("https://feedx.net/rss/people.xml"),
   weibo,
+  "douyin": defineFallbackSource("douyin"),
   zaobao,
-  wallstreetcn,
-  "36kr-quick": krQ,
+  "toutiao": defineFallbackSource("toutiao"),
+  "wallstreetcn": defineRSSHubSource("/wallstreetcn/live"),
+  "36kr-quick": defineRSSHubSource("/36kr/newsflashes"),
   // "36kr": kr,
 } as Record<SourceID, () => Promise<NewsItem[]>>

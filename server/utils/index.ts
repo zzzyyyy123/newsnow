@@ -1,10 +1,42 @@
 import { RSSHubBase } from "@shared/consts"
-import type { NewsItem, RSSHubInfo } from "@shared/types"
+import type { NewsItem, RSSHubInfo, SourceID } from "@shared/types"
 
 export function defineSource(source: () => Promise<NewsItem[]>): () => Promise<NewsItem[]> {
   return source
 }
 
+interface FallbackRes {
+  code: number
+  message: string
+  name: string
+  title: string
+  subtitle: string
+  total: number
+  updateTime: string
+  data: {
+    title: string
+    desc: string
+    time?: string
+    url: string
+    mobileUrl: string
+  }[]
+}
+export function defineFallbackSource(id: SourceID): () => Promise<NewsItem[]> {
+  return async () => {
+    const url = `https://smzdk.top/api/${id}/new`
+    const res: FallbackRes = await $fetch(url)
+    if (res.code !== 200 || !res.data) throw new Error(res.message)
+    return res.data.map(item => ({
+      extra: {
+        date: item.time,
+      },
+      id: item.url,
+      title: item.title,
+      url: item.url,
+      mobileUrl: item.mobileUrl,
+    }))
+  }
+}
 export function defineRSSSource(url: string): () => Promise<NewsItem[]> {
   return async () => {
     const data = await rss2json(url)
