@@ -25,17 +25,11 @@ export default defineSource(async () => {
         title,
         id: url,
         extra: {
-          origin: date,
+          date: tranformToUTC(date),
         },
       })
     }
   })
-  return news.sort((m, n) => n.extra!.origin > m.extra!.origin ? 1 : -1)
+  return news.sort((m, n) => n.extra!.date > m.extra!.date ? 1 : -1)
     .slice(0, 20)
-    .map(item => ({
-      ...item,
-      extra: {
-        date: tranformToUTC(item.extra!.origin),
-      },
-    }))
 })
