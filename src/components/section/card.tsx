@@ -6,7 +6,7 @@ import clsx from "clsx"
 import { useInView } from "react-intersection-observer"
 import { useAtom } from "jotai"
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
-import { sources } from "@shared/data"
+import { sources } from "@shared/sources"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
 import { ofetch } from "ofetch"
 import { focusSourcesAtom, refetchSourcesAtom } from "~/atoms"
@@ -111,8 +111,7 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
             {sources[id].name}
           </span>
         </div>
-        {/* @ts-expect-error -_- */}
-        <span className="text-xs">{sources[id]?.type}</span>
+        <span className="text-xs">{sources[id]?.title}</span>
       </div>
       <OverlayScrollbarsComponent
         defer

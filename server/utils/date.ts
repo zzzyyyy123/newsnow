@@ -12,3 +12,5 @@ export function tranformToUTC(date: string, format?: string, timezone: string = 
   if (!format) return dayjs.tz(date, timezone).valueOf()
   return dayjs.tz(date, format, timezone).valueOf()
 }
+
+export const day = dayjs

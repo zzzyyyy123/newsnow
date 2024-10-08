@@ -1,0 +1,113 @@
+import { typeSafeObjectFromEntries } from "./type.util"
+import type { OriginSource, Source, SourceID } from "./types"
+
+export const originSources = {
+  "v2ex": {
+    name: "V2EX",
+    home: "https://v2ex.com/",
+  },
+  "wallstreetcn": {
+    name: "华尔街见闻",
+    home: "https://wallstreetcn.com/",
+    title: "快讯",
+  },
+  "sputniknewscn": {
+    name: "俄罗斯卫星通讯社",
+    home: "https://sputniknews.cn",
+  },
+  "aljazeeracn": {
+    name: "半岛电视台",
+    interval: 30 * 60 * 1000,
+    home: "https://chinese.aljazeera.net",
+  },
+  "36kr": {
+    name: "36氪",
+    home: "https://36kr.com",
+    sub: {
+      quick: {
+        title: "快讯",
+      },
+    },
+  },
+  "douyin": {
+    name: "抖音",
+    home: "https://www.douyin.com",
+  },
+  "hupu": {
+    name: "虎扑",
+    home: "https://hupu.com",
+  },
+  "zhihu": {
+    name: "知乎",
+    home: "https://www.zhihu.com",
+  },
+  "weibo": {
+    name: "微博",
+    title: "实时热搜",
+    interval: 5 * 60 * 1000,
+    home: "https://weibo.com",
+  },
+  "tieba": {
+    name: "百度贴吧",
+    home: "https://tieba.baidu.com",
+  },
+  "zaobao": {
+    name: "联合早报",
+    home: "https://www.zaobao.com",
+  },
+  "thepaper": {
+    name: "澎湃新闻",
+    home: "https://www.thepaper.cn",
+  },
+  "toutiao": {
+    name: "今日头条",
+    home: "https://www.toutiao.com",
+  },
+  "cankaoxiaoxi": {
+    name: "参考消息",
+    home: "http://www.cankaoxiaoxi.com",
+  },
+  "ithome": {
+    name: "IT之家",
+    interval: 1000,
+    home: "https://www.ithome.com",
+  },
+  "peopledaily": {
+    name: "人民日报",
+    interval: 3 * 60 * 60 * 1000,
+    home: "http://paper.people.com.cn",
+  },
+} as const satisfies Record<string, OriginSource>
+
+export const sources = genSources()
+function genSources() {
+  const _: [SourceID, Source][] = []
+
+  Object.entries(originSources).forEach(([id, source]: [any, OriginSource]) => {
+    if (source.sub && Object.keys(source.sub).length) {
+      Object.entries(source.sub).forEach(([subId, subSource], i) => {
+        if (i === 0) {
+          _.push([id, {
+            redirect: `${id}-${subId}`,
+            name: source.name,
+            interval: source.interval,
+            ...subSource,
+          }] as [any, Source])
+        }
+        _.push([`${id}-${subId}`, {
+          name: source.name,
+          interval: source.interval,
+          ...subSource,
+        }] as [any, Source])
+      })
+    } else {
+      _.push([id, {
+        name: source.name,
+        interval: source.interval,
+        title: source.title,
+      }])
+    }
+  })
+
+  return typeSafeObjectFromEntries(_)
+}

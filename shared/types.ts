@@ -1,12 +1,43 @@
-import type { sectionIds, sources } from "./data"
+import type { sectionIds } from "./data"
+import type { originSources } from "./sources"
 
-export type SourceID = keyof(typeof sources)
+type ConstSources = typeof originSources
+type MainSourceID = keyof(ConstSources)
+
+export type SourceID = {
+  [Key in MainSourceID]: ConstSources[Key] extends { sub?: infer SubType } ? keyof {
+    // @ts-expect-error >_<
+    [K in keyof SubType as `${Key}-${K}` ]: never
+  } | Key : Key;
+}[MainSourceID]
+
 export type SectionID = (typeof sectionIds)[number]
 export type Metadata = Record<SectionID, Section>
 
+export interface OriginSource {
+  name: string
+  title?: string
+  /**
+   * 刷新的间隔时间，复用缓存
+   */
+  interval?: number
+  home: string
+  sub?: Record<string, {
+    title: string
+    interval?: number
+  }>
+}
+
+export interface Source {
+  name: string
+  title?: string
+  interval?: number
+  redirect?: SourceID
+}
+
 export interface Section {
   name: string
-  sourceList: SourceID[]
+  sources: SourceID[]
 }
 
 export interface NewsItem {
@@ -47,7 +78,7 @@ export interface RSSItem {
 }
 
 export interface CacheInfo {
-  id: SourceID
+  id: MainSourceID
   data: NewsItem[]
   updated: number
 }

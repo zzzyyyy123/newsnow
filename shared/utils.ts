@@ -22,3 +22,7 @@ export function relativeTime(timestamp: string | number) {
     return `${month}月${day}日`
   }
 }
+
+export function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

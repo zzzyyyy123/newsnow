@@ -4,7 +4,7 @@ import { join } from "node:path"
 import { Buffer } from "node:buffer"
 import { getLogos } from "favicons-scraper"
 import { consola } from "consola"
-import { sources } from "../shared/data"
+import { originSources } from "../shared/sources"
 
 const projectDir = fileURLToPath(new URL("..", import.meta.url))
 const iconsDir = join(projectDir, "public", "icons")
@@ -25,7 +25,7 @@ async function downloadImage(url: string, outputPath: string, id: string) {
 
 async function main() {
   await Promise.all(
-    Object.entries(sources).map(async ([id, source]) => {
+    Object.entries(originSources).map(async ([id, source]) => {
       try {
         const icon = join(iconsDir, `${id.split("-")[0]}.png`)
         if (fs.existsSync(icon)) {

@@ -1,16 +1,22 @@
 import { Interval, TTL } from "@shared/consts"
-import type { SourceResponse } from "@shared/types"
-import { sources } from "@shared/data"
+import type { SourceID, SourceResponse } from "@shared/types"
+import { sources } from "@shared/sources"
 import { sourcesFn } from "#/sources"
 import { Cache } from "#/cache"
 
 export default defineEventHandler(async (event): Promise<SourceResponse> => {
   try {
-    const id = getRouterParam(event, "id") as keyof typeof sourcesFn
+    let id = getRouterParam(event, "id") as SourceID
     const query = getQuery(event)
     const latest = query.latest !== undefined && query.latest !== "false"
+    const isValid = (id: SourceID) => !id || !sources[id] || !sourcesFn[id]
 
-    if (!id || !sources[id] || !sourcesFn[id]) throw new Error("Invalid source id")
+    if (isValid(id)) {
+      const redirectID = sources[id].redirect
+      if (redirectID) id = redirectID
+      if (isValid(id)) throw new Error("Invalid source id")
+    }
+
     const db = useDatabase()
     const cacheStore = db ? new Cache(db) : undefined
     const now = Date.now()

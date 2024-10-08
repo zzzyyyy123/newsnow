@@ -43,7 +43,7 @@ export function Section({ id }: { id: SectionID }) {
           : (
               <>
                 {
-                  metadata[id].sourceList.map(source => (
+                  metadata[id].sources.map(source => (
                     <CardWrapper key={source} id={source} />
                   ))
                 }

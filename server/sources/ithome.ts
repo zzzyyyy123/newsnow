@@ -27,6 +27,6 @@ export default defineSource(async () => {
       }
     }
   })
-  return news.sort((m, n) => n.extra!.date > m.extra!.data ? 1 : -1)
+  return news.sort((m, n) => n.extra!.date > m.extra!.date ? 1 : -1)
     .slice(0, 20)
 })

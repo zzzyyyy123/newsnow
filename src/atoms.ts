@@ -1,6 +1,7 @@
 import { atom } from "jotai"
 import type { SectionID, SourceID } from "@shared/types"
-import { metadata, sources } from "@shared/data"
+import { metadata } from "@shared/data"
+import { sources } from "@shared/sources"
 import { atomWithLocalStorage } from "./hooks/atomWithLocalStorage"
 
 export const focusSourcesAtom = atomWithLocalStorage<SourceID[]>("focusSources", [], (stored) => {
@@ -30,7 +31,7 @@ export const currentSectionAtom = atom((get) => {
     return {
       id,
       ...metadata[id],
-      sourceList: get(focusSourcesAtom),
+      sources: get(focusSourcesAtom),
     }
   }
   return {
