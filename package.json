@@ -1,17 +1,19 @@
 {
   "name": "newsnow",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "eslint",
     "favicon": "tsx ./scripts/favicon.ts",
     "start": "PORT=4444 node dist/output/server/index.mjs",
     "preview": "CF_PAGES=1 pnpm run build && wrangler pages dev",
     "deploy": "CF_PAGES=1 pnpm run build && wrangler pages deploy",
+    "release": "bumpp",
+    "prepare": "simple-git-hooks",
     "test": "vitest"
   },
   "dependencies": {
@@ -33,6 +35,7 @@
     "iconv-lite": "^0.6.3",
     "jotai": "^2.10.0",
     "libsql": "^0.4.5",
+    "ofetch": "^1.4.0",
     "overlayscrollbars": "^2.10.0",
     "overlayscrollbars-react": "^0.5.6",
     "react": "^18.3.1",
@@ -50,11 +53,13 @@
     "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
+    "bumpp": "^9.6.1",
     "eslint": "^9.11.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc-778e1ed2-20240926",
     "eslint-plugin-react-refresh": "^0.4.12",
+    "lint-staged": "^15.2.10",
     "nitropack": "^2.9.7",
-    "ofetch": "^1.4.0",
+    "simple-git-hooks": "^2.11.1",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.7.0",
@@ -65,9 +70,13 @@
     "vitest": "^2.1.1",
     "wrangler": "^3.79.0"
   },
-  "pnpm": {
-    "overrides": {
-      "db0": "npm:@ourongxing/db0@latest"
-    }
+  "resolutions": {
+    "db0": "npm:@ourongxing/db0@latest"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
