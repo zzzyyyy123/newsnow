@@ -3,6 +3,7 @@ import weibo from "./weibo"
 import zaobao from "./zaobao"
 import v2ex from "./v2ex"
 import ithome from "./ithome"
+import zhihu from "./zhihu"
 
 export const sourcesFn = {
   weibo,
@@ -12,6 +13,7 @@ export const sourcesFn = {
   "peopledaily": defineRSSSource("https://feedx.net/rss/people.xml", {
     hiddenDate: true,
   }),
+  "zhihu": zhihu,
   "sputniknewscn": defineRSSHubSource("/sputniknews/news/chinese"),
   "douyin": defineFallbackSource("douyin"),
   "aljazeeracn": defineRSSSource("https://feedx.net/rss/aljazeera.xml"),

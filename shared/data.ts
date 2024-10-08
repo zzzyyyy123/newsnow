@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   },
   social: {
     name: "实时",
-    sources: ["douyin", "weibo", "wallstreetcn", "ithome", "36kr"],
+    sources: ["weibo", "douyin", "zhihu", "toutiao", "wallstreetcn", "ithome", "36kr"],
   },
   china: {
     name: "国内",
-    sources: ["peopledaily", "toutiao"],
+    sources: ["peopledaily", "toutiao", "zhihu"],
   },
   world: {
     name: "国外",

@@ -13,6 +13,7 @@ export const originSources = {
   },
   "sputniknewscn": {
     name: "俄罗斯卫星通讯社",
+    interval: 30 * 60 * 1000,
     home: "https://sputniknews.cn",
   },
   "aljazeeracn": {
@@ -57,6 +58,7 @@ export const originSources = {
   },
   "thepaper": {
     name: "澎湃新闻",
+    interval: 30 * 60 * 1000,
     home: "https://www.thepaper.cn",
   },
   "toutiao": {
@@ -65,11 +67,11 @@ export const originSources = {
   },
   "cankaoxiaoxi": {
     name: "参考消息",
+    interval: 60 * 60 * 1000,
     home: "http://www.cankaoxiaoxi.com",
   },
   "ithome": {
     name: "IT之家",
-    interval: 1000,
     home: "https://www.ithome.com",
   },
   "peopledaily": {
