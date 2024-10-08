@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
   china: {
     name: "国内",
-    sources: ["peopledaily", "toutiao", "zhihu"],
+    sources: ["peopledaily", "toutiao", "zhihu", "cankaoxiaoxi"],
   },
   world: {
     name: "国外",
@@ -25,6 +25,6 @@ export const metadata: Metadata = {
   },
   tech: {
     name: "科技",
-    sources: ["ithome"],
+    sources: ["ithome", "coolapk"],
   },
 }

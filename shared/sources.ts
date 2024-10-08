@@ -1,10 +1,19 @@
 import { typeSafeObjectFromEntries } from "./type.util"
 import type { OriginSource, Source, SourceID } from "./types"
 
+const Time = {
+  half: 30 * 60 * 1000,
+  five: 5 * 60 * 1000,
+}
+
 export const originSources = {
   "v2ex": {
     name: "V2EX",
     home: "https://v2ex.com/",
+  },
+  "coolapk": {
+    name: "酷安",
+    home: "https://coolapk.com",
   },
   "wallstreetcn": {
     name: "华尔街见闻",
@@ -13,13 +22,18 @@ export const originSources = {
   },
   "sputniknewscn": {
     name: "俄罗斯卫星通讯社",
-    interval: 30 * 60 * 1000,
+    interval: Time.half,
     home: "https://sputniknews.cn",
   },
   "aljazeeracn": {
     name: "半岛电视台",
-    interval: 30 * 60 * 1000,
+    interval: Time.half,
     home: "https://chinese.aljazeera.net",
+  },
+  "cankaoxiaoxi": {
+    name: "参考消息",
+    interval: Time.half,
+    home: "https://china.cankaoxiaoxi.com",
   },
   "36kr": {
     name: "36氪",
@@ -58,17 +72,12 @@ export const originSources = {
   },
   "thepaper": {
     name: "澎湃新闻",
-    interval: 30 * 60 * 1000,
+    interval: Time.half,
     home: "https://www.thepaper.cn",
   },
   "toutiao": {
     name: "今日头条",
     home: "https://www.toutiao.com",
-  },
-  "cankaoxiaoxi": {
-    name: "参考消息",
-    interval: 60 * 60 * 1000,
-    home: "http://www.cankaoxiaoxi.com",
   },
   "ithome": {
     name: "IT之家",
