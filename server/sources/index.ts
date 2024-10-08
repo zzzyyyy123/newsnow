@@ -6,6 +6,7 @@ import ithome from "./ithome"
 import zhihu from "./zhihu"
 import cankaoxiaoxi from "./cankaoxiaoxi"
 import coolapk from "./coolapk"
+import sputniknewscn from "./sputniknewscn"
 
 export const sourcesFn = {
   weibo,
@@ -15,10 +16,10 @@ export const sourcesFn = {
   zhihu,
   coolapk,
   cankaoxiaoxi,
+  sputniknewscn,
   "peopledaily": defineRSSSource("https://feedx.net/rss/people.xml", {
     hiddenDate: true,
   }),
-  "sputniknewscn": defineRSSHubSource("/sputniknews/news/chinese"),
   "douyin": defineFallbackSource("douyin"),
   "aljazeeracn": defineRSSSource("https://feedx.net/rss/aljazeera.xml"),
   "toutiao": defineFallbackSource("toutiao"),

@@ -1,4 +1,5 @@
 import fs from "node:fs"
+
 import { fileURLToPath } from "node:url"
 import { join } from "node:path"
 import { Buffer } from "node:buffer"
@@ -27,7 +28,7 @@ async function main() {
   await Promise.all(
     Object.entries(originSources).map(async ([id, source]) => {
       try {
-        const icon = join(iconsDir, `${id.split("-")[0]}.png`)
+        const icon = join(iconsDir, `${id}.png`)
         if (fs.existsSync(icon)) {
           consola.info(`${id}: icon exists. skip.`)
           return

@@ -22,7 +22,6 @@ export const originSources = {
   },
   "sputniknewscn": {
     name: "俄罗斯卫星通讯社",
-    interval: Time.half,
     home: "https://sputniknews.cn",
   },
   "aljazeeracn": {
