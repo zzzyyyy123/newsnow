@@ -154,14 +154,16 @@ function Num({ num }: { num: number }) {
 
 function ExtraInfo({ item }: { item: NewsItem }) {
   const relativeTime = useRelativeTime(item?.extra?.date)
-  if (relativeTime) {
-    return <>{relativeTime}</>
+  if (item?.extra?.info) {
+    return <>{item.extra.info}</>
   }
 
   if (item?.extra?.icon) {
-    return (
-      <img src={item.extra.icon} className="w-5 inline" />
-    )
+    return <img src={item.extra.icon} className="w-5 inline" />
+  }
+
+  if (relativeTime) {
+    return <>{relativeTime}</>
   }
 }
 

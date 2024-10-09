@@ -25,6 +25,7 @@ export default defineConfig({
         imports: ["$fetch", "ofetch"],
       }],
       dirs: ["server/utils"],
+      dts: "dist/.nitro/types/nitro-imports.d.ts",
     }),
   ],
 })

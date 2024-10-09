@@ -31,7 +31,8 @@ export default defineSource(async () => {
     title: i.editor_title || load(i.message).text().split("\n")[0],
     url: i.shareUrl,
     extra: {
-      date: new Date(i.dateline * 1000).getTime(),
+      info: i.targetRow?.subTitle,
+      // date: new Date(i.dateline * 1000).getTime(),
     },
   })).slice(0, 20)
 })

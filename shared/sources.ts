@@ -2,6 +2,7 @@ import { typeSafeObjectFromEntries } from "./type.util"
 import type { OriginSource, Source, SourceID } from "./types"
 
 const Time = {
+  test: 1,
   half: 30 * 60 * 1000,
   five: 5 * 60 * 1000,
 }
