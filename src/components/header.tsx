@@ -24,7 +24,7 @@ function RefreshButton() {
   const currentSection = useAtomValue(currentSectionAtom)
   const setRefetchSource = useSetAtom(refetchSourcesAtom)
   const refreshAll = useCallback(() => {
-    const obj = Object.fromEntries(currentSection.sources.map(id => [id, Date.now()]))
+    const obj = Object.fromEntries(currentSection.map(id => [id, Date.now()]))
     setRefetchSource(prev => ({
       ...prev,
       ...obj,
@@ -33,7 +33,7 @@ function RefreshButton() {
 
   const isFetching = useIsFetching({
     predicate: (query) => {
-      return currentSection.sources.includes(query.queryKey[0] as SourceID)
+      return currentSection.includes(query.queryKey[0] as SourceID)
     },
   })
 

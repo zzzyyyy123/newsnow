@@ -16,11 +16,10 @@ export const Route = createRootRouteWithContext<{
 })
 
 function NotFoundComponent() {
-  // const nav = Route.useNavigate()
-  // nav({
-  //   to: "/",
-  // })
-  // return <div></div>
+  const nav = Route.useNavigate()
+  nav({
+    to: "/",
+  })
 }
 
 function RootComponent() {

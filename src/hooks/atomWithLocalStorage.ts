@@ -3,7 +3,7 @@ import { atom } from "jotai"
 
 export function atomWithLocalStorage<T>(
   key: string,
-  initialValue: T,
+  initialValue: T | (() => T),
   initFn?: ((stored: T) => T),
 ): PrimitiveAtom<T> {
   const getInitialValue = () => {
@@ -17,7 +17,8 @@ export function atomWithLocalStorage<T>(
     } catch {
       //
     }
-    return initialValue
+    if (initialValue instanceof Function) return initialValue()
+    else return initialValue
   }
   const baseAtom = atom(getInitialValue())
   const derivedAtom = atom(

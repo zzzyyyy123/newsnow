@@ -15,10 +15,10 @@ import type { SourceID } from "@shared/types"
 import { CSS } from "@dnd-kit/utilities"
 import type { ItemsProps } from "./card"
 import { CardWrapper } from "./card"
-import { focusSourcesAtom } from "~/atoms"
+import { currentSectionAtom } from "~/atoms"
 
 export function Dnd() {
-  const [items, setItems] = useAtom(focusSourcesAtom)
+  const [items, setItems] = useAtom(currentSectionAtom)
   const [activeId, setActiveId] = useState<string | null>(null)
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 

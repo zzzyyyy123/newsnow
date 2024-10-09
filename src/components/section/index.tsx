@@ -5,7 +5,6 @@ import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import { useEffect } from "react"
 import { Dnd } from "./dnd"
-import { CardWrapper } from "./card"
 import { currentSectionIDAtom } from "~/atoms"
 
 export function Section({ id }: { id: SectionID }) {
@@ -38,17 +37,7 @@ export function Section({ id }: { id: SectionID }) {
           gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
         }}
       >
-        {id === "focus"
-          ? <Dnd />
-          : (
-              <>
-                {
-                  metadata[id].sources.map(source => (
-                    <CardWrapper key={source} id={source} />
-                  ))
-                }
-              </>
-            )}
+        <Dnd />
       </div>
     </div>
   )
