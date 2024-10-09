@@ -5,7 +5,13 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  dayjs: 1.11.13
   db0: npm:@ourongxing/db0@latest
+
+patchedDependencies:
+  dayjs:
+    hash: vxjypqxmsykboavgqknf3tdbfa
+    path: patches/dayjs.patch
 
 importers:
 
@@ -45,8 +51,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
+        specifier: 1.11.13
+        version: 1.11.13(patch_hash=vxjypqxmsykboavgqknf3tdbfa)
       db0:
         specifier: npm:@ourongxing/db0@latest
         version: '@ourongxing/db0@0.1.5(libsql@0.4.5)'
@@ -141,6 +147,9 @@ importers:
       mlly:
         specifier: ^1.7.2
         version: 1.7.2
+      mockdate:
+        specifier: ^3.0.5
+        version: 3.0.5
       nitropack:
         specifier: ^2.9.7
         version: 2.9.7(encoding@0.1.13)(libsql@0.4.5)(magicast@0.3.5)
@@ -3615,6 +3624,9 @@ packages:
   mlly@1.7.2:
     resolution: {integrity: sha512-tN3dvVHYVz4DhSXinXIk7u9syPYaJvio118uomkovAtWBT+RdbP6Lfh/5Lvo519YMmwBafwlh20IPTXIStscpA==}
 
+  mockdate@3.0.5:
+    resolution: {integrity: sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==}
+
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -6965,7 +6977,7 @@ snapshots:
 
   data-uri-to-buffer@2.0.2: {}
 
-  dayjs@1.11.13: {}
+  dayjs@1.11.13(patch_hash=vxjypqxmsykboavgqknf3tdbfa): {}
 
   debug@2.6.9:
     dependencies:
@@ -8393,6 +8405,8 @@ snapshots:
       pathe: 1.1.2
       pkg-types: 1.2.0
       ufo: 1.5.4
+
+  mockdate@3.0.5: {}
 
   mri@1.2.0: {}
 
