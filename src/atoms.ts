@@ -22,7 +22,7 @@ export const localSourcesAtom = atomWithLocalStorage<Record<SectionID, SourceID[
 
 export const focusSourcesAtom = atom((get) => {
   return get(localSourcesAtom).focus
-}, (get, set, update: SourceID[] | ((prev: SourceID[]) => SourceID[])) => {
+}, (get, set, update: Update<SourceID[]>) => {
   const _ = update instanceof Function ? update(get(focusSourcesAtom)) : update
   set(localSourcesAtom, {
     ...get(localSourcesAtom),
@@ -50,10 +50,12 @@ export const currentSectionIDAtom = atom<SectionID>("focus")
 export const currentSectionAtom = atom((get) => {
   const id = get(currentSectionIDAtom)
   return get(localSourcesAtom)[id]
-}, (get, set, update: SourceID[] | ((prev: SourceID[]) => SourceID[])) => {
+}, (get, set, update: Update<SourceID[]>) => {
   const _ = update instanceof Function ? update(get(currentSectionAtom)) : update
   set(localSourcesAtom, {
     ...get(localSourcesAtom),
     [get(currentSectionIDAtom)]: _,
   })
 })
+
+export type Update<T> = T | ((prev: T) => T)

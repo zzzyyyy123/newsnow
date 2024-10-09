@@ -2,13 +2,13 @@ import { metadata, sectionIds } from "@shared/data"
 import type { SectionID } from "@shared/types"
 import { Link } from "@tanstack/react-router"
 import clsx from "clsx"
-import { useSetAtom } from "jotai"
+import { useAtom } from "jotai"
 import { useEffect } from "react"
 import { Dnd } from "./dnd"
 import { currentSectionIDAtom } from "~/atoms"
 
 export function Section({ id }: { id: SectionID }) {
-  const setCurrentSectionID = useSetAtom(currentSectionIDAtom)
+  const [currentSectionID, setCurrentSectionID] = useAtom(currentSectionIDAtom)
   useEffect(() => {
     setCurrentSectionID(id)
   }, [id, setCurrentSectionID])
@@ -30,15 +30,7 @@ export function Section({ id }: { id: SectionID }) {
           </Link>
         ))}
       </section>
-
-      <div
-        className="grid w-full gap-5"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-        }}
-      >
-        <Dnd />
-      </div>
+      { currentSectionID === id && <Dnd />}
     </div>
   )
 }
