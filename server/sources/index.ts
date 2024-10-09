@@ -17,11 +17,7 @@ export const sourcesFn = {
   coolapk,
   cankaoxiaoxi,
   sputniknewscn,
-  "peopledaily": defineRSSSource("https://feedx.net/rss/people.xml", {
-    hiddenDate: true,
-  }),
   "douyin": defineFallbackSource("douyin"),
-  "aljazeeracn": defineRSSSource("https://feedx.net/rss/aljazeera.xml"),
   "toutiao": defineFallbackSource("toutiao"),
   "wallstreetcn": defineRSSHubSource("/wallstreetcn/live"),
   "36kr-quick": defineRSSHubSource("/36kr/newsflashes"),

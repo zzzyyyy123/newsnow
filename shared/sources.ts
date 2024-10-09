@@ -25,11 +25,6 @@ export const originSources = {
     name: "俄罗斯卫星通讯社",
     home: "https://sputniknews.cn",
   },
-  "aljazeeracn": {
-    name: "半岛电视台",
-    interval: Time.half,
-    home: "https://chinese.aljazeera.net",
-  },
   "cankaoxiaoxi": {
     name: "参考消息",
     interval: Time.half,
@@ -82,11 +77,6 @@ export const originSources = {
   "ithome": {
     name: "IT之家",
     home: "https://www.ithome.com",
-  },
-  "peopledaily": {
-    name: "人民日报",
-    interval: 3 * 60 * 60 * 1000,
-    home: "http://paper.people.com.cn",
   },
 } as const satisfies Record<string, OriginSource>
 
