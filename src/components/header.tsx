@@ -44,7 +44,7 @@ function RefreshButton() {
 
 export function Header() {
   return (
-    <header className="flex justify-between items-center">
+    <header className="flex justify-between items-center bg-base p-4 md:(p-8)">
       <Link className="text-6 flex gap-2 items-center" to="/">
         <img src={logo} alt="logo" className="h-8" />
         <span className="font-mono">NewsNow</span>

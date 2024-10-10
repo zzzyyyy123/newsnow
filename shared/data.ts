@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   },
   china: {
     name: "国内",
-    sources: ["toutiao", "zhihu", "cankaoxiaoxi"],
+    sources: ["toutiao", "zhihu"],
   },
   world: {
     name: "国际",
-    sources: ["sputniknewscn", "zaobao"],
+    sources: ["sputniknewscn", "zaobao", "cankaoxiaoxi"],
   },
   code: {
     name: "代码",

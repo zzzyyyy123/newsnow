@@ -4,9 +4,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import "~/styles/globals.css"
 import "virtual:uno.css"
 import type { QueryClient } from "@tanstack/react-query"
-import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 import { Header } from "~/components/header"
 import { useOnReload } from "~/hooks/useOnReload"
+import { OverlayScrollbar } from "~/components/common/overlay-scrollbar"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -25,23 +25,17 @@ function NotFoundComponent() {
 function RootComponent() {
   useOnReload()
   return (
-    <OverlayScrollbarsComponent
-      defer
-      className="md:p-10 p-4 h-full"
-      element="div"
-      options={{
-        showNativeOverlaidScrollbars: true,
-        scrollbars: { autoHide: "scroll" },
-      }}
-    >
-      <Header />
-      <Outlet />
+    <>
+      <OverlayScrollbar className="md:p-8 p-4 h-full overflow-x-auto">
+        <Header />
+        <Outlet />
+      </OverlayScrollbar>
       { import.meta.env.DEV && (
         <>
           <ReactQueryDevtools buttonPosition="bottom-left" />
           <TanStackRouterDevtools position="bottom-right" />
         </>
       )}
-    </OverlayScrollbarsComponent>
+    </>
   )
 }

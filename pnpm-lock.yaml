@@ -56,6 +56,9 @@ importers:
       db0:
         specifier: npm:@ourongxing/db0@latest
         version: '@ourongxing/db0@0.1.5(libsql@0.4.5)'
+      defu:
+        specifier: ^6.1.4
+        version: 6.1.4
       fast-xml-parser:
         specifier: ^4.5.0
         version: 4.5.0

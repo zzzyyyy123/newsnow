@@ -24,9 +24,9 @@ export function Dnd() {
   return (
     <DndWrapper items={items} setItems={setItems}>
       <motion.div
-        className="grid w-full gap-5"
+        className="grid w-full gap-4"
         style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(325px, 1fr))",
         }}
         initial="hidden"
         animate="visible"
@@ -34,7 +34,7 @@ export function Dnd() {
           visible: {
             transition: {
               delayChildren: 0.5,
-              staggerChildren: 0.3,
+              staggerChildren: 0.2,
             },
           },
         }}

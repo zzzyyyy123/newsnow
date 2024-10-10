@@ -27,8 +27,8 @@ button:disabled {
   pointer-events: all !important;
 }
 
-::-webkit-scrollbar {
-  width: 0px;
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
 }
 
 /* https://github.com/KingSora/OverlayScrollbars/blob/master/packages/overlayscrollbars/src/styles/themes.scss */

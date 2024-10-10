@@ -1,5 +1,4 @@
 import type { NewsItem, SourceID, SourceInfo, SourceResponse } from "@shared/types"
-import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 import type { UseQueryResult } from "@tanstack/react-query"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
@@ -9,6 +8,7 @@ import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
 import { sources } from "@shared/sources"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
 import { ofetch } from "ofetch"
+import { OverlayScrollbar } from "../common/overlay-scrollbar"
 import { focusSourcesAtom, refetchSourcesAtom } from "~/atoms"
 import { useRelativeTime } from "~/hooks/useRelativeTime"
 
@@ -46,7 +46,8 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col h-500px aspect-auto border border-gray-100 rounded-xl shadow-2xl shadow-gray-600/10 bg-base dark:( border-gray-700 shadow-none)",
+        "flex flex-col h-500px aspect-auto border border-gray-100 rounded-xl shadow-2xl shadow-gray-600/10 bg-base",
+        "dark:( border-gray-700 shadow-none)",
         isDragged && "op-50",
         isOverlay ? "bg-glass" : "",
       )}
@@ -98,12 +99,7 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
   return (
     <>
       <div
-        {...handleListeners}
-        className={clsx([
-          "flex justify-between p-2 items-center",
-          handleListeners && "cursor-grab",
-          isOverlay && "cursor-grabbing",
-        ])}
+        className={clsx("flex justify-between p-2 items-center")}
       >
         <div className="flex items-center gap-2">
           <img src={`/icons/${id.split("-")[0]}.png`} className="w-4 h-4 rounded" alt={id} onError={e => e.currentTarget.hidden = true} />
@@ -111,16 +107,16 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
             {sources[id].name}
           </span>
         </div>
-        <span className="text-xs">{sources[id]?.title}</span>
+        <div className="flex gap-2 items-center">
+          <span className="text-xs">{sources[id]?.title}</span>
+          <button
+            {...handleListeners}
+            type="button"
+            className={clsx("i-ph:dots-six-vertical-bold op-40 hover:op-80", handleListeners && "cursor-grab", isOverlay && "cursor-grabbing")}
+          />
+        </div>
       </div>
-      <OverlayScrollbarsComponent
-        defer
-        className="h-full pl-2 pr-3 mr-1"
-        element="div"
-        options={{ scrollbars: { autoHide: "scroll" }, overflow: { x: "hidden" } }}
-      >
-        <NewsList query={query} />
-      </OverlayScrollbarsComponent>
+      <NewsList query={query} />
       <div className="p-2 flex items-center justify-between">
         <UpdateTime query={query} />
         <div className="flex gap-1">
@@ -140,7 +136,6 @@ function UpdateTime({ query }: Query) {
   const updatedTime = useRelativeTime(query.data?.updatedTime ?? "")
   if (updatedTime) return <span>{`${updatedTime}更新`}</span>
   if (query.isError) return <span>获取失败</span>
-  return <span className="skeleton w-20" />
 }
 
 function Num({ num }: { num: number }) {
@@ -159,7 +154,7 @@ function ExtraInfo({ item }: { item: NewsItem }) {
   }
 
   if (item?.extra?.icon) {
-    return <img src={item.extra.icon} className="w-5 inline" />
+    return <img src={item.extra.icon} className="w-5 inline" onError={e => e.currentTarget.hidden = true} />
   }
 
   if (relativeTime) {
@@ -169,33 +164,26 @@ function ExtraInfo({ item }: { item: NewsItem }) {
 
 function NewsList({ query }: Query) {
   const items = query.data?.items
-  if (items?.length) {
-    return (
-      <>
-        {items.slice(0, 20).map((item, i) => (
-          <div key={item.title} className="flex gap-2 items-center">
-            <Num num={i + 1} />
-            <a href={item.url} target="_blank" className="my-1">
-              <span className="mr-2">
-                {item.title}
-              </span>
-              <span className="text-xs text-gray-4/80 truncate align-middle">
-                <ExtraInfo item={item} />
-              </span>
-            </a>
-          </div>
-        ))}
-      </>
-    )
-  }
   return (
-    <>
-      {Array.from({ length: 20 }).map((_, i) => i).map(i => (
-        <div key={i} className="flex gap-2 items-center">
+    <OverlayScrollbar
+      className="h-full pl-2 pr-3 mr-1 overflow-x-auto"
+      options={{
+        overflow: { x: "hidden" },
+      }}
+    >
+      {items?.slice(0, 20).map((item, i) => (
+        <div key={item.title} className="flex gap-2 items-center">
           <Num num={i + 1} />
-          <span className="skeleton border-b border-gray-300/20 my-1"></span>
+          <a href={item.url} target="_blank" className="my-1">
+            <span className="mr-2">
+              {item.title}
+            </span>
+            <span className="text-xs text-gray-4/80 truncate align-middle">
+              <ExtraInfo item={item} />
+            </span>
+          </a>
         </div>
       ))}
-    </>
+    </OverlayScrollbar>
   )
 }
