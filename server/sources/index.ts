@@ -7,6 +7,8 @@ import zhihu from "./zhihu"
 import cankaoxiaoxi from "./cankaoxiaoxi"
 import coolapk from "./coolapk"
 import sputniknewscn from "./sputniknewscn"
+import kr from "./36kr"
+import wallstreetcn from "./wallstreetcn"
 
 export const sourcesFn = {
   weibo,
@@ -17,8 +19,8 @@ export const sourcesFn = {
   coolapk,
   cankaoxiaoxi,
   sputniknewscn,
+  wallstreetcn,
   "douyin": defineFallbackSource("douyin"),
   "toutiao": defineFallbackSource("toutiao"),
-  "wallstreetcn": defineRSSHubSource("/wallstreetcn/live"),
-  "36kr-quick": defineRSSHubSource("/36kr/newsflashes"),
+  "36kr-quick": kr,
 } as Record<SourceID, () => Promise<NewsItem[]>>

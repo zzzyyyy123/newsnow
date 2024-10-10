@@ -1,10 +1,14 @@
+import { Interval } from "./consts"
 import { typeSafeObjectFromEntries } from "./type.util"
 import type { OriginSource, Source, SourceID } from "./types"
 
 const Time = {
-  test: 1,
-  half: 30 * 60 * 1000,
-  five: 5 * 60 * 1000,
+  Test: 1,
+  Realtime: 2 * 60 * 1000,
+  Fast: 5 * 60 * 1000,
+  Default: Interval, // 10min
+  Common: 30 * 60 * 1000,
+  Slow: 60 * 60 * 1000,
 }
 
 export const originSources = {
@@ -18,6 +22,7 @@ export const originSources = {
   },
   "wallstreetcn": {
     name: "华尔街见闻",
+    interval: Time.Fast,
     home: "https://wallstreetcn.com/",
     title: "快讯",
   },
@@ -27,7 +32,7 @@ export const originSources = {
   },
   "cankaoxiaoxi": {
     name: "参考消息",
-    interval: Time.half,
+    interval: Time.Common,
     home: "https://china.cankaoxiaoxi.com",
   },
   "36kr": {
@@ -54,7 +59,7 @@ export const originSources = {
   "weibo": {
     name: "微博",
     title: "实时热搜",
-    interval: 5 * 60 * 1000,
+    interval: Time.Realtime,
     home: "https://weibo.com",
   },
   "tieba": {
@@ -63,11 +68,12 @@ export const originSources = {
   },
   "zaobao": {
     name: "联合早报",
+    interval: Time.Common,
     home: "https://www.zaobao.com",
   },
   "thepaper": {
     name: "澎湃新闻",
-    interval: Time.half,
+    interval: Time.Common,
     home: "https://www.thepaper.cn",
   },
   "toutiao": {
