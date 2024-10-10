@@ -11,9 +11,6 @@ import { projectDir } from "./shared/dir"
 const isCF = process.env.CF_PAGES
 
 export default defineConfig({
-  resolve: {
-    mainFields: ["module"],
-  },
   plugins: [
     TanStackRouterVite({
       autoCodeSplitting: true,

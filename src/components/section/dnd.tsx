@@ -24,7 +24,7 @@ export function Dnd() {
   return (
     <DndWrapper items={items} setItems={setItems}>
       <motion.div
-        className="grid w-full gap-4"
+        className="grid w-full gap-6"
         style={{
           gridTemplateColumns: "repeat(auto-fill, minmax(325px, 1fr))",
         }}

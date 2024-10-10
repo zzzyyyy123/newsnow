@@ -4,6 +4,7 @@ import { useAtomValue, useSetAtom } from "jotai"
 import { useIsFetching } from "@tanstack/react-query"
 import clsx from "clsx"
 import type { SourceID } from "@shared/types"
+import { Homepage, Version } from "@shared/consts"
 import logo from "~/assets/react.svg"
 import { useDark } from "~/hooks/useDark"
 import { currentSectionAtom, refetchSourcesAtom } from "~/atoms"
@@ -18,6 +19,10 @@ function ThemeToggle() {
       onClick={toggleDark}
     />
   )
+}
+
+export function GithubIcon() {
+  return <a className="i-ph-github-logo-duotone inline-block btn-pure" href={Homepage} />
 }
 
 function RefreshButton() {
@@ -44,15 +49,19 @@ function RefreshButton() {
 
 export function Header() {
   return (
-    <header className="flex justify-between items-center bg-base p-4 md:(p-8)">
+    <>
       <Link className="text-6 flex gap-2 items-center" to="/">
         <img src={logo} alt="logo" className="h-8" />
         <span className="font-mono">NewsNow</span>
+        <a className="btn-pure text-sm mt--2">
+          {`v${Version}`}
+        </a>
       </Link>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <RefreshButton />
         <ThemeToggle />
+        <GithubIcon />
       </div>
-    </header>
+    </>
   )
 }

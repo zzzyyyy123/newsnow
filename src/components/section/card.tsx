@@ -102,7 +102,12 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
         className={clsx("flex justify-between p-2 items-center")}
       >
         <div className="flex items-center gap-2">
-          <img src={`/icons/${id.split("-")[0]}.png`} className="w-4 h-4 rounded" alt={id} onError={e => e.currentTarget.hidden = true} />
+          <img
+            src={`/icons/${id.split("-")[0]}.png`}
+            className="w-4 h-4 rounded"
+            alt={id}
+            onError={e => e.currentTarget.hidden = true}
+          />
           <span className="text-md font-bold">
             {sources[id].name}
           </span>
@@ -118,14 +123,18 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
       </div>
       <NewsList query={query} />
       <div className="p-2 flex items-center justify-between">
-        <UpdateTime query={query} />
+        <span className="text-sm"><UpdateTime query={query} /></span>
         <div className="flex gap-1">
           <button
             type="button"
             className={clsx("i-ph:arrow-clockwise", query.isFetching && "animate-spin")}
             onClick={manualRefetch}
           />
-          <button type="button" className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star", "color-primary")} onClick={addFocusList} />
+          <button
+            type="button"
+            className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star", "color-primary")}
+            onClick={addFocusList}
+          />
         </div>
       </div>
     </>
@@ -134,14 +143,14 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
 
 function UpdateTime({ query }: Query) {
   const updatedTime = useRelativeTime(query.data?.updatedTime ?? "")
-  if (updatedTime) return <span>{`${updatedTime}更新`}</span>
-  if (query.isError) return <span>获取失败</span>
+  if (updatedTime) return `${updatedTime}更新`
+  if (query.isError) return "获取失败"
+  return "加载中..."
 }
 
 function Num({ num }: { num: number }) {
-  const color = ["bg-red-900", "bg-red-500", "bg-red-400"]
   return (
-    <span className={clsx("bg-active min-w-6 flex justify-center items-center rounded-md", false && color[num - 1])}>
+    <span className={clsx("bg-gray/10 min-w-6 flex justify-center items-center rounded-md")}>
       {num}
     </span>
   )

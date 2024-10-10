@@ -16,7 +16,7 @@ export function Section({ id }: { id: SectionID }) {
   return (
     <>
       <div className="w-full flex justify-center">
-        <div className="flex gap-2 py-4">
+        <div className="flex gap-2 mb-6">
           {sectionIds.map(section => (
             <Link
               key={section}
