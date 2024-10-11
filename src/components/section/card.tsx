@@ -18,14 +18,12 @@ export interface ItemsProps extends React.HTMLAttributes<HTMLDivElement> {
    * 是否显示透明度，拖动时原卡片的样式
    */
   isDragged?: boolean
-  isOverlay?: boolean
   handleListeners?: SyntheticListenerMap
 }
 
 interface NewsCardProps {
   id: SourceID
   inView: boolean
-  isOverlay?: boolean
   handleListeners?: SyntheticListenerMap
 }
 
@@ -33,11 +31,9 @@ interface Query {
   query: UseQueryResult<SourceInfo, Error>
 }
 
-export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragged, isOverlay, handleListeners, style, ...props }, dndRef) => {
+export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragged, handleListeners, style, ...props }, dndRef) => {
   const ref = useRef<HTMLDivElement>(null)
-  const { ref: inViewRef, inView } = useInView({
-    threshold: 0,
-  })
+  const { ref: inViewRef, inView } = useInView()
 
   useImperativeHandle(dndRef, () => ref.current!)
   useImperativeHandle(inViewRef, () => ref.current!)
@@ -48,7 +44,6 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
       className={clsx(
         "flex flex-col h-500px rounded-2xl bg-blue bg-op-50 p-4 backdrop-blur-5",
         isDragged && "op-50",
-        isOverlay ? "backdrop-blur-5 bg-op-40" : "",
       )}
       style={{
         transformOrigin: "50% 50%",
@@ -56,13 +51,12 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
       }}
       {...props}
     >
-      <NewsCard id={id} inView={inView} isOverlay={isOverlay} handleListeners={handleListeners} />
+      <NewsCard id={id} inView={inView} handleListeners={handleListeners} />
     </div>
   )
 })
 
 export function CardOverlay({ id }: { id: SourceID }) {
-  const [focusSources] = useAtom(focusSourcesAtom)
   return (
     <div className={clsx(
       "flex flex-col h-500px rounded-2xl bg-blue bg-op-50 p-4 backdrop-blur-5",
@@ -84,18 +78,10 @@ export function CardOverlay({ id }: { id: SourceID }) {
               </span>
               {sources[id]?.title && <span className="text-sm">{sources[id].title}</span>}
             </span>
-            <span className="text-xs op-0">刚刚刷新</span>
+            <span className="text-xs">正在刷新</span>
           </span>
         </div>
         <div className="flex gap-2 op-80">
-          <button
-            type="button"
-            className={clsx("i-ph:arrow-counter-clockwise-duotone")}
-          />
-          <button
-            type="button"
-            className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star-duotone")}
-          />
           <button
             type="button"
             className={clsx("i-ph:dots-six-vertical-duotone", "cursor-grabbing")}
@@ -107,7 +93,7 @@ export function CardOverlay({ id }: { id: SourceID }) {
   )
 }
 
-export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardProps) {
+function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
   const [focusSources, setFocusSources] = useAtom(focusSourcesAtom)
   const [refetchSource, setRefetchSource] = useAtom(refetchSourcesAtom)
   const query = useQuery({
@@ -175,13 +161,13 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
           <button
             {...handleListeners}
             type="button"
-            className={clsx("i-ph:dots-six-vertical-duotone", handleListeners && "cursor-grab", isOverlay && "cursor-grabbing")}
+            className={clsx("i-ph:dots-six-vertical-duotone", "cursor-grab")}
           />
         </div>
       </div>
 
       <OverlayScrollbar
-        className="h-full p-2 overflow-x-auto bg-base bg-op-70! rounded-2xl"
+        className={clsx("h-full p-2 overflow-x-auto bg-base bg-op-70! rounded-2xl transition-all duration-500", query.isFetching && "blur-3px")}
         options={{
           overflow: { x: "hidden" },
         }}

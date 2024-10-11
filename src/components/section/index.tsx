@@ -23,7 +23,7 @@ export function Section({ id }: { id: SectionID }) {
               to="/s/$section"
               params={{ section }}
               className={clsx(
-                "btn-action-sm",
+                "btn-action",
                 id === section && "btn-action-active",
               )}
             >
