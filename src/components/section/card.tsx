@@ -130,7 +130,7 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
           <button
             {...handleListeners}
             type="button"
-            className={clsx("i-ph:dots-six-vertical-bold op-40 hover:op-80", handleListeners && "cursor-grab", isOverlay && "cursor-grabbing")}
+            className={clsx("i-ph:dots-six-vertical-duotone", handleListeners && "cursor-grab", isOverlay && "cursor-grabbing")}
           />
         </div>
       </div>
