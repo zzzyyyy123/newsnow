@@ -10,13 +10,13 @@ export default defineSource(async () => {
   const $items = $(".newsflash-item")
   $items.each((_, el) => {
     const $el = $(el)
-    const $a = $el.find("a")
+    const $a = $el.find("a.item-title")
     const url = $a.attr("href")
     const title = $a.text()
     const relativeDate = $el.find(".time")
     if (url && title && relativeDate) {
       news.push({
-        url,
+        url: `https://www.36kr.com${url}`,
         title,
         id: url,
         extra: {

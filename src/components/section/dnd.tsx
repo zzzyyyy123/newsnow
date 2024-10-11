@@ -26,7 +26,7 @@ export function Dnd() {
       <motion.div
         className="grid w-full gap-6"
         style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(325px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
         }}
         initial="hidden"
         animate="visible"

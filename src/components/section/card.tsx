@@ -46,10 +46,10 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col h-500px aspect-auto border border-gray-100 rounded-xl shadow-2xl shadow-gray-600/10 bg-base",
-        "dark:( border-gray-700 shadow-none)",
+        "flex flex-col h-550px rounded-2xl bg-blue bg-op-50 p-4 backdrop-blur-5",
+        "shadow-base",
         isDragged && "op-50",
-        isOverlay ? "bg-glass" : "",
+        isOverlay ? "backdrop-blur-5 bg-op-40" : "",
       )}
       style={{
         transformOrigin: "50% 50%",
@@ -98,22 +98,35 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
 
   return (
     <>
-      <div
-        className={clsx("flex justify-between p-2 items-center")}
-      >
-        <div className="flex items-center gap-2">
+      <div className={clsx("flex justify-between m-4 mt-0 items-center")}>
+        <div className="flex gap-2 items-center">
           <img
             src={`/icons/${id.split("-")[0]}.png`}
-            className="w-4 h-4 rounded"
+            className={clsx("h-8 rounded-full")}
             alt={id}
-            onError={e => e.currentTarget.hidden = true}
+            onError={e => e.currentTarget.src = "/icons/default.png"}
           />
-          <span className="text-md font-bold">
-            {sources[id].name}
+          <span className="flex flex-col">
+            <span className="flex items-center gap-2">
+              <span className="text-xl font-bold">
+                {sources[id].name}
+              </span>
+              {sources[id]?.title && <span className="text-sm">{sources[id].title}</span>}
+            </span>
+            <span className="text-xs"><UpdateTime query={query} /></span>
           </span>
         </div>
-        <div className="flex gap-2 items-center">
-          <span className="text-xs">{sources[id]?.title}</span>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            className={clsx("i-ph:arrow-counter-clockwise-duotone", query.isFetching && "animate-spin i-ph:circle-dashed-duotone")}
+            onClick={manualRefetch}
+          />
+          <button
+            type="button"
+            className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star-duotone")}
+            onClick={addFocusList}
+          />
           <button
             {...handleListeners}
             type="button"
@@ -122,21 +135,6 @@ export function NewsCard({ id, inView, isOverlay, handleListeners }: NewsCardPro
         </div>
       </div>
       <NewsList query={query} />
-      <div className="p-2 flex items-center justify-between">
-        <span className="text-sm"><UpdateTime query={query} /></span>
-        <div className="flex gap-1">
-          <button
-            type="button"
-            className={clsx("i-ph:arrow-clockwise", query.isFetching && "animate-spin")}
-            onClick={manualRefetch}
-          />
-          <button
-            type="button"
-            className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star", "color-primary")}
-            onClick={addFocusList}
-          />
-        </div>
-      </div>
     </>
   )
 }
@@ -175,7 +173,7 @@ function NewsList({ query }: Query) {
   const items = query.data?.items
   return (
     <OverlayScrollbar
-      className="h-full pl-2 pr-3 mr-1 overflow-x-auto"
+      className="h-full pl-2 pr-3 mr-1 py-2 overflow-x-auto bg-base rounded-2xl"
       options={{
         overflow: { x: "hidden" },
       }}

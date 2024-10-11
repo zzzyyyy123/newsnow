@@ -5,7 +5,7 @@ import { useIsFetching } from "@tanstack/react-query"
 import clsx from "clsx"
 import type { SourceID } from "@shared/types"
 import { Homepage, Version } from "@shared/consts"
-import logo from "~/assets/react.svg"
+import logo from "~/assets/icon.svg"
 import { useDark } from "~/hooks/useDark"
 import { currentSectionAtom, refetchSourcesAtom } from "~/atoms"
 
@@ -43,27 +43,36 @@ function RefreshButton() {
   })
 
   return (
-    <button type="button" className={clsx("btn-pure i-ph:arrow-clockwise", isFetching && "animate-spin")} onClick={refreshAll} />
+    <button
+      type="button"
+      className={clsx("i-ph:arrow-counter-clockwise-duotone btn-pure", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
+      onClick={refreshAll}
+    />
   )
 }
 
 export function Header() {
   return (
     <>
-      <div className="flex items-center">
-        <Link className="text-6 flex gap-2 items-center" to="/">
-          <img src={logo} alt="logo" className="h-8" />
-          <span className="font-mono">NewsNow</span>
-        </Link>
-        <a className="btn-pure text-sm ml-1 mt--2">
-          {`v${Version}`}
-        </a>
+      <div className="flex">
+        <div className="flex">
+          <Link to="/" className="flex gap-2">
+            <img src={logo} alt="logo" className="h-12" />
+            <span className="flex flex-col text-2xl font-mono font-bold line-height-none">
+              <span>News</span>
+              <span>Now</span>
+            </span>
+          </Link>
+          <a className="btn-pure text-sm ml-1">
+            {`v${Version}`}
+          </a>
+        </div>
       </div>
-      <div className="flex gap-2 items-center">
+      <span className="flex gap-2 items-center text-xl">
         <RefreshButton />
         <ThemeToggle />
         <GithubIcon />
-      </div>
+      </span>
     </>
   )
 }
