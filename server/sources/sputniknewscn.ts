@@ -15,7 +15,7 @@ export default defineSource(async () => {
     const date = $a.find(".lenta__item-date").attr("data-unixtime")
     if (url && title && date) {
       news.push({
-        url,
+        url: `https://sputniknews.cn${url}`,
         title,
         id: url,
         extra: {

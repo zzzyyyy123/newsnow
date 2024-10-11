@@ -18,6 +18,7 @@ export const originSources = {
   },
   "coolapk": {
     name: "酷安",
+    type: "hottest",
     home: "https://coolapk.com",
   },
   "wallstreetcn": {
@@ -46,6 +47,7 @@ export const originSources = {
   },
   "douyin": {
     name: "抖音",
+    type: "hottest",
     home: "https://www.douyin.com",
   },
   "hupu": {
@@ -54,11 +56,13 @@ export const originSources = {
   },
   "zhihu": {
     name: "知乎",
+    type: "hottest",
     home: "https://www.zhihu.com",
   },
   "weibo": {
     name: "微博",
     title: "实时热搜",
+    type: "hottest",
     interval: Time.Realtime,
     home: "https://weibo.com",
   },
@@ -78,6 +82,7 @@ export const originSources = {
   },
   "toutiao": {
     name: "今日头条",
+    type: "hottest",
     home: "https://www.toutiao.com",
   },
   "ithome": {
@@ -97,12 +102,14 @@ function genSources() {
           _.push([id, {
             redirect: `${id}-${subId}`,
             name: source.name,
+            type: source.type,
             interval: source.interval,
             ...subSource,
           }] as [any, Source])
         }
         _.push([`${id}-${subId}`, {
           name: source.name,
+          type: source.type,
           interval: source.interval,
           ...subSource,
         }] as [any, Source])
@@ -110,6 +117,7 @@ function genSources() {
     } else {
       _.push([id, {
         name: source.name,
+        type: source.type,
         interval: source.interval,
         title: source.title,
       }])

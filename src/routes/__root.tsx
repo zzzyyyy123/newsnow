@@ -31,7 +31,7 @@ function RootComponent() {
         <header className="flex justify-between items-center sticky top-0 z-100 bg-base py-4 px-6 md:(pt-8 px-16)">
           <Header />
         </header>
-        <main className="min-h-[calc(100vh-11rem)] px-6 md:(px-16)">
+        <main className="min-h-[calc(100vh-12rem)] px-6 md:(px-16)">
           <Outlet />
         </main>
         <footer className="py-6 flex flex-col items-center justify-center text-sm">

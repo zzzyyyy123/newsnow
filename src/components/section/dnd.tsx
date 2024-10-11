@@ -16,7 +16,7 @@ import type { SourceID } from "@shared/types"
 import { CSS } from "@dnd-kit/utilities"
 import { motion } from "framer-motion"
 import type { ItemsProps } from "./card"
-import { CardWrapper } from "./card"
+import { CardOverlay, CardWrapper } from "./card"
 import { currentSectionAtom } from "~/atoms"
 
 export function Dnd() {
@@ -98,7 +98,7 @@ export function DndWrapper({ items, setItems, children }: PropsWithChildren<DndP
         {children}
       </SortableContext>
       <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
-        {!!activeId && <CardWrapper id={activeId as SourceID} isOverlay />}
+        {!!activeId && <CardOverlay id={activeId as SourceID} />}
       </DragOverlay>
     </DndContext>
   )

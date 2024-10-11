@@ -21,9 +21,17 @@ export interface OriginSource {
    * 刷新的间隔时间，复用缓存
    */
   interval?: number
+  /**
+   * @default latest
+   */
+  type?: "hottest" | "latest"
   home: string
   sub?: Record<string, {
     title: string
+    /**
+     * @default latest
+     */
+    type?: "hottest" | "latest"
     interval?: number
   }>
 }
@@ -31,6 +39,7 @@ export interface OriginSource {
 export interface Source {
   name: string
   title?: string
+  type?: "hottest" | "latest"
   interval?: number
   redirect?: SourceID
 }

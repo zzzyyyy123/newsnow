@@ -1,6 +1,6 @@
 import type { Metadata } from "./types"
 
-export const sectionIds = ["focus", "realtime", "china", "world", "tech", "code"] as const
+export const sectionIds = ["focus", "realtime", "hottest", "china", "world", "tech"] as const
 
 export const metadata: Metadata = {
   focus: {
@@ -9,22 +9,22 @@ export const metadata: Metadata = {
   },
   realtime: {
     name: "实时",
-    sources: ["weibo", "douyin", "zhihu", "toutiao", "wallstreetcn", "ithome", "36kr"],
+    sources: ["weibo", "wallstreetcn", "ithome", "36kr", "zaobao"],
+  },
+  hottest: {
+    name: "最热",
+    sources: ["weibo", "douyin", "zhihu", "toutiao"],
   },
   china: {
     name: "国内",
-    sources: ["toutiao", "zhihu"],
+    sources: ["weibo", "douyin", "toutiao", "zhihu"],
   },
   world: {
     name: "国际",
     sources: ["sputniknewscn", "zaobao", "cankaoxiaoxi"],
   },
-  code: {
-    name: "代码",
-    sources: ["v2ex"],
-  },
   tech: {
     name: "科技",
-    sources: ["ithome", "coolapk", "36kr-quick"],
+    sources: ["ithome", "v2ex", "coolapk", "36kr-quick", "wallstreetcn"],
   },
 }
