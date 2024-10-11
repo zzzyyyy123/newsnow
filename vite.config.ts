@@ -25,15 +25,10 @@ export default defineConfig({
       },
       database: {
         default: {
-          connector: isCF ? "cloudflare-d1" : "libsql",
+          connector: isCF ? "cloudflare-d1" : "sqlite",
           options: {
             bindingName: "CACHE_DB",
           },
-        },
-      },
-      devDatabase: {
-        default: {
-          connector: "libsql",
         },
       },
       alias: {
