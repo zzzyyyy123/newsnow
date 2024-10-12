@@ -59,3 +59,8 @@ export const currentSectionAtom = atom((get) => {
 })
 
 export type Update<T> = T | ((prev: T) => T)
+
+export const goToTopAtom = atom({
+  ok: false,
+  fn: undefined as (() => void) | undefined,
+})

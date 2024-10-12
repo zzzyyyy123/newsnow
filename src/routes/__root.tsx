@@ -1,14 +1,14 @@
+import "~/styles/globals.css"
+import "virtual:uno.css"
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import "~/styles/globals.css"
-import "virtual:uno.css"
 import type { QueryClient } from "@tanstack/react-query"
 import { Author, Homepage } from "@shared/consts"
 import clsx from "clsx"
 import { Header } from "~/components/header"
 import { useOnReload } from "~/hooks/useOnReload"
-import { OverlayScrollbar } from "~/components/common/overlay-scrollbar"
+import { GlobalOverlayScrollbar } from "~/components/common/overlay-scrollbar"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -28,8 +28,8 @@ function RootComponent() {
   useOnReload()
   return (
     <>
-      <OverlayScrollbar className={clsx([
-        "h-full overflow-x-auto relative px-4",
+      <GlobalOverlayScrollbar className={clsx([
+        "h-full overflow-x-auto px-4",
         "md:(px-10)",
         "lg:(px-24)",
       ])}
@@ -59,7 +59,7 @@ function RootComponent() {
             </a>
           </span>
         </footer>
-      </OverlayScrollbar>
+      </GlobalOverlayScrollbar>
       {import.meta.env.DEV && (
         <>
           <ReactQueryDevtools buttonPosition="bottom-left" />

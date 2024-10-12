@@ -7,7 +7,7 @@ import type { SourceID } from "@shared/types"
 import { Homepage, Version } from "@shared/consts"
 import logo from "~/assets/icon.svg"
 import { useDark } from "~/hooks/useDark"
-import { currentSectionAtom, refetchSourcesAtom } from "~/atoms"
+import { currentSectionAtom, goToTopAtom, refetchSourcesAtom } from "~/atoms"
 
 function ThemeToggle() {
   const { toggleDark } = useDark()
@@ -21,6 +21,18 @@ function ThemeToggle() {
   )
 }
 
+function GoTop() {
+  const { ok, fn: goToTop } = useAtomValue(goToTopAtom)
+  return (
+    ok && (
+      <button
+        type="button"
+        className="i-ph:arrow-fat-up-duotone btn-pure"
+        onClick={goToTop}
+      />
+    )
+  )
+}
 export function GithubIcon() {
   return <a className="i-ph-github-logo-duotone inline-block btn-pure" href={Homepage} />
 }
@@ -70,6 +82,7 @@ export function Header() {
         </a>
       </span>
       <span className="flex gap-2 items-center text-xl text-primary-600 dark:text-primary ">
+        <GoTop />
         <RefreshButton />
         <ThemeToggle />
         <GithubIcon />
