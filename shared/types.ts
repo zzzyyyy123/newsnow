@@ -1,6 +1,8 @@
-import type { Color } from "./colors"
+import type { colors } from "unocss/preset-mini"
 import type { sectionIds } from "./data"
 import type { originSources } from "./sources"
+
+export type Color = Exclude<keyof typeof colors, "current" | "inherit" | "transparent" | "black" | "white">
 
 type ConstSources = typeof originSources
 type MainSourceID = keyof(ConstSources)
