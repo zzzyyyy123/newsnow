@@ -59,14 +59,17 @@ export function Header() {
           <img src={logo} alt="logo" className="h-12" />
           <span className="flex flex-col">
             <span>News</span>
-            <span>Now</span>
+            <span>
+              <span className="color-red-6">N</span>
+              <span>ow</span>
+            </span>
           </span>
         </Link>
         <a className="btn-pure text-sm ml-1">
           {`v${Version}`}
         </a>
       </span>
-      <span className="flex gap-2 items-center text-2xl text-primary">
+      <span className="flex gap-2 items-center text-xl text-primary-600 dark:text-primary ">
         <RefreshButton />
         <ThemeToggle />
         <GithubIcon />

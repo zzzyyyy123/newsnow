@@ -1,7 +1,6 @@
 import { TTL } from "@shared/consts"
 import type { SourceID, SourceResponse } from "@shared/types"
 import { sources } from "@shared/sources"
-import { delay } from "@shared/utils"
 import { sourcesFn } from "#/sources"
 import { Cache } from "#/cache"
 
@@ -29,9 +28,6 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
         // 默认 10 分钟，是低于 TTL 的，但部分 Source 的间隔会超过 TTL，甚至有的一天刷新一次。
         const interval = sources[id].interval
         if (now - cache.updated < interval) {
-          if (id === "cankaoxiaoxi") {
-            await delay(2000)
-          }
           return {
             status: "success",
             data: {

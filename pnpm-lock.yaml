@@ -126,6 +126,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.0
         version: 18.3.0
+      '@unocss/rule-utils':
+        specifier: ^0.63.4
+        version: 0.63.4
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.1
         version: 3.7.1(vite@5.4.8(@types/node@22.6.1)(terser@5.33.0))

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { useInView } from "react-intersection-observer"
 import { useAtom } from "jotai"
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from "react"
 import { sources } from "@shared/sources"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
 import { ofetch } from "ofetch"
@@ -42,7 +42,7 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col h-500px rounded-2xl bg-op-50 p-4 backdrop-blur-5",
+        "flex flex-col h-500px rounded-2xl bg-op-40 p-4 backdrop-blur-5",
         isDragged && "op-50",
         `bg-${sources[id].color}`,
       )}
@@ -78,19 +78,19 @@ export function CardOverlay({ id }: { id: SourceID }) {
               <span className="text-xl font-bold">
                 {sources[id].name}
               </span>
-              {sources[id]?.title && <span className="text-sm">{sources[id].title}</span>}
+              {sources[id]?.title && <span className={clsx("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
             </span>
-            <span className="text-xs">正在刷新</span>
+            <span className="text-xs">拖拽中</span>
           </span>
         </div>
-        <div className="flex gap-2 op-80">
+        <div className={clsx("flex gap-2 text-lg", `color-${sources[id].color}`)}>
           <button
             type="button"
             className={clsx("i-ph:dots-six-vertical-duotone", "cursor-grabbing")}
           />
         </div>
       </div>
-      <div className="h-full p-2 overflow-x-auto bg-base bg-op-70! rounded-2xl" />
+      <div className={`h-full p-2 overflow-x-auto bg-base bg-op-50! rounded-2xl sprinkle-${sources[id].color}`} />
     </div>
   )
 }
@@ -128,6 +128,8 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
       [id]: Date.now(),
     }))
   }, [setRefetchSource, id])
+
+  const isFreshFetching = useMemo(() => query.isFetching && !query.isPlaceholderData, [query])
 
   return (
     <>
@@ -169,12 +171,18 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
       </div>
 
       <OverlayScrollbar
-        className={clsx("h-full p-2 overflow-x-auto bg-base bg-op-70! rounded-2xl transition-filter duration-500", query.isFetching && "blur-3px")}
+        className={clsx([
+          "h-full p-2 overflow-x-auto rounded-2xl bg-base bg-op-70!",
+          isFreshFetching && `animate-pulse`,
+          `sprinkle-${sources[id].color}`,
+        ])}
         options={{
           overflow: { x: "hidden" },
         }}
       >
-        {sources[id].type === "hottest" ? <NewsList query={query} /> : <NewsListTimeLine query={query} />}
+        <div className={clsx("duration-500 transition-opacity", isFreshFetching && "op-20")}>
+          {sources[id].type === "hottest" ? <NewsList query={query} /> : <NewsListTimeLine query={query} />}
+        </div>
       </OverlayScrollbar>
     </>
   )

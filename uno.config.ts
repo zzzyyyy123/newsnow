@@ -1,5 +1,7 @@
 import { defineConfig, presetIcons, presetUno, transformerDirectives, transformerVariantGroup } from "unocss"
-import { colors } from "./shared/colors"
+import { hex2rgba } from "@unocss/rule-utils"
+import { colors } from "unocss/preset-mini"
+import { sources } from "./shared/sources"
 
 export default defineConfig({
   mergeSelectors: false,
@@ -10,24 +12,33 @@ export default defineConfig({
       scale: 1.2,
     }),
   ],
-  rules: [],
+  rules: [
+    [/^sprinkle-(.+)$/, ([_, d]) => {
+      if (d in colors) {
+        // @ts-expect-error >_<
+        const hex: any = colors[d]?.[400]
+        if (hex) {
+          return {
+            "background-image": `radial-gradient(ellipse 80% 80% at 50% -30%,
+         rgba(${hex2rgba(hex)?.join(", ")}, 0.3),
+        rgba(255, 255, 255, 0));`,
+          }
+        }
+      }
+    }],
+  ],
   shortcuts: {
     "color-base": "color-neutral-800 dark:color-neutral-300",
     "bg-base": "bg-white dark:bg-dark-600",
-    "shadow-base": "shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] dark:shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]",
-
-    "bg-hover": "bg-primary-400/5",
 
     "color-active": "color-primary-600 dark:color-primary-400",
     "border-active": "border-primary-600/25 dark:border-primary-400/25",
     "bg-active": "bg-primary-400/10",
 
     "btn-pure": "op50 hover:op75",
-    "btn-action": "border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-hover",
-    "btn-action-active": "color-active border-active! bg-active op100!",
   },
   safelist: [
-    ...["bg", "color", "border"].map(t => colors.map(c => `${t}-${c}`)).flat(1),
+    ...["bg", "color", "border", "sprinkle", "shadow"].map(t => Object.values(sources).map(c => `${t}-${c.color}`)).flat(1),
   ],
   extendTheme: (theme) => {
     // @ts-expect-error >_<

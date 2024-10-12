@@ -6,11 +6,9 @@ import "virtual:uno.css"
 import type { QueryClient } from "@tanstack/react-query"
 import { Author, Homepage } from "@shared/consts"
 import clsx from "clsx"
-import { useEffect } from "react"
 import { Header } from "~/components/header"
 import { useOnReload } from "~/hooks/useOnReload"
 import { OverlayScrollbar } from "~/components/common/overlay-scrollbar"
-import { useSticky } from "~/hooks/useSticky"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -28,23 +26,28 @@ function NotFoundComponent() {
 
 function RootComponent() {
   useOnReload()
-  const { ref, isSticky } = useSticky()
-  useEffect(() => {
-    console.log(isSticky)
-  }, [isSticky])
   return (
     <>
-      <div className="absolute top-0 z-[-2] h-screen w-screen bg"></div>
-      <OverlayScrollbar className="h-full overflow-x-auto relative">
-        <header
-          ref={ref}
-          className={
-            clsx("flex justify-between items-center py-4 px-8 md:(py-6 px-20)", "sticky top-0 z-100 backdrop-blur-md")
-          }
+      <OverlayScrollbar className={clsx([
+        "h-full overflow-x-auto relative px-4",
+        "md:(px-10)",
+        "lg:(px-24)",
+      ])}
+      >
+        <header className={clsx([
+          "flex justify-between items-center py-4 px-5",
+          "lg:(py-6)",
+          "sticky top-0 z-100 backdrop-blur-md",
+        ])}
         >
           <Header />
         </header>
-        <main className="min-h-[calc(100vh-12rem)] px-4 md:(px-16 mt--16 min-h-[calc(100vh-8rem)] )">
+        <main className={clsx([
+          "min-h-[calc(100vh-170px)] transition-margin",
+          "md:(min-h-[calc(100vh-105px)] mt--16)",
+          "lg:(min-h-[calc(100vh-120px)] mt--17)",
+        ])}
+        >
           <Outlet />
         </main>
         <footer className="py-6 flex flex-col items-center justify-center text-sm text-neutral-500">

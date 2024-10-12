@@ -17,8 +17,8 @@ export function Section({ id }: { id: SectionID }) {
     <>
       <div className="w-full flex justify-center">
         <span className={clsx([
-          "flex gap-2 mb-6 py-3 px-6 rounded-2xl bg-primary bg-op-10 dark:bg-op-5",
-          "md:(z-100)",
+          "flex gap-2 mb-4 py-3 px-6 rounded-2xl bg-primary/1 shadow shadow-red/20 hover:shadow-red/50 transition-shadow duration-500",
+          "md:(z-100 mb-6)",
         ])}
         >
           {sectionIds.map(section => (
@@ -27,8 +27,8 @@ export function Section({ id }: { id: SectionID }) {
               to="/s/$section"
               params={{ section }}
               className={clsx(
-                "op-90",
-                id === section && "color-primary font-bold op-100!",
+                "text-sm",
+                id === section ? "color-primary font-bold" : "op-70 dark:op-90",
               )}
             >
               {metadata[section].name}

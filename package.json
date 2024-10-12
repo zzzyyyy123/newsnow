@@ -61,6 +61,7 @@
     "@types/md5": "^2.3.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
+    "@unocss/rule-utils": "^0.63.4",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "bumpp": "^9.7.1",
     "eslint": "^9.12.0",
