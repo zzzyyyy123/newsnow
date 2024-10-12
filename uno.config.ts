@@ -1,4 +1,5 @@
 import { defineConfig, presetIcons, presetUno, transformerDirectives, transformerVariantGroup } from "unocss"
+import { colors } from "./shared/colors"
 
 export default defineConfig({
   mergeSelectors: false,
@@ -26,26 +27,15 @@ export default defineConfig({
 
     "btn-pure": "op50 hover:op75",
     "btn-action": "border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-hover",
-    "btn-action-sm": "btn-action text-sm",
     "btn-action-active": "color-active border-active! bg-active op100!",
     "skeleton": "bg-gray-400/10 rounded-md h-5 w-full animate-pulse",
   },
-  theme: {
-    colors: {
-      primary: {
-        DEFAULT: "#FDB022",
-        50: "#FFFCF5",
-        100: "#FFFAEB",
-        200: "#FEF0C7",
-        300: "#FEDF89",
-        400: "#FEC84B",
-        500: "#FDB022",
-        600: "#F79009",
-        700: "#DC6803",
-        800: "#B54708",
-        900: "#93370D",
-        950: "#7A2E0E",
-      },
-    },
+  safelist: [
+    ...colors.map(color => `bg-${color}`),
+  ],
+  extendTheme: (theme) => {
+    // @ts-expect-error >_<
+    theme.colors.primary = theme.colors.red
+    return theme
   },
 })

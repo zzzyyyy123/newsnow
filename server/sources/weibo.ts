@@ -29,7 +29,7 @@ export default defineSource(async () => {
   const res: Res = await $fetch(url)
   if (!res.ok || res.data.realtime.length === 0) throw new Error("Cannot fetch data")
   return res.data.realtime
-    .filter(k => !k.icon_desc || k.icon_desc !== "荐")
+    .filter(k => !k.icon_desc || !/[荐促商宣]/.test(k.icon_desc))
     .slice(0, 20)
     .map((k) => {
       const keyword = k.word_scheme ? k.word_scheme : `#${k.word}#`

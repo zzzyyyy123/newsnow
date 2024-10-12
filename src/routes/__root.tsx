@@ -5,9 +5,12 @@ import "~/styles/globals.css"
 import "virtual:uno.css"
 import type { QueryClient } from "@tanstack/react-query"
 import { Author, Homepage } from "@shared/consts"
+import clsx from "clsx"
+import { useEffect } from "react"
 import { Header } from "~/components/header"
 import { useOnReload } from "~/hooks/useOnReload"
 import { OverlayScrollbar } from "~/components/common/overlay-scrollbar"
+import { useSticky } from "~/hooks/useSticky"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -25,10 +28,20 @@ function NotFoundComponent() {
 
 function RootComponent() {
   useOnReload()
+  const { ref, isSticky } = useSticky()
+  useEffect(() => {
+    console.log(isSticky)
+  }, [isSticky])
   return (
     <>
+      <div className="absolute top-0 z-[-2] h-screen w-screen bg"></div>
       <OverlayScrollbar className="h-full overflow-x-auto relative">
-        <header className="flex justify-between items-center sticky top-0 z-100 bg-base py-4 px-6 md:(pt-8 px-16)">
+        <header
+          ref={ref}
+          className={
+            clsx("flex justify-between items-center py-4 px-8 md:(pt-8 px-20)", "sticky top-0 z-100 backdrop-blur-md")
+          }
+        >
           <Header />
         </header>
         <main className="min-h-[calc(100vh-12rem)] px-6 md:(px-16)">

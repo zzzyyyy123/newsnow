@@ -1,6 +1,7 @@
-import { Interval, TTL } from "@shared/consts"
+import { TTL } from "@shared/consts"
 import type { SourceID, SourceResponse } from "@shared/types"
 import { sources } from "@shared/sources"
+import { delay } from "@shared/utils"
 import { sourcesFn } from "#/sources"
 import { Cache } from "#/cache"
 
@@ -26,8 +27,11 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
       if (cache) {
         // interval 刷新间隔，对于缓存失效也要执行的。本质上表示本来内容更新就很慢，这个间隔内可能内容压根不会更新。
         // 默认 10 分钟，是低于 TTL 的，但部分 Source 的间隔会超过 TTL，甚至有的一天刷新一次。
-        const interval = sources[id]?.interval ?? Interval
+        const interval = sources[id].interval
         if (now - cache.updated < interval) {
+          if (id === "cankaoxiaoxi") {
+            await delay(2000)
+          }
           return {
             status: "success",
             data: {

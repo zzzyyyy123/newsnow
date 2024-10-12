@@ -14,11 +14,13 @@ const Time = {
 export const originSources = {
   "v2ex": {
     name: "V2EX",
+    color: "slate",
     home: "https://v2ex.com/",
   },
   "coolapk": {
     name: "酷安",
     type: "hottest",
+    color: "green",
     home: "https://coolapk.com",
   },
   "wallstreetcn": {
@@ -29,10 +31,12 @@ export const originSources = {
   },
   "sputniknewscn": {
     name: "俄罗斯卫星通讯社",
+    color: "yellow",
     home: "https://sputniknews.cn",
   },
   "cankaoxiaoxi": {
     name: "参考消息",
+    color: "red",
     interval: Time.Common,
     home: "https://china.cankaoxiaoxi.com",
   },
@@ -48,6 +52,7 @@ export const originSources = {
   "douyin": {
     name: "抖音",
     type: "hottest",
+    color: "gray",
     home: "https://www.douyin.com",
   },
   "hupu": {
@@ -63,6 +68,7 @@ export const originSources = {
     name: "微博",
     title: "实时热搜",
     type: "hottest",
+    color: "red",
     interval: Time.Realtime,
     home: "https://weibo.com",
   },
@@ -73,6 +79,7 @@ export const originSources = {
   "zaobao": {
     name: "联合早报",
     interval: Time.Common,
+    color: "red",
     home: "https://www.zaobao.com",
   },
   "thepaper": {
@@ -83,10 +90,12 @@ export const originSources = {
   "toutiao": {
     name: "今日头条",
     type: "hottest",
+    color: "red",
     home: "https://www.toutiao.com",
   },
   "ithome": {
     name: "IT之家",
+    color: "red",
     home: "https://www.ithome.com",
   },
 } as const satisfies Record<string, OriginSource>
@@ -103,14 +112,16 @@ function genSources() {
             redirect: `${id}-${subId}`,
             name: source.name,
             type: source.type,
-            interval: source.interval,
+            color: source.color ?? "blue",
+            interval: source.interval ?? Time.Default,
             ...subSource,
           }] as [any, Source])
         }
         _.push([`${id}-${subId}`, {
           name: source.name,
           type: source.type,
-          interval: source.interval,
+          color: source.color ?? "blue",
+          interval: source.interval ?? Time.Default,
           ...subSource,
         }] as [any, Source])
       })
@@ -118,7 +129,8 @@ function genSources() {
       _.push([id, {
         name: source.name,
         type: source.type,
-        interval: source.interval,
+        color: source.color ?? "blue",
+        interval: source.interval ?? Time.Default,
         title: source.title,
       }])
     }

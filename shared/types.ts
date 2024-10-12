@@ -1,3 +1,4 @@
+import type { Color } from "./colors"
 import type { sectionIds } from "./data"
 import type { originSources } from "./sources"
 
@@ -26,6 +27,7 @@ export interface OriginSource {
    */
   type?: "hottest" | "latest"
   home: string
+  color?: Color
   sub?: Record<string, {
     title: string
     /**
@@ -40,7 +42,8 @@ export interface Source {
   name: string
   title?: string
   type?: "hottest" | "latest"
-  interval?: number
+  color: Color
+  interval: number
   redirect?: SourceID
 }
 

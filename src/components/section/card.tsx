@@ -44,6 +44,7 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
       className={clsx(
         "flex flex-col h-500px rounded-2xl bg-blue bg-op-50 p-4 backdrop-blur-5",
         isDragged && "op-50",
+        `bg-${sources[id].color}`,
       )}
       style={{
         transformOrigin: "50% 50%",
@@ -59,17 +60,18 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
 export function CardOverlay({ id }: { id: SourceID }) {
   return (
     <div className={clsx(
-      "flex flex-col h-500px rounded-2xl bg-blue bg-op-50 p-4 backdrop-blur-5",
+      "flex flex-col h-500px rounded-2xl bg-op-50 p-4 backdrop-blur-5",
       "backdrop-blur-5 bg-op-40",
+      `bg-${sources[id].color}`,
     )}
     >
       <div className={clsx("flex justify-between mx-2 mt-0 mb-2 items-center")}>
         <div className="flex gap-2 items-center">
-          <img
-            src={`/icons/${id.split("-")[0]}.png`}
-            className={clsx("h-8 rounded-full")}
-            alt={id}
-            onError={e => e.currentTarget.src = "/icons/default.png"}
+          <div
+            className={clsx("w-8 h-8 rounded-full")}
+            style={{
+              background: `center / contain no-repeat url(/icons/${id.split("-")[0]}.png)`,
+            }}
           />
           <span className="flex flex-col">
             <span className="flex items-center gap-2">
@@ -131,11 +133,11 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
     <>
       <div className={clsx("flex justify-between mx-2 mt-0 mb-2 items-center")}>
         <div className="flex gap-2 items-center">
-          <img
-            src={`/icons/${id.split("-")[0]}.png`}
-            className={clsx("h-8 rounded-full")}
-            alt={id}
-            onError={e => e.currentTarget.src = "/icons/default.png"}
+          <div
+            className={clsx("w-8 h-8 rounded-full")}
+            style={{
+              background: `center / contain no-repeat url(/icons/${id.split("-")[0]}.png)`,
+            }}
           />
           <span className="flex flex-col">
             <span className="flex items-center gap-2">
