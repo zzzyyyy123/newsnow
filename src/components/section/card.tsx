@@ -2,7 +2,7 @@ import type { NewsItem, SourceID, SourceInfo, SourceResponse } from "@shared/typ
 import type { UseQueryResult } from "@tanstack/react-query"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
-import { useInView } from "react-intersection-observer"
+import { useInView } from "framer-motion"
 import { useAtom } from "jotai"
 import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from "react"
 import { sources } from "@shared/sources"
@@ -33,10 +33,9 @@ interface Query {
 
 export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragged, handleListeners, style, ...props }, dndRef) => {
   const ref = useRef<HTMLDivElement>(null)
-  const { ref: inViewRef, inView } = useInView()
+  const inView = useInView(ref)
 
   useImperativeHandle(dndRef, () => ref.current!)
-  useImperativeHandle(inViewRef, () => ref.current!)
 
   return (
     <div
