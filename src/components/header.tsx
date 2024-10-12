@@ -67,17 +67,17 @@ export function Header() {
   return (
     <>
       <span className="flex">
-        <Link to="/" className="flex gap-2 text-2xl font-mono font-bold line-height-none">
-          <img src={logo} alt="logo" className="h-12" />
-          <span className="flex flex-col">
-            <span>News</span>
-            <span>
+        <Link to="/" className="flex gap-2 items-center">
+          <img src={logo} alt="logo" className="h-10" />
+          <span className="text-2xl font-brand line-height-none!">
+            <p>News</p>
+            <p className="mt--1">
               <span className="color-red-6">N</span>
               <span>ow</span>
-            </span>
+            </p>
           </span>
         </Link>
-        <a className="btn-pure text-sm ml-1">
+        <a className="btn-pure text-sm ml-1 font-mono">
           {`v${Version}`}
         </a>
       </span>
