@@ -42,7 +42,7 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col h-500px rounded-2xl bg-blue bg-op-50 p-4 backdrop-blur-5",
+        "flex flex-col h-500px rounded-2xl bg-op-50 p-4 backdrop-blur-5",
         isDragged && "op-50",
         `bg-${sources[id].color}`,
       )}
@@ -144,12 +144,12 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
               <span className="text-xl font-bold">
                 {sources[id].name}
               </span>
-              {sources[id]?.title && <span className="text-sm">{sources[id].title}</span>}
+              {sources[id]?.title && <span className={clsx("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
             </span>
             <span className="text-xs"><UpdateTime query={query} /></span>
           </span>
         </div>
-        <div className="flex gap-2 op-80">
+        <div className={clsx("flex gap-2 text-lg", `color-${sources[id].color}`)}>
           <button
             type="button"
             className={clsx("i-ph:arrow-counter-clockwise-duotone", query.isFetching && "animate-spin i-ph:circle-dashed-duotone")}
@@ -169,7 +169,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
       </div>
 
       <OverlayScrollbar
-        className={clsx("h-full p-2 overflow-x-auto bg-base bg-op-70! rounded-2xl transition-all duration-500", query.isFetching && "blur-3px")}
+        className={clsx("h-full p-2 overflow-x-auto bg-base bg-op-70! rounded-2xl transition-filter duration-500", query.isFetching && "blur-3px")}
         options={{
           overflow: { x: "hidden" },
         }}
@@ -202,14 +202,14 @@ function NewsList({ query }: Query) {
     <ol>
       {items?.map((item, i) => (
         <li key={item.title} className="flex gap-2 items-center mb-2 items-stretch">
-          <span className={clsx("bg-gray-4/10 min-w-6 flex justify-center items-center rounded-md text-sm")}>
+          <span className={clsx("bg-neutral-400/10 min-w-6 flex justify-center items-center rounded-md text-sm")}>
             {i + 1}
           </span>
           <a href={item.url} target="_blank" className="self-start">
             <span className="mr-2">
               {item.title}
             </span>
-            <span className="text-xs text-gray-4/80 truncate align-middle">
+            <span className="text-xs text-neutral-400/80 truncate align-middle">
               <ExtraInfo item={item} />
             </span>
           </a>
@@ -227,19 +227,19 @@ function UpdatedTime({ item }: { item: NewsItem }) {
 function NewsListTimeLine({ query }: Query) {
   const items = query.data?.items
   return (
-    <ol className="relative border-s border-dash border-gray-4/30">
+    <ol className="relative border-s border-dash border-neutral-400/30">
       {items?.map(item => (
         <li key={item.title} className="flex gap-2 mb-2 ms-4">
-          <div className={clsx("absolute w-2 h-2 bg-gray-4/50 rounded-full ml-0.5 mt-1 -start-1.5")} />
+          <div className={clsx("absolute w-2 h-2 bg-neutral-400/50 rounded-full ml-0.5 mt-1 -start-1.5")} />
           <span className="flex flex-col">
-            <span className="text-xs text-gray-4/80 truncate align-middle">
+            <span className="text-xs text-neutral-400/80 truncate align-middle">
               <UpdatedTime item={item} />
             </span>
             <a href={item.url} target="_blank">
               <span>
                 {item.title}
               </span>
-              <span className="text-xs text-gray-4/80 truncate align-middle">
+              <span className="text-xs text-neutral-400/80 truncate align-middle">
                 <ExtraInfo item={item} />
               </span>
             </a>

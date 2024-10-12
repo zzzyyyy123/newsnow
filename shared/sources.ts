@@ -21,6 +21,7 @@ export const originSources = {
     name: "酷安",
     type: "hottest",
     color: "green",
+    title: "今日最热",
     home: "https://coolapk.com",
   },
   "wallstreetcn": {
@@ -31,7 +32,7 @@ export const originSources = {
   },
   "sputniknewscn": {
     name: "俄罗斯卫星通讯社",
-    color: "yellow",
+    color: "orange",
     home: "https://sputniknews.cn",
   },
   "cankaoxiaoxi": {

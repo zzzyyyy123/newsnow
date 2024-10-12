@@ -16,21 +16,25 @@ export function Section({ id }: { id: SectionID }) {
   return (
     <>
       <div className="w-full flex justify-center">
-        <div className="flex gap-2 mb-6">
+        <span className={clsx([
+          "flex gap-2 mb-6 py-3 px-6 rounded-2xl bg-primary bg-op-10 dark:bg-op-5",
+          "md:(z-100)",
+        ])}
+        >
           {sectionIds.map(section => (
             <Link
               key={section}
               to="/s/$section"
               params={{ section }}
               className={clsx(
-                "btn-action",
-                id === section && "btn-action-active",
+                "op-90",
+                id === section && "color-primary font-bold op-100!",
               )}
             >
               {metadata[section].name}
             </Link>
           ))}
-        </div>
+        </span>
       </div>
       { currentSectionID === id && <Dnd />}
     </>

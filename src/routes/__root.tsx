@@ -39,15 +39,15 @@ function RootComponent() {
         <header
           ref={ref}
           className={
-            clsx("flex justify-between items-center py-4 px-8 md:(pt-8 px-20)", "sticky top-0 z-100 backdrop-blur-md")
+            clsx("flex justify-between items-center py-4 px-8 md:(py-6 px-20)", "sticky top-0 z-100 backdrop-blur-md")
           }
         >
           <Header />
         </header>
-        <main className="min-h-[calc(100vh-12rem)] px-6 md:(px-16)">
+        <main className="min-h-[calc(100vh-12rem)] px-4 md:(px-16 mt--16 min-h-[calc(100vh-8rem)] )">
           <Outlet />
         </main>
-        <footer className="py-6 flex flex-col items-center justify-center text-sm">
+        <footer className="py-6 flex flex-col items-center justify-center text-sm text-neutral-500">
           <a href={`${Homepage}/LICENCE`}>MIT LICENCE</a>
           <span>
             <span> © 2024 By </span>
