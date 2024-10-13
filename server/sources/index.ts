@@ -9,6 +9,8 @@ import coolapk from "./coolapk"
 import sputniknewscn from "./sputniknewscn"
 import kr from "./36kr"
 import wallstreetcn from "./wallstreetcn"
+import douyin from "./douyin"
+import toutiao from "./toutiao"
 
 export const sourcesFn = {
   weibo,
@@ -20,7 +22,7 @@ export const sourcesFn = {
   cankaoxiaoxi,
   sputniknewscn,
   wallstreetcn,
-  "douyin": defineFallbackSource("douyin"),
-  "toutiao": defineFallbackSource("toutiao"),
+  douyin,
+  toutiao,
   "36kr-quick": kr,
 } as Record<SourceID, () => Promise<NewsItem[]>>
