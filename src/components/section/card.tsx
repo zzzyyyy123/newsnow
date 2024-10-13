@@ -212,8 +212,8 @@ function NewsList({ query }: Query) {
           <span className={clsx("bg-neutral-400/10 min-w-6 flex justify-center items-center rounded-md text-sm")}>
             {i + 1}
           </span>
-          <a href={item.url} target="_blank" className="self-start">
-            <span className="mr-2">
+          <a href={item.url} target="_blank" className="self-start line-height-none">
+            <span className="mr-2 text-base">
               {item.title}
             </span>
             <span className="text-xs text-neutral-400/80 truncate align-middle">
