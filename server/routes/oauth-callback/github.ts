@@ -1,5 +1,5 @@
 import process from "node:process"
-import jwt from "jsonwebtoken"
+import jwt from "@tsndr/cloudflare-worker-jwt"
 import { UserTable } from "#/database/user"
 
 export default defineEventHandler(async (event) => {
@@ -57,13 +57,17 @@ export default defineEventHandler(async (event) => {
   const userID = String(userInfo.id)
   await userTable.addUser(userID, emailinfo.find(item => item.primary)?.email || "", "github")
 
-  const jwtToken = jwt.sign({ id: userID, type: "github" }, process.env.JWT_SECRET!, {
-    expiresIn: "70d",
-  })
+  const jwtToken = await jwt.sign({
+    id: userID,
+    type: "github",
+    // seconds
+    exp: Math.floor(Date.now() / 1000 + 65 * 24 * 60 * 60),
+  }, process.env.JWT_SECRET!)
 
-  const expires = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000)
-  setCookie(event, "jwt", jwtToken, { expires })
-  setCookie(event, "avatar", userInfo.avatar_url, { expires })
-  setCookie(event, "name", userInfo.name, { expires })
+  // seconds
+  const maxAge = 60 * 24 * 60 * 60
+  setCookie(event, "jwt", jwtToken, { maxAge })
+  setCookie(event, "avatar", userInfo.avatar_url, { maxAge })
+  setCookie(event, "name", userInfo.name, { maxAge })
   return sendRedirect(event, `/?login=github`)
 })

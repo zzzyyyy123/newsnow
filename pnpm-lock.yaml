@@ -32,6 +32,9 @@ importers:
       '@tanstack/react-router':
         specifier: ^1.64.0
         version: 1.64.0(@tanstack/router-generator@1.64.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tsndr/cloudflare-worker-jwt':
+        specifier: ^3.1.2
+        version: 3.1.2
       '@unocss/reset':
         specifier: ^0.63.4
         version: 0.63.4
@@ -44,9 +47,6 @@ importers:
       consola:
         specifier: ^3.2.3
         version: 3.2.3
-      cookie-es:
-        specifier: ^1.2.2
-        version: 1.2.2
       dayjs:
         specifier: 1.11.13
         version: 1.11.13(patch_hash=vxjypqxmsykboavgqknf3tdbfa)
@@ -1804,6 +1804,9 @@ packages:
   '@tanstack/virtual-file-routes@1.64.0':
     resolution: {integrity: sha512-soW+gE9QTmMaqXM17r7y1p8NiQVIIECjdTaYla8BKL5Flj030m3KuxEQoiG1XgjtA0O7ayznFz2YvPcXIy3qDg==}
     engines: {node: '>=12'}
+
+  '@tsndr/cloudflare-worker-jwt@3.1.2':
+    resolution: {integrity: sha512-PWYv1/D73ThLtOsiQojAoYreQqSaH4qOSEtDLREl9SCXrH2aIyyFNAl8uo+YrYEeiSgw7ZfO2/mQYoZQcxpz0A==}
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -6402,6 +6405,8 @@ snapshots:
   '@tanstack/store@0.5.5': {}
 
   '@tanstack/virtual-file-routes@1.64.0': {}
+
+  '@tsndr/cloudflare-worker-jwt@3.1.2': {}
 
   '@types/babel__core@7.20.5':
     dependencies:

@@ -1,15 +1,13 @@
 import process from "node:process"
-import jwt from "jsonwebtoken"
+import jwt from "@tsndr/cloudflare-worker-jwt"
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
   const token = getCookie(event, "jwt")
   if (token && process.env.JWT_SECRET) {
-    try {
-      const { id: userID, exp } = jwt.verify(token, process.env.JWT_SECRET) as { id: string, exp: number }
-      if (Date.now() < exp * 1000) {
-        event.context.user = userID
-      }
-    } catch {
+    const v = await jwt.verify(token, process.env.JWT_SECRET) as { preload?: { id: string, exp: number } }
+    if (v?.preload?.id) {
+      event.context.user = v.preload.id
+    } else {
       logger.error("JWT verification failed")
     }
   }
