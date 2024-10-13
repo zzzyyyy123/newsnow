@@ -17,10 +17,10 @@ import { CSS } from "@dnd-kit/utilities"
 import { motion } from "framer-motion"
 import type { ItemsProps } from "./card"
 import { CardOverlay, CardWrapper } from "./card"
-import { currentSectionAtom } from "~/atoms"
+import { currentColumnAtom } from "~/atoms"
 
 export function Dnd() {
-  const [items, setItems] = useAtom(currentSectionAtom)
+  const [items, setItems] = useAtom(currentColumnAtom)
   return (
     <DndWrapper items={items} setItems={setItems}>
       <motion.div

@@ -1,6 +1,6 @@
 import type { Metadata } from "./types"
 
-export const sectionIds = ["focus", "realtime", "hottest", "china", "world", "tech", "finance"] as const
+export const columnIds = ["focus", "realtime", "hottest", "china", "world", "tech", "finance"] as const
 
 export const metadata: Metadata = {
   focus: {

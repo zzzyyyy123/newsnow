@@ -1,17 +1,17 @@
-import { metadata, sectionIds } from "@shared/data"
-import type { SectionID } from "@shared/types"
+import { columnIds, metadata } from "@shared/data"
+import type { ColumnID } from "@shared/types"
 import { Link } from "@tanstack/react-router"
 import clsx from "clsx"
 import { useAtom } from "jotai"
 import { useEffect } from "react"
 import { Dnd } from "./dnd"
-import { currentSectionIDAtom } from "~/atoms"
+import { currentColumnIDAtom } from "~/atoms"
 
-export function Section({ id }: { id: SectionID }) {
-  const [currentSectionID, setCurrentSectionID] = useAtom(currentSectionIDAtom)
+export function Column({ id }: { id: ColumnID }) {
+  const [currentColumnID, setCurrentColumnID] = useAtom(currentColumnIDAtom)
   useEffect(() => {
-    setCurrentSectionID(id)
-  }, [id, setCurrentSectionID])
+    setCurrentColumnID(id)
+  }, [id, setCurrentColumnID])
 
   return (
     <>
@@ -21,22 +21,22 @@ export function Section({ id }: { id: SectionID }) {
           "md:(z-100 mb-6)",
         ])}
         >
-          {sectionIds.map(section => (
+          {columnIds.map(columnId => (
             <Link
-              key={section}
-              to="/s/$section"
-              params={{ section }}
+              key={columnId}
+              to="/s/$column"
+              params={{ column: columnId }}
               className={clsx(
                 "text-sm",
-                id === section ? "color-primary font-bold" : "op-70 dark:op-90",
+                id === columnId ? "color-primary font-bold" : "op-70 dark:op-90",
               )}
             >
-              {metadata[section].name}
+              {metadata[columnId].name}
             </Link>
           ))}
         </span>
       </div>
-      { currentSectionID === id && <Dnd />}
+      { currentColumnID === id && <Dnd />}
     </>
   )
 }

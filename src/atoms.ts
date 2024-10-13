@@ -1,12 +1,12 @@
 import { atom } from "jotai"
-import type { SectionID, SourceID } from "@shared/types"
+import type { ColumnID, SourceID } from "@shared/types"
 import { metadata } from "@shared/data"
 import { sources } from "@shared/sources"
 import { typeSafeObjectEntries, typeSafeObjectFromEntries } from "@shared/type.util"
 import { atomWithLocalStorage } from "./hooks/atomWithLocalStorage"
 
 const initialSources = typeSafeObjectFromEntries(typeSafeObjectEntries(metadata).map(([id, val]) => [id, val.sources]))
-export const localSourcesAtom = atomWithLocalStorage<Record<SectionID, SourceID[]>>("localsources", () => {
+export const localSourcesAtom = atomWithLocalStorage<Record<ColumnID, SourceID[]>>("localsources", () => {
   return initialSources
 }, (stored) => {
   return typeSafeObjectFromEntries(typeSafeObjectEntries({
@@ -45,16 +45,16 @@ function initRefetchSources() {
 
 export const refetchSourcesAtom = atom(initRefetchSources())
 
-export const currentSectionIDAtom = atom<SectionID>("focus")
+export const currentColumnIDAtom = atom<ColumnID>("focus")
 
-export const currentSectionAtom = atom((get) => {
-  const id = get(currentSectionIDAtom)
+export const currentColumnAtom = atom((get) => {
+  const id = get(currentColumnIDAtom)
   return get(localSourcesAtom)[id]
 }, (get, set, update: Update<SourceID[]>) => {
-  const _ = update instanceof Function ? update(get(currentSectionAtom)) : update
+  const _ = update instanceof Function ? update(get(currentColumnAtom)) : update
   set(localSourcesAtom, {
     ...get(localSourcesAtom),
-    [get(currentSectionIDAtom)]: _,
+    [get(currentColumnIDAtom)]: _,
   })
 })
 

@@ -1,5 +1,5 @@
 import type { colors } from "unocss/preset-mini"
-import type { sectionIds } from "./data"
+import type { columnIds } from "./data"
 import type { originSources } from "./sources"
 
 export type Color = Exclude<keyof typeof colors, "current" | "inherit" | "transparent" | "black" | "white">
@@ -14,8 +14,8 @@ export type SourceID = {
   } | Key : Key;
 }[MainSourceID]
 
-export type SectionID = (typeof sectionIds)[number]
-export type Metadata = Record<SectionID, Section>
+export type ColumnID = (typeof columnIds)[number]
+export type Metadata = Record<ColumnID, Section>
 
 export interface OriginSource {
   name: string

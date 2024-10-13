@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { useAtomValue } from "jotai"
 import { useMemo } from "react"
 import { localSourcesAtom } from "~/atoms"
-import { Section } from "~/components/section"
+import { Column } from "~/components/column"
 
 export const Route = createFileRoute("/")({
   component: IndexComponent,
@@ -14,5 +14,5 @@ function IndexComponent() {
     return focusSources.focus.length ? "focus" : "realtime"
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  return <Section id={id} />
+  return <Column id={id} />
 }
