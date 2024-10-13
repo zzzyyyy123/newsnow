@@ -19,7 +19,7 @@ export default defineSource(async () => {
   const res: Res = await $fetch(apiUrl)
   if (!res?.data?.items || res.data.items.length === 0) throw new Error("Cannot fetch data")
   return res.data.items
-    .slice(0, 20)
+    .slice(0, 30)
     .map((k) => {
       return {
         id: k.id,

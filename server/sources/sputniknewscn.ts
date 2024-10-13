@@ -24,5 +24,5 @@ export default defineSource(async () => {
       })
     }
   })
-  return news.slice(0, 20)
+  return news.slice(0, 30)
 })

@@ -7,7 +7,7 @@ import zhihu from "./zhihu"
 import cankaoxiaoxi from "./cankaoxiaoxi"
 import coolapk from "./coolapk"
 import sputniknewscn from "./sputniknewscn"
-import kr from "./36kr"
+import kr36 from "./36kr"
 import wallstreetcn from "./wallstreetcn"
 import douyin from "./douyin"
 import toutiao from "./toutiao"
@@ -24,5 +24,5 @@ export const sourcesFn = {
   wallstreetcn,
   douyin,
   toutiao,
-  "36kr-quick": kr,
+  "36kr-quick": kr36,
 } as Record<SourceID, () => Promise<NewsItem[]>>

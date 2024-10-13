@@ -26,5 +26,5 @@ export default defineSource(async () => {
       date: k.date_modified ?? k.date_published,
     },
     url: k.url,
-  })).sort((m, n) => m.extra.date < n.extra.date ? 1 : -1).slice(0, 20)
+  })).sort((m, n) => m.extra.date < n.extra.date ? 1 : -1).slice(0, 30)
 })

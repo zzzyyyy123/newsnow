@@ -34,5 +34,5 @@ export default defineSource(async () => {
       info: i.targetRow?.subTitle,
       // date: new Date(i.dateline * 1000).getTime(),
     },
-  })).slice(0, 20)
+  })).slice(0, 30)
 })

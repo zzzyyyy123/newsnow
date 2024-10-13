@@ -20,5 +20,5 @@ export default defineSource(async () => {
       date: tranformToUTC(k.data.publishTime),
     },
     url: k.data.url,
-  })).sort((m, n) => m.extra.date < n.extra.date ? 1 : -1).slice(0, 20)
+  })).sort((m, n) => m.extra.date < n.extra.date ? 1 : -1).slice(0, 30)
 })

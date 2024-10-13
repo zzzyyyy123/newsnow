@@ -31,7 +31,7 @@ export const originSources = {
     title: "快讯",
   },
   "sputniknewscn": {
-    name: "俄罗斯卫星通讯社",
+    name: "卫星通讯社",
     color: "orange",
     home: "https://sputniknews.cn",
   },

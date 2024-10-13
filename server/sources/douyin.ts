@@ -35,7 +35,7 @@ export default defineSource(async () => {
   })
   if (!res?.data?.word_list || res.data.word_list.length === 0) throw new Error("Cannot fetch data")
   return res.data.word_list
-    .slice(0, 20)
+    .slice(0, 30)
     .map((k) => {
       return {
         id: k.sentence_id,

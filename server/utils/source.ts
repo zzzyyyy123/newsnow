@@ -30,7 +30,7 @@ export function defineFallbackSource(id: SourceID, option?: SourceOption): () =>
     const url = `https://smzdk.top/api/${id}/new`
     const res: FallbackRes = await $fetch(url)
     if (res.code !== 200 || !res.data) throw new Error(res.message)
-    return res.data.slice(0, 20).map(item => ({
+    return res.data.slice(0, 30).map(item => ({
       extra: {
         date: !option?.hiddenDate && item.time,
       },
@@ -46,7 +46,7 @@ export function defineRSSSource(url: string, option?: SourceOption): () => Promi
   return async () => {
     const data = await rss2json(url)
     if (!data?.items.length) throw new Error("Cannot fetch data")
-    return data.items.slice(0, 20).map(item => ({
+    return data.items.slice(0, 30).map(item => ({
       title: item.title,
       url: item.link,
       id: item.link,
@@ -78,7 +78,7 @@ export function defineRSSHubSource(route: string, RSSHubOptions?: RSSHubOption, 
       url.searchParams.set(key, value.toString())
     })
     const data: RSSHubInfo = await $fetch(url)
-    return data.items.slice(0, 20).map(item => ({
+    return data.items.slice(0, 30).map(item => ({
       title: item.title,
       url: item.url,
       id: item.id ?? item.url,
