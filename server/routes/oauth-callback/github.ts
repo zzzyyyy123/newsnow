@@ -1,5 +1,5 @@
 import process from "node:process"
-import jwt from "@tsndr/cloudflare-worker-jwt"
+import { SignJWT } from "jose"
 import { UserTable } from "#/database/user"
 
 export default defineEventHandler(async (event) => {
@@ -57,12 +57,13 @@ export default defineEventHandler(async (event) => {
   const userID = String(userInfo.id)
   await userTable.addUser(userID, emailinfo.find(item => item.primary)?.email || "", "github")
 
-  const jwtToken = await jwt.sign({
+  const jwtToken = await new SignJWT({
     id: userID,
     type: "github",
-    // seconds
-    exp: Math.floor(Date.now() / 1000 + 65 * 24 * 60 * 60),
-  }, process.env.JWT_SECRET!)
+  })
+    .setExpirationTime("65d")
+    .setProtectedHeader({ alg: "HS256" })
+    .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
   // seconds
   const maxAge = 60 * 24 * 60 * 60

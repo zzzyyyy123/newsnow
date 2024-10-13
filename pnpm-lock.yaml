@@ -26,6 +26,9 @@ importers:
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@18.3.1)
+      '@oslojs/jwt':
+        specifier: ^0.2.0
+        version: 0.2.0
       '@tanstack/react-query-devtools':
         specifier: ^5.59.9
         version: 5.59.9(@tanstack/react-query@5.59.9(react@18.3.1))(react@18.3.1)
@@ -68,6 +71,9 @@ importers:
       iconv-lite:
         specifier: ^0.6.3
         version: 0.6.3
+      jose:
+        specifier: ^5.9.4
+        version: 5.9.4
       jotai:
         specifier: ^2.10.0
         version: 2.10.0(@types/react@18.3.11)(react@18.3.1)
@@ -1335,6 +1341,12 @@ packages:
   '@oozcitak/util@8.3.8':
     resolution: {integrity: sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==}
     engines: {node: '>=8.0'}
+
+  '@oslojs/encoding@0.4.1':
+    resolution: {integrity: sha512-hkjo6MuIK/kQR5CrGNdAPZhS01ZCXuWDRJ187zh6qqF2+yMHZpD9fAYpX8q2bOO6Ryhl3XpCT6kUX76N8hhm4Q==}
+
+  '@oslojs/jwt@0.2.0':
+    resolution: {integrity: sha512-bLE7BtHrURedCn4Mco3ma9L4Y1GR2SMBuIvjWr7rmQ4/W/4Jy70TIAgZ+0nIlk0xHz1vNP8x8DCns45Sb2XRbg==}
 
   '@ourongxing/db0@0.1.6':
     resolution: {integrity: sha512-FVrPq9quQjHyJ2qq1N11rcXKsIGqlV9M/XWkGGXZUhLsU3oC/op0xgd7WwAxAZdITFy2sLe2eWER5mLu8HBC8A==}
@@ -3495,6 +3507,9 @@ packages:
   jiti@2.0.0-beta.3:
     resolution: {integrity: sha512-pmfRbVRs/7khFrSAYnSiJ8C0D5GvzkE4Ey2pAvUcJsw1ly/p+7ut27jbJrjY79BpAJQJ4gXYFtK6d1Aub+9baQ==}
     hasBin: true
+
+  jose@5.9.4:
+    resolution: {integrity: sha512-WBBl6au1qg6OHj67yCffCgFR3BADJBXN8MdRvCgJDuMv3driV2nHr7jdGvaKX9IolosAsn+M0XRArqLXUhyJHQ==}
 
   jotai@2.10.0:
     resolution: {integrity: sha512-8W4u0aRlOIwGlLQ0sqfl/c6+eExl5D8lZgAUolirZLktyaj4WnxO/8a0HEPmtriQAB6X5LMhXzZVmw02X0P0qQ==}
@@ -6018,6 +6033,12 @@ snapshots:
 
   '@oozcitak/util@8.3.8': {}
 
+  '@oslojs/encoding@0.4.1': {}
+
+  '@oslojs/jwt@0.2.0':
+    dependencies:
+      '@oslojs/encoding': 0.4.1
+
   '@ourongxing/db0@0.1.6(@libsql/client@0.14.0)(libsql@0.4.6)':
     optionalDependencies:
       '@libsql/client': 0.14.0
@@ -8469,6 +8490,8 @@ snapshots:
   jiti@1.21.6: {}
 
   jiti@2.0.0-beta.3: {}
+
+  jose@5.9.4: {}
 
   jotai@2.10.0(@types/react@18.3.11)(react@18.3.1):
     optionalDependencies:
