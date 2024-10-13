@@ -34,6 +34,7 @@ export default defineEventHandler(async (event) => {
   )
   const token = response.access_token
 
+  console.log(token)
   const userInfo: {
     id: number
     name: string
