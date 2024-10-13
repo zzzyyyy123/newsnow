@@ -6,6 +6,11 @@ import { Column } from "~/components/column"
 
 export const Route = createFileRoute("/")({
   component: IndexComponent,
+  loader: async () => {
+    if (window.location.search.includes("login")) {
+      window.history.replaceState(null, "", "/")
+    }
+  },
 })
 
 function IndexComponent() {

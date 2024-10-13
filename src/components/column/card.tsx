@@ -67,9 +67,9 @@ export function CardOverlay({ id }: { id: SourceID }) {
       <div className={clsx("flex justify-between mx-2 mt-0 mb-2 items-center")}>
         <div className="flex gap-2 items-center">
           <div
-            className={clsx("w-8 h-8 rounded-full")}
+            className={clsx("w-8 h-8 rounded-full bg-cover")}
             style={{
-              background: `center / contain no-repeat url(/icons/${id.split("-")[0]}.png)`,
+              backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
             }}
           />
           <span className="flex flex-col">
@@ -101,9 +101,9 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
     queryKey: [id, refetchSource[id]],
     queryFn: async ({ queryKey }) => {
       const [_id, _refetchTime] = queryKey as [SourceID, number]
-      let url = `/api/${_id}`
+      let url = `/api/s/${_id}`
       if (Date.now() - _refetchTime < 1000) {
-        url = `/api/${_id}?latest`
+        url = `/api/s/${_id}?latest`
       }
       const response: SourceResponse = await ofetch(url, { timeout: 5000 })
       if (response.status === "error") {

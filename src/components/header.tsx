@@ -5,7 +5,7 @@ import { useIsFetching } from "@tanstack/react-query"
 import clsx from "clsx"
 import type { SourceID } from "@shared/types"
 import { Homepage, Version } from "@shared/consts"
-import logo from "~/assets/icon.svg"
+import { useCookie } from "react-use"
 import { useDark } from "~/hooks/useDark"
 import { currentColumnAtom, goToTopAtom, refetchSourcesAtom } from "~/atoms"
 
@@ -21,12 +21,49 @@ function ThemeToggle() {
   )
 }
 
+function LoginIn() {
+  const [name] = useCookie("name")
+  const [avatar] = useCookie("avatar")
+  const [jwt, setJwt] = useCookie("jwt")
+  if (jwt) {
+    return (
+      <button
+        type="button"
+        className="btn-pure"
+        title={name ?? ""}
+        onClick={() => {
+          setJwt("")
+        }}
+      >
+        <div
+          className="h-5 w-5 rounded-full bg-cover border"
+          style={
+            {
+              backgroundImage: `url(${avatar})`,
+            }
+          }
+        />
+      </button>
+    )
+  }
+  return (
+    <a
+      type="button"
+      title="Login in with GitHub"
+      className="i-ph:sign-in-duotone btn-pure"
+      // @ts-expect-error >_<
+      href={`https://github.com/login/oauth/authorize?client_id=${__G_CLIENT_ID__}&scope=read:user,user:email`}
+    />
+  )
+}
+
 function GoTop() {
   const { ok, fn: goToTop } = useAtomValue(goToTopAtom)
   return (
     ok && (
       <button
         type="button"
+        title="Go To Top"
         className="i-ph:arrow-fat-up-duotone btn-pure"
         onClick={goToTop}
       />
@@ -34,7 +71,7 @@ function GoTop() {
   )
 }
 export function GithubIcon() {
-  return <a className="i-ph-github-logo-duotone inline-block btn-pure" href={Homepage} />
+  return <a className="i-ph-github-logo-duotone inline-block btn-pure" href={Homepage} title="Project Homepage" />
 }
 
 function RefreshButton() {
@@ -57,6 +94,7 @@ function RefreshButton() {
   return (
     <button
       type="button"
+      title="Refresh"
       className={clsx("i-ph:arrow-counter-clockwise-duotone btn-pure", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
       onClick={refreshAll}
     />
@@ -68,7 +106,7 @@ export function Header() {
     <>
       <span className="flex">
         <Link to="/" className="flex gap-2 items-center">
-          <img src={logo} alt="logo" className="h-10" />
+          <div className="h-10 w-10 bg-cover" title="logo" style={{ backgroundImage: "url(/icon.svg)" }} />
           <span className="text-2xl font-brand line-height-none!">
             <p>News</p>
             <p className="mt--1">
@@ -81,11 +119,12 @@ export function Header() {
           {`v${Version}`}
         </a>
       </span>
-      <span className="flex gap-2 items-center text-xl text-primary-600 dark:text-primary ">
+      <span className="flex gap-2 items-center text-xl text-primary-600 dark:text-primary">
         <GoTop />
         <RefreshButton />
         <ThemeToggle />
         <GithubIcon />
+        <LoginIn />
       </span>
     </>
   )

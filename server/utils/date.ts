@@ -1,10 +1,10 @@
-import dayjs from "dayjs"
-import utcPlugin from "dayjs/plugin/utc.js"
-import timezonePlugin from "dayjs/plugin/timezone.js"
-import customParseFormat from "dayjs/plugin/customParseFormat"
-import duration from "dayjs/plugin/duration"
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore"
-import weekday from "dayjs/plugin/weekday"
+import dayjs from "dayjs/esm"
+import utcPlugin from "dayjs/esm/plugin/utc"
+import timezonePlugin from "dayjs/esm/plugin/timezone"
+import customParseFormat from "dayjs/esm/plugin/customParseFormat"
+import duration from "dayjs/esm/plugin/duration"
+import isSameOrBefore from "dayjs/esm/plugin/isSameOrBefore"
+import weekday from "dayjs/esm/plugin/weekday"
 
 dayjs.extend(utcPlugin)
 dayjs.extend(timezonePlugin)

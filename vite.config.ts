@@ -6,11 +6,19 @@ import nitro from "vite-plugin-with-nitro"
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import tsconfigPath from "vite-tsconfig-paths"
 import unocss from "unocss/vite"
+import dotenv from "dotenv"
 import { projectDir } from "./shared/dir"
 
 const isCF = process.env.CF_PAGES
 
+dotenv.config({
+  path: join(projectDir, ".env.vars"),
+})
+
 export default defineConfig({
+  define: {
+    __G_CLIENT_ID__: `"${process.env.G_CLIENT_ID}"`,
+  },
   plugins: [
     TanStackRouterVite({
       autoCodeSplitting: true,
@@ -27,7 +35,7 @@ export default defineConfig({
         default: {
           connector: isCF ? "cloudflare-d1" : "sqlite",
           options: {
-            bindingName: "CACHE_DB",
+            bindingName: "NEWSNOW_DB",
           },
         },
       },

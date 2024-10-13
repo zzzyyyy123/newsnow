@@ -15,7 +15,7 @@ export type SourceID = {
 }[MainSourceID]
 
 export type ColumnID = (typeof columnIds)[number]
-export type Metadata = Record<ColumnID, Section>
+export type Metadata = Record<ColumnID, Column>
 
 export interface OriginSource {
   name: string
@@ -49,7 +49,7 @@ export interface Source {
   redirect?: SourceID
 }
 
-export interface Section {
+export interface Column {
   name: string
   sources: SourceID[]
 }
@@ -74,40 +74,4 @@ export type SourceResponse = {
 } | {
   status: "error"
   message?: string
-}
-
-export interface RSSInfo {
-  title: string
-  description: string
-  link: string
-  image: string
-  updatedTime: string
-  items: RSSItem[]
-}
-export interface RSSItem {
-  title: string
-  description: string
-  link: string
-  created?: string
-}
-
-export interface CacheInfo {
-  id: MainSourceID
-  data: NewsItem[]
-  updated: number
-}
-
-export interface RSSHubInfo {
-  title: string
-  home_page_url: string
-  description: string
-  items: RSSHubItem[]
-}
-
-export interface RSSHubItem {
-  id: string
-  url: string
-  title: string
-  content_html: string
-  date_published: string
 }

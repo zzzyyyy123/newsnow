@@ -1,5 +1,6 @@
-import type { CacheInfo, NewsItem } from "@shared/types"
+import type { NewsItem } from "@shared/types"
 import type { Database } from "db0"
+import type { CacheInfo } from "../types"
 
 export class Cache {
   private db
