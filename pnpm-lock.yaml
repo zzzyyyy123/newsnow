@@ -7,6 +7,7 @@ settings:
 overrides:
   dayjs: 1.11.13
   db0: npm:@ourongxing/db0@0.1.6
+  nitropack: ^2.9.7
 
 patchedDependencies:
   dayjs:
@@ -50,6 +51,9 @@ importers:
       consola:
         specifier: ^3.2.3
         version: 3.2.3
+      cookie-es:
+        specifier: ^1.2.2
+        version: 1.2.2
       dayjs:
         specifier: 1.11.13
         version: 1.11.13(patch_hash=vxjypqxmsykboavgqknf3tdbfa)
@@ -2514,8 +2518,8 @@ packages:
     resolution: {integrity: sha512-piICUB6ei4IlTv1+653yq5+KoqfBYmj9bw6LqXoOneTMDXk5nM1qt12mFW1caG3LlJXEKW1Bp0WggEmIfQB34g==}
     engines: {node: '>= 14'}
 
-  croner@8.1.1:
-    resolution: {integrity: sha512-1VdUuRnQP4drdFkS8NKvDR1NBgevm8TOuflcaZEKsxw42CxonjW/2vkj1AKlinJb4ZLwBcuWF9GiPr7FQc6AQA==}
+  croner@8.1.2:
+    resolution: {integrity: sha512-ypfPFcAXHuAZRCzo3vJL6ltENzniTjwe/qsLleH1V2/7SRDjgvRQyrLmumFTLmjFax4IuSxfGXEn79fozXcJog==}
     engines: {node: '>=18.0'}
 
   cross-spawn@7.0.3:
@@ -3997,8 +4001,8 @@ packages:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
 
-  package-json-from-dist@1.0.0:
-    resolution: {integrity: sha512-dATvCeZN/8wQsGywez1mzHtTlP22H8OEfPrVMLNr4/eGa+ijtLn/6M5f0dY8UKNrC2O9UCU6SSoG3qRKnt7STw==}
+  package-json-from-dist@1.0.1:
+    resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
 
   package-manager-detector@0.2.0:
     resolution: {integrity: sha512-E385OSk9qDcXhcM9LNSe4sdhx8a9mAPrZ4sMLW+tmxl5ZuGtPUcdFu+MPP2jbgiWAZ6Pfe5soGFMd+0Db5Vrog==}
@@ -7300,7 +7304,7 @@ snapshots:
       crc-32: 1.2.2
       readable-stream: 4.5.2
 
-  croner@8.1.1: {}
+  croner@8.1.2: {}
 
   cross-spawn@7.0.3:
     dependencies:
@@ -8222,7 +8226,7 @@ snapshots:
       jackspeak: 3.4.3
       minimatch: 9.0.5
       minipass: 7.1.2
-      package-json-from-dist: 1.0.0
+      package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
   glob@7.2.3:
@@ -8893,7 +8897,7 @@ snapshots:
       citty: 0.1.6
       consola: 3.2.3
       cookie-es: 1.2.2
-      croner: 8.1.1
+      croner: 8.1.2
       crossws: 0.2.4
       db0: '@ourongxing/db0@0.1.6(@libsql/client@0.14.0)(libsql@0.4.6)'
       defu: 6.1.4
@@ -9100,7 +9104,7 @@ snapshots:
 
   p-try@2.2.0: {}
 
-  package-json-from-dist@1.0.0: {}
+  package-json-from-dist@1.0.1: {}
 
   package-manager-detector@0.2.0: {}
 

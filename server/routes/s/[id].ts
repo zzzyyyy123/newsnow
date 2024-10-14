@@ -1,3 +1,4 @@
+import process from "node:process"
 import { TTL } from "@shared/consts"
 import type { SourceID, SourceResponse } from "@shared/types"
 import { sources } from "@shared/sources"
@@ -21,7 +22,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
     const cacheTable = db ? new Cache(db) : undefined
     const now = Date.now()
     if (cacheTable) {
-      await cacheTable.init()
+      if (process.env.INIT_TABLE !== "false") await cacheTable.init()
       const cache = await cacheTable.get(id)
       if (cache) {
         // interval 刷新间隔，对于缓存失效也要执行的。本质上表示本来内容更新就很慢，这个间隔内可能内容压根不会更新。

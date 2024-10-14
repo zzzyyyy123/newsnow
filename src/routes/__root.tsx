@@ -15,6 +15,13 @@ export const Route = createRootRouteWithContext<{
 }>()({
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
+  beforeLoad: () => {
+    const query = new URLSearchParams(window.location.search)
+    if (query.has("login")) {
+      [...query.entries()].forEach(key => localStorage.setItem(key[0], key[1]))
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+  },
 })
 
 function NotFoundComponent() {

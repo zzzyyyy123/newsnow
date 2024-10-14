@@ -1,4 +1,4 @@
-import type { Database } from "@ourongxing/db0"
+import type { Database } from "db0"
 import type { UserInfo } from "#/types"
 
 export class UserTable {
@@ -31,6 +31,8 @@ export class UserTable {
     } else if (u.email !== email && u.type !== type) {
       await this.db.prepare(`REPLACE INTO user (id, email, updated) VALUES (?, ?, ?)`).run(id, email, now)
       logger.success(`update user ${id} email`)
+    } else {
+      logger.info(`user ${id} already exists`)
     }
   }
 

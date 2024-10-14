@@ -105,7 +105,12 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
       if (Date.now() - _refetchTime < 1000) {
         url = `/api/s/${_id}?latest`
       }
-      const response: SourceResponse = await ofetch(url, { timeout: 5000 })
+      const response: SourceResponse = await ofetch(url, {
+        timeout: 10000,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("user_jwt")}`,
+        },
+      })
       if (response.status === "error") {
         throw new Error(response.message)
       } else {

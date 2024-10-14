@@ -1,10 +1,9 @@
 import type { NewsItem } from "@shared/types"
 import { load } from "cheerio"
-import { $fetch } from "ofetch"
 
 export default defineSource(async () => {
   const url = "https://www.36kr.com/newsflashes"
-  const response = await $fetch(url)
+  const response = await $fetch(url) as any
   const $ = load(response)
   const news: NewsItem[] = []
   const $items = $(".newsflash-item")

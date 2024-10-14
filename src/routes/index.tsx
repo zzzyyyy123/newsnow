@@ -3,14 +3,10 @@ import { useAtomValue } from "jotai"
 import { useMemo } from "react"
 import { localSourcesAtom } from "~/atoms"
 import { Column } from "~/components/column"
+import { } from "cookie-es"
 
 export const Route = createFileRoute("/")({
   component: IndexComponent,
-  loader: async () => {
-    if (window.location.search.includes("login")) {
-      window.history.replaceState(null, "", "/")
-    }
-  },
 })
 
 function IndexComponent() {

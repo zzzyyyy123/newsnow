@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router"
 import clsx from "clsx"
 import { useAtom } from "jotai"
 import { useEffect } from "react"
+import { useTitle } from "react-use"
 import { Dnd } from "./dnd"
 import { currentColumnIDAtom } from "~/atoms"
 
@@ -12,7 +13,7 @@ export function Column({ id }: { id: ColumnID }) {
   useEffect(() => {
     setCurrentColumnID(id)
   }, [id, setCurrentColumnID])
-
+  useTitle(`NewsNow ${metadata[id].name}`)
   return (
     <>
       <div className="w-full flex justify-center">

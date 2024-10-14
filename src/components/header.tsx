@@ -5,7 +5,7 @@ import { useIsFetching } from "@tanstack/react-query"
 import clsx from "clsx"
 import type { SourceID } from "@shared/types"
 import { Homepage, Version } from "@shared/consts"
-import { useCookie } from "react-use"
+import { useLocalStorage } from "react-use"
 import { useDark } from "~/hooks/useDark"
 import { currentColumnAtom, goToTopAtom, refetchSourcesAtom } from "~/atoms"
 
@@ -22,24 +22,26 @@ function ThemeToggle() {
 }
 
 function LoginIn() {
-  const [name] = useCookie("name")
-  const [avatar] = useCookie("avatar")
-  const [jwt, setJwt] = useCookie("jwt")
+  // useLocalStorage 默认会自动序列化
+  const [info] = useLocalStorage<{ name: string, avatar: string }>("user_info")
+  const [jwt, _setJwt] = useLocalStorage<string>("user_jwt", undefined, {
+    raw: true,
+  })
   if (jwt) {
     return (
       <button
         type="button"
         className="btn-pure"
-        title={name ?? ""}
+        title={info?.name ?? ""}
         onClick={() => {
-          setJwt("")
+          // setJwt("")
         }}
       >
         <div
           className="h-5 w-5 rounded-full bg-cover border"
           style={
             {
-              backgroundImage: `url(${avatar})`,
+              backgroundImage: `url(${info?.avatar})`,
             }
           }
         />
@@ -48,11 +50,9 @@ function LoginIn() {
   }
   return (
     <a
-      type="button"
       title="Login in with GitHub"
       className="i-ph:sign-in-duotone btn-pure"
-      // @ts-expect-error >_<
-      href={`https://github.com/login/oauth/authorize?client_id=${__G_CLIENT_ID__}&scope=read:user,user:email`}
+      href={`https://github.com/login/oauth/authorize?client_id=${__G_CLIENT_ID__}`}
     />
   )
 }
@@ -124,7 +124,7 @@ export function Header() {
         <RefreshButton />
         <ThemeToggle />
         <GithubIcon />
-        <LoginIn />
+        { __ENABLE_LOGIN__ && <LoginIn />}
       </span>
     </>
   )

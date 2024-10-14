@@ -15,11 +15,12 @@
     "build": "vite build",
     "lint": "eslint",
     "favicon": "tsx ./scripts/favicon.ts",
-    "start": "PORT=4444 node --env-file .env.vars dist/output/server/index.mjs",
+    "start": "PORT=4444 node --env-file .env.server dist/output/server/index.mjs",
     "preview": "CF_PAGES=1 pnpm run build && wrangler pages dev",
     "deploy": "CF_PAGES=1 pnpm run build && wrangler pages deploy",
     "release": "bumpp",
     "prepare": "simple-git-hooks",
+    "log": "wrangler pages deployment tail --project-name newsnow",
     "test": "vitest -c vitest.config.ts"
   },
   "dependencies": {
@@ -34,6 +35,7 @@
     "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
     "consola": "^3.2.3",
+    "cookie-es": "^1.2.2",
     "dayjs": "1.11.13",
     "db0": "npm:@ourongxing/db0@0.1.6",
     "defu": "^6.1.4",
@@ -96,7 +98,8 @@
   },
   "resolutions": {
     "dayjs": "1.11.13",
-    "db0": "npm:@ourongxing/db0@0.1.6"
+    "db0": "npm:@ourongxing/db0@0.1.6",
+    "nitropack": "^2.9.7"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

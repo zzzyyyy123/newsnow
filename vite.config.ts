@@ -12,12 +12,13 @@ import { projectDir } from "./shared/dir"
 const isCF = process.env.CF_PAGES
 
 dotenv.config({
-  path: join(projectDir, ".env.vars"),
+  path: join(projectDir, ".env.server"),
 })
 
 export default defineConfig({
   define: {
     __G_CLIENT_ID__: `"${process.env.G_CLIENT_ID}"`,
+    __ENABLE_LOGIN__: ["JWT_SECRET", "G_CLIENT_ID", "G_CLIENT_SECRET"].every(k => process.env[k]),
   },
   plugins: [
     TanStackRouterVite({
