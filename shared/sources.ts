@@ -17,6 +17,25 @@ export const originSources = {
     color: "slate",
     home: "https://v2ex.com/",
   },
+  "zhihu": {
+    name: "知乎",
+    type: "hottest",
+    home: "https://www.zhihu.com",
+  },
+  "weibo": {
+    name: "微博",
+    title: "实时热搜",
+    type: "hottest",
+    color: "red",
+    interval: Time.Realtime,
+    home: "https://weibo.com",
+  },
+  "zaobao": {
+    name: "联合早报",
+    interval: Time.Common,
+    color: "red",
+    home: "https://www.zaobao.com",
+  },
   "coolapk": {
     name: "酷安",
     type: "hottest",
@@ -27,22 +46,13 @@ export const originSources = {
   "wallstreetcn": {
     name: "华尔街见闻",
     interval: Time.Fast,
+    type: "realtime",
     home: "https://wallstreetcn.com/",
     title: "快讯",
   },
-  "sputniknewscn": {
-    name: "卫星通讯社",
-    color: "orange",
-    home: "https://sputniknews.cn",
-  },
-  "cankaoxiaoxi": {
-    name: "参考消息",
-    color: "red",
-    interval: Time.Common,
-    home: "https://china.cankaoxiaoxi.com",
-  },
   "36kr": {
     name: "36氪",
+    type: "realtime",
     home: "https://36kr.com",
     sub: {
       quick: {
@@ -58,35 +68,13 @@ export const originSources = {
   },
   "hupu": {
     name: "虎扑",
+    active: false,
     home: "https://hupu.com",
-  },
-  "zhihu": {
-    name: "知乎",
-    type: "hottest",
-    home: "https://www.zhihu.com",
-  },
-  "weibo": {
-    name: "微博",
-    title: "实时热搜",
-    type: "hottest",
-    color: "red",
-    interval: Time.Realtime,
-    home: "https://weibo.com",
   },
   "tieba": {
     name: "百度贴吧",
+    active: false,
     home: "https://tieba.baidu.com",
-  },
-  "zaobao": {
-    name: "联合早报",
-    interval: Time.Common,
-    color: "red",
-    home: "https://www.zaobao.com",
-  },
-  "thepaper": {
-    name: "澎湃新闻",
-    interval: Time.Common,
-    home: "https://www.thepaper.cn",
   },
   "toutiao": {
     name: "今日头条",
@@ -97,7 +85,26 @@ export const originSources = {
   "ithome": {
     name: "IT之家",
     color: "red",
+    type: "realtime",
     home: "https://www.ithome.com",
+  },
+  "thepaper": {
+    name: "澎湃新闻",
+    interval: Time.Common,
+    active: false,
+    home: "https://www.thepaper.cn",
+  },
+  "sputniknewscn": {
+    name: "卫星通讯社",
+    color: "orange",
+    active: false,
+    home: "https://sputniknews.cn",
+  },
+  "cankaoxiaoxi": {
+    name: "参考消息",
+    color: "red",
+    interval: Time.Common,
+    home: "https://china.cankaoxiaoxi.com",
   },
 } as const satisfies Record<string, OriginSource>
 
@@ -106,36 +113,31 @@ function genSources() {
   const _: [SourceID, Source][] = []
 
   Object.entries(originSources).forEach(([id, source]: [any, OriginSource]) => {
+    const parent = {
+      name: source.name,
+      type: source.type,
+      active: source.active ?? true,
+      color: source.color ?? "red",
+      interval: source.interval ?? Time.Default,
+    }
     if (source.sub && Object.keys(source.sub).length) {
       Object.entries(source.sub).forEach(([subId, subSource], i) => {
         if (i === 0) {
           _.push([id, {
             redirect: `${id}-${subId}`,
-            name: source.name,
-            type: source.type,
-            color: source.color ?? "blue",
-            interval: source.interval ?? Time.Default,
+            ...parent,
             ...subSource,
           }] as [any, Source])
         }
-        _.push([`${id}-${subId}`, {
-          name: source.name,
-          type: source.type,
-          color: source.color ?? "blue",
-          interval: source.interval ?? Time.Default,
-          ...subSource,
-        }] as [any, Source])
+        _.push([`${id}-${subId}`, { ...parent, ...subSource }] as [any, Source])
       })
     } else {
       _.push([id, {
-        name: source.name,
-        type: source.type,
-        color: source.color ?? "blue",
-        interval: source.interval ?? Time.Default,
         title: source.title,
+        ...parent,
       }])
     }
   })
 
-  return typeSafeObjectFromEntries(_)
+  return typeSafeObjectFromEntries(_.filter(([_, v]) => v.active))
 }

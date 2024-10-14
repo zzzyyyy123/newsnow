@@ -1,4 +1,4 @@
-import { columnIds, metadata } from "@shared/data"
+import { columnIds, metadata } from "@shared/metadata"
 import type { ColumnID } from "@shared/types"
 import { Link } from "@tanstack/react-router"
 import clsx from "clsx"

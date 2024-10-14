@@ -1,9 +1,9 @@
 import { atom } from "jotai"
 import type { ColumnID, SourceID } from "@shared/types"
-import { metadata } from "@shared/data"
+import { metadata } from "@shared/metadata"
 import { sources } from "@shared/sources"
 import { typeSafeObjectEntries, typeSafeObjectFromEntries } from "@shared/type.util"
-import { atomWithLocalStorage } from "./hooks/atomWithLocalStorage"
+import { atomWithLocalStorage } from "./atomWithLocalStorage"
 
 const initialSources = typeSafeObjectFromEntries(typeSafeObjectEntries(metadata).map(([id, val]) => [id, val.sources]))
 export const localSourcesAtom = atomWithLocalStorage<Record<ColumnID, SourceID[]>>("localsources", () => {

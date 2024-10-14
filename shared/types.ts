@@ -1,5 +1,5 @@
 import type { colors } from "unocss/preset-mini"
-import type { columnIds } from "./data"
+import type { columnIds } from "./metadata"
 import type { originSources } from "./sources"
 
 export type Color = Exclude<keyof typeof colors, "current" | "inherit" | "transparent" | "black" | "white">
@@ -8,10 +8,11 @@ type ConstSources = typeof originSources
 type MainSourceID = keyof(ConstSources)
 
 export type SourceID = {
-  [Key in MainSourceID]: ConstSources[Key] extends { sub?: infer SubType } ? keyof {
+  [Key in MainSourceID]: ConstSources[Key] extends { active?: false } ? never :
+    ConstSources[Key] extends { sub?: infer SubSource } ? {
     // @ts-expect-error >_<
-    [K in keyof SubType as `${Key}-${K}` ]: never
-  } | Key : Key;
+      [SubKey in keyof SubSource ]: SubSource[SubKey] extends { active?: false } ? never : `${Key}-${SubKey}`
+    }[keyof SubSource] | Key : Key;
 }[MainSourceID]
 
 export type ColumnID = (typeof columnIds)[number]
@@ -24,18 +25,17 @@ export interface OriginSource {
    * 刷新的间隔时间，复用缓存
    */
   interval?: number
+  type?: "hottest" | "realtime"
   /**
-   * @default latest
+   * @default true
    */
-  type?: "hottest" | "latest"
+  active?: boolean
   home: string
   color?: Color
   sub?: Record<string, {
     title: string
-    /**
-     * @default latest
-     */
-    type?: "hottest" | "latest"
+    type?: "hottest" | "realtime"
+    active?: boolean
     interval?: number
   }>
 }
@@ -43,8 +43,9 @@ export interface OriginSource {
 export interface Source {
   name: string
   title?: string
-  type?: "hottest" | "latest"
+  type?: "hottest" | "realtime"
   color: Color
+  active: boolean
   interval: number
   redirect?: SourceID
 }

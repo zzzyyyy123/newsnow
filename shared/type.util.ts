@@ -17,3 +17,7 @@ export function typeSafeObjectEntries<T extends Record<PropertyKey, unknown>>(ob
 export function typeSafeObjectKeys<T extends Record<PropertyKey, unknown>>(obj: T): (keyof T)[] {
   return Object.keys(obj) as (keyof T)[]
 }
+
+export function typeSafeObjectValues<T extends Record<PropertyKey, unknown>>(obj: T): T[keyof T][] {
+  return Object.values(obj) as T[keyof T][]
+}
