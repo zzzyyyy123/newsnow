@@ -4,7 +4,9 @@ import { useLocalStorage, useMedia } from "react-use"
 export declare type ColorScheme = "dark" | "light" | "auto"
 
 export function useDark(key = "color-scheme", defaultColorScheme: ColorScheme = "auto") {
-  const [colorScheme, setColorScheme] = useLocalStorage(key, defaultColorScheme)
+  const [colorScheme, setColorScheme] = useLocalStorage(key, defaultColorScheme, {
+    raw: true,
+  })
   const prefersDarkMode = useMedia("(prefers-color-scheme: dark)")
   const isDark = useMemo(() => colorScheme === "auto" ? prefersDarkMode : colorScheme === "dark", [colorScheme, prefersDarkMode])
 
