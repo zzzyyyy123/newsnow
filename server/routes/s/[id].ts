@@ -26,7 +26,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
       const cache = await cacheTable.get(id)
       if (cache) {
         // interval 刷新间隔，对于缓存失效也要执行的。本质上表示本来内容更新就很慢，这个间隔内可能内容压根不会更新。
-        // 默认 10 分钟，是低于 TTL 的，但部分 Source 的间隔会超过 TTL，甚至有的一天刷新一次。
+        // 默认 10 分钟，是低于 TTL 的，但部分 Source 的更新间隔会超过 TTL，甚至有的一天更新一次。
         const interval = sources[id].interval
         if (now - cache.updated < interval) {
           return {
@@ -40,13 +40,22 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
 
         // 而 TTL 缓存失效时间，在时间范围内，就算内容更新了也要用这个缓存。
         // 复用缓存是不会更新时间的。
-        if ((!latest || !event.context.user) && now - cache.updated < TTL) {
-          return {
-            status: "cache",
-            data: {
-              updatedTime: cache.updated,
-              items: cache.data,
-            },
+        if (now - cache.updated < TTL) {
+          // 有 latest
+          // 没有 latest，但服务器禁止登录
+
+          // 没有 latest
+          // 有 latest，服务器可以登录但没有登录
+          if (!latest || (!event.context.disabledLogin && !event.context.user)) {
+            if (event.context.disabledLogin) {
+              return {
+                status: "cache",
+                data: {
+                  updatedTime: cache.updated,
+                  items: cache.data,
+                },
+              }
+            }
           }
         }
       }
