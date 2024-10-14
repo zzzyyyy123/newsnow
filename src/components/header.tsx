@@ -38,7 +38,7 @@ function LoginIn() {
         }}
       >
         <div
-          className="h-5 w-5 rounded-full bg-cover border"
+          className="h-6 w-6 rounded-full bg-cover border p-1 border-primary-600 dark:border-primary"
           style={
             {
               backgroundImage: `url(${info?.avatar})`,

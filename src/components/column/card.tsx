@@ -239,7 +239,7 @@ function UpdatedTime({ item }: { item: NewsItem }) {
 function NewsListTimeLine({ query }: Query) {
   const items = query.data?.items
   return (
-    <ol className="relative border-s border-dash border-neutral-400/30">
+    <ol className="relative border-s border-dash border-neutral-400/10">
       {items?.map(item => (
         <li key={item.title} className="flex gap-2 mb-2 ms-4">
           <div className={clsx("absolute w-2 h-2 bg-neutral-400/50 rounded-full ml-0.5 mt-1 -start-1.5")} />
