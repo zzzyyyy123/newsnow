@@ -9,6 +9,7 @@ import clsx from "clsx"
 import { Header } from "~/components/header"
 import { useOnReload } from "~/hooks/useOnReload"
 import { GlobalOverlayScrollbar } from "~/components/common/overlay-scrollbar"
+import { useSync } from "~/hooks/useSync"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -39,6 +40,7 @@ function NotFoundComponent() {
 
 function RootComponent() {
   useOnReload()
+  useSync()
   return (
     <>
       <GlobalOverlayScrollbar className={clsx([

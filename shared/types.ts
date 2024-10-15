@@ -18,6 +18,12 @@ export type SourceID = {
 export type ColumnID = (typeof columnIds)[number]
 export type Metadata = Record<ColumnID, Column>
 
+export interface PrimitiveMetadata {
+  updatedTime: number
+  data: Record<ColumnID, SourceID[]>
+  action: "init" | "manual" | "sync"
+}
+
 export interface OriginSource {
   name: string
   title?: string
@@ -63,16 +69,8 @@ export interface NewsItem {
   extra?: Record<string, any>
 }
 
-// 路由数据
-export interface SourceInfo {
+export interface SourceResponse {
+  status: "success" | "cache"
   updatedTime: number | string
   items: NewsItem[]
-}
-
-export type SourceResponse = {
-  status: "success" | "cache"
-  data: SourceInfo
-} | {
-  status: "error"
-  message?: string
 }

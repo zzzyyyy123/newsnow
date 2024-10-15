@@ -1,4 +1,4 @@
-import type { NewsItem, SourceID, SourceInfo, SourceResponse } from "@shared/types"
+import type { NewsItem, SourceID, SourceResponse } from "@shared/types"
 import type { UseQueryResult } from "@tanstack/react-query"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
@@ -28,7 +28,7 @@ interface NewsCardProps {
 }
 
 interface Query {
-  query: UseQueryResult<SourceInfo, Error>
+  query: UseQueryResult<SourceResponse, Error>
 }
 
 export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragged, handleListeners, style, ...props }, dndRef) => {
@@ -111,11 +111,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
           Authorization: `Bearer ${localStorage.getItem("user_jwt")}`,
         },
       })
-      if (response.status === "error") {
-        throw new Error(response.message)
-      } else {
-        return response.data
-      }
+      return response
     },
     // refetch 时显示原有的数据
     placeholderData: prev => prev,

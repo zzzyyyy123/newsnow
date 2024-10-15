@@ -2,10 +2,11 @@ import process from "node:process"
 import { jwtVerify } from "jose"
 
 export default defineEventHandler(async (event) => {
+  const url = getRequestURL(event)
   if (["JWT_SECRET", "G_CLIENT_ID", "G_CLIENT_SECRET"].find(k => !process.env[k])) {
     event.context.disabledLogin = true
+    if (url.pathname.startsWith("/me")) throw createError({ statusCode: 506, message: "Server not configured" })
   } else {
-    const url = getRequestURL(event)
     if (/^\/(?:me|s)\//.test(url.pathname)) {
       const token = getHeader(event, "Authorization")
       if (token && process.env.JWT_SECRET) {
@@ -18,7 +19,8 @@ export default defineEventHandler(async (event) => {
             }
           }
         } catch {
-          logger.error("JWT verification failed")
+          if (url.pathname.startsWith("/me")) throw createError({ statusCode: 401, message: "JWT verification failed" })
+          logger.warn("JWT verification failed")
         }
       }
     }

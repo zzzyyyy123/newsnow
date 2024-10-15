@@ -7,7 +7,7 @@ import type { SourceID } from "@shared/types"
 import { Homepage, Version } from "@shared/consts"
 import { useLocalStorage } from "react-use"
 import { useDark } from "~/hooks/useDark"
-import { currentColumnAtom, goToTopAtom, refetchSourcesAtom } from "~/atoms"
+import { currentSourcesAtom, goToTopAtom, refetchSourcesAtom } from "~/atoms"
 
 function ThemeToggle() {
   const { toggleDark } = useDark()
@@ -75,19 +75,19 @@ export function GithubIcon() {
 }
 
 function RefreshButton() {
-  const currentColumn = useAtomValue(currentColumnAtom)
+  const currentSources = useAtomValue(currentSourcesAtom)
   const setRefetchSource = useSetAtom(refetchSourcesAtom)
   const refreshAll = useCallback(() => {
-    const obj = Object.fromEntries(currentColumn.map(id => [id, Date.now()]))
+    const obj = Object.fromEntries(currentSources.map(id => [id, Date.now()]))
     setRefetchSource(prev => ({
       ...prev,
       ...obj,
     }))
-  }, [currentColumn, setRefetchSource])
+  }, [currentSources, setRefetchSource])
 
   const isFetching = useIsFetching({
     predicate: (query) => {
-      return currentColumn.includes(query.queryKey[0] as SourceID)
+      return currentSources.includes(query.queryKey[0] as SourceID)
     },
   })
 

@@ -29,7 +29,7 @@ export class UserTable {
         .run(id, email, "", type, now, now)
       logger.success(`add user ${id}`)
     } else if (u.email !== email && u.type !== type) {
-      await this.db.prepare(`REPLACE INTO user (id, email, updated) VALUES (?, ?, ?)`).run(id, email, now)
+      await this.db.prepare(`UPDATE user SET email = ?, updated = ? WHERE id = ?`).run(id, email, now)
       logger.success(`update user ${id} email`)
     } else {
       logger.info(`user ${id} already exists`)
@@ -40,20 +40,19 @@ export class UserTable {
     return (await this.db.prepare(`SELECT id, email, data, created, updated FROM user WHERE id = ?`).get(id)) as UserInfo
   }
 
-  async setData(key: string, value: string) {
-    const now = Date.now()
+  async setData(key: string, value: string, updatedTime = Date.now()) {
     const state = await this.db.prepare(
-      `REPLACE INTO user (id, data, updated) VALUES (?, ?, ?)`,
-    ).run(key, JSON.stringify(value), now)
+      `UPDATE user SET data = ?, updated = ? WHERE id = ?`,
+    ).run(value, updatedTime, key)
     if (!state.success) throw new Error(`set user ${key} data failed`)
-    logger.success(`set ${key} cache`)
+    logger.success(`set ${key} data`)
   }
 
   async getData(id: string) {
-    const row: any = await this.db.prepare(`SELECT data, update FROM user WHERE id = ?`).get(id)
-    if (!row || !row.data) throw new Error(`user ${id} not found`)
+    const row: any = await this.db.prepare(`SELECT data, updated FROM user WHERE id = ?`).get(id)
+    if (!row) throw new Error(`user ${id} not found`)
     logger.success(`get ${id} data`)
-    return row.data as {
+    return row as {
       data: string
       updated: number
     }

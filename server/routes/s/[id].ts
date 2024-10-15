@@ -13,7 +13,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
     const isValid = (id: SourceID) => !id || !sources[id] || !sourcesFn[id]
 
     if (isValid(id)) {
-      const redirectID = sources[id].redirect
+      const redirectID = sources?.[id].redirect
       if (redirectID) id = redirectID
       if (isValid(id)) throw new Error("Invalid source id")
     }
@@ -31,10 +31,8 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
         if (now - cache.updated < interval) {
           return {
             status: "success",
-            data: {
-              updatedTime: now,
-              items: cache.data,
-            },
+            updatedTime: now,
+            items: cache.data,
           }
         }
 
@@ -50,10 +48,8 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
             if (event.context.disabledLogin) {
               return {
                 status: "cache",
-                data: {
-                  updatedTime: cache.updated,
-                  items: cache.data,
-                },
+                updatedTime: cache.updated,
+                items: cache.data,
               }
             }
           }
@@ -66,16 +62,14 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
     if (cacheTable) event.waitUntil(cacheTable.set(id, data))
     return {
       status: "success",
-      data: {
-        updatedTime: now,
-        items: data,
-      },
+      updatedTime: now,
+      items: data,
     }
   } catch (e: any) {
     logger.error(e)
-    return {
-      status: "error",
-      message: e.message ?? e,
-    }
+    throw createError({
+      statusCode: 500,
+      message: e instanceof Error ? e.message : "Internal Server Error",
+    })
   }
 })

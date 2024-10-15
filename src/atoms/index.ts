@@ -1,32 +1,22 @@
 import { atom } from "jotai"
 import type { ColumnID, SourceID } from "@shared/types"
-import { metadata } from "@shared/metadata"
 import { sources } from "@shared/sources"
-import { typeSafeObjectEntries, typeSafeObjectFromEntries } from "@shared/type.util"
-import { atomWithLocalStorage } from "./atomWithLocalStorage"
+import { primitiveMetadataAtom } from "./primitiveMetadataAtom"
+import type { Update } from "./types"
 
-const initialSources = typeSafeObjectFromEntries(typeSafeObjectEntries(metadata).map(([id, val]) => [id, val.sources]))
-export const localSourcesAtom = atomWithLocalStorage<Record<ColumnID, SourceID[]>>("localsources", () => {
-  return initialSources
-}, (stored) => {
-  return typeSafeObjectFromEntries(typeSafeObjectEntries({
-    ...initialSources,
-    ...stored,
-  }).filter(([id]) => initialSources[id]).map(([id, val]) => {
-    if (id === "focus") return [id, val]
-    const oldS = val.filter(k => initialSources[id].includes(k))
-    const newS = initialSources[id].filter(k => !oldS.includes(k))
-    return [id, [...oldS, ...newS]]
-  }))
-})
+export { primitiveMetadataAtom, preprocessMetadata } from "./primitiveMetadataAtom"
 
 export const focusSourcesAtom = atom((get) => {
-  return get(localSourcesAtom).focus
+  return get(primitiveMetadataAtom).data.focus
 }, (get, set, update: Update<SourceID[]>) => {
   const _ = update instanceof Function ? update(get(focusSourcesAtom)) : update
-  set(localSourcesAtom, {
-    ...get(localSourcesAtom),
-    focus: _,
+  set(primitiveMetadataAtom, {
+    updatedTime: Date.now(),
+    action: "manual",
+    data: {
+      ...get(primitiveMetadataAtom).data,
+      focus: _,
+    },
   })
 })
 
@@ -47,18 +37,20 @@ export const refetchSourcesAtom = atom(initRefetchSources())
 
 export const currentColumnIDAtom = atom<ColumnID>("focus")
 
-export const currentColumnAtom = atom((get) => {
+export const currentSourcesAtom = atom((get) => {
   const id = get(currentColumnIDAtom)
-  return get(localSourcesAtom)[id]
+  return get(primitiveMetadataAtom).data[id]
 }, (get, set, update: Update<SourceID[]>) => {
-  const _ = update instanceof Function ? update(get(currentColumnAtom)) : update
-  set(localSourcesAtom, {
-    ...get(localSourcesAtom),
-    [get(currentColumnIDAtom)]: _,
+  const _ = update instanceof Function ? update(get(currentSourcesAtom)) : update
+  set(primitiveMetadataAtom, {
+    updatedTime: Date.now(),
+    action: "manual",
+    data: {
+      ...get(primitiveMetadataAtom).data,
+      [get(currentColumnIDAtom)]: _,
+    },
   })
 })
-
-export type Update<T> = T | ((prev: T) => T)
 
 export const goToTopAtom = atom({
   ok: false,

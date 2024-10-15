@@ -12,7 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as SColumnImport } from './routes/s.$column'
+import { Route as CColumnImport } from './routes/c.$column'
 
 // Create/Update Routes
 
@@ -21,8 +21,8 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const SColumnRoute = SColumnImport.update({
-  path: '/s/$column',
+const CColumnRoute = CColumnImport.update({
+  path: '/c/$column',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,11 +37,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/s/$column': {
-      id: '/s/$column'
-      path: '/s/$column'
-      fullPath: '/s/$column'
-      preLoaderRoute: typeof SColumnImport
+    '/c/$column': {
+      id: '/c/$column'
+      path: '/c/$column'
+      fullPath: '/c/$column'
+      preLoaderRoute: typeof CColumnImport
       parentRoute: typeof rootRoute
     }
   }
@@ -51,37 +51,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/s/$column': typeof SColumnRoute
+  '/c/$column': typeof CColumnRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/s/$column': typeof SColumnRoute
+  '/c/$column': typeof CColumnRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/s/$column': typeof SColumnRoute
+  '/c/$column': typeof CColumnRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/s/$column'
+  fullPaths: '/' | '/c/$column'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/s/$column'
-  id: '__root__' | '/' | '/s/$column'
+  to: '/' | '/c/$column'
+  id: '__root__' | '/' | '/c/$column'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SColumnRoute: typeof SColumnRoute
+  CColumnRoute: typeof CColumnRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SColumnRoute: SColumnRoute,
+  CColumnRoute: CColumnRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +97,14 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/s/$column"
+        "/c/$column"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/s/$column": {
-      "filePath": "s.$column.tsx"
+    "/c/$column": {
+      "filePath": "c.$column.tsx"
     }
   }
 }
