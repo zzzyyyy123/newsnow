@@ -25,7 +25,7 @@ export function Column({ id }: { id: ColumnID }) {
           {columnIds.map(columnId => (
             <Link
               key={columnId}
-              to="/s/$column"
+              to="/c/$column"
               params={{ column: columnId }}
               className={clsx(
                 "text-sm",

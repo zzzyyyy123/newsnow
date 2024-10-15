@@ -59,7 +59,7 @@
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^1.14.3",
     "@iconify-json/ph": "^1.2.1",
-    "@ourongxing/eslint-config": "3.2.3-beta.4",
+    "@ourongxing/eslint-config": "3.2.3-beta.6",
     "@ourongxing/tsconfig": "^0.0.4",
     "@tanstack/react-query": "^5.59.9",
     "@tanstack/router-devtools": "^1.64.0",
@@ -87,7 +87,7 @@
     "unocss": "^0.63.4",
     "unplugin-auto-import": "^0.18.3",
     "vite": "^5.4.8",
-    "vite-plugin-with-nitro": "0.0.0-beta.4",
+    "vite-plugin-with-nitro": "0.0.0-beta.7",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.2",
     "wrangler": "^3.80.3"

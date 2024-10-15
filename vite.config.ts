@@ -7,6 +7,7 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import tsconfigPath from "vite-tsconfig-paths"
 import unocss from "unocss/vite"
 import dotenv from "dotenv"
+
 import { projectDir } from "./shared/dir"
 
 const isCF = process.env.CF_PAGES
@@ -21,14 +22,13 @@ export default defineConfig({
     __ENABLE_LOGIN__: ["JWT_SECRET", "G_CLIENT_ID", "G_CLIENT_SECRET"].every(k => process.env[k]),
   },
   plugins: [
+    tsconfigPath(),
     TanStackRouterVite({
       autoCodeSplitting: true,
     }),
     unocss(),
-    tsconfigPath(),
     react(),
-    nitro({ ssr: false }, {
-      srcDir: "server",
+    nitro({
       experimental: {
         database: true,
       },
