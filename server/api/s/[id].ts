@@ -3,7 +3,7 @@ import { TTL } from "@shared/consts"
 import type { SourceID, SourceResponse } from "@shared/types"
 import { sources } from "@shared/sources"
 import { sourcesFn } from "#/sources"
-import { Cache } from "#/database/cache"
+import { useCache } from "#/hooks/useCache"
 
 export default defineEventHandler(async (event): Promise<SourceResponse> => {
   try {
@@ -18,8 +18,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
       if (isValid(id)) throw new Error("Invalid source id")
     }
 
-    const db = useDatabase()
-    const cacheTable = db ? new Cache(db) : undefined
+    const cacheTable = useCache()
     const now = Date.now()
     if (cacheTable) {
       if (process.env.INIT_TABLE !== "false") await cacheTable.init()
@@ -59,7 +58,10 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
 
     const data = await sourcesFn[id]()
     logger.success(`fetch ${id} latest`)
-    if (cacheTable) event.waitUntil(cacheTable.set(id, data))
+    if (cacheTable) {
+      if (event.context.waitUntil) event.context.waitUntil(cacheTable.set(id, data))
+      else await cacheTable.set(id, data)
+    }
     return {
       status: "success",
       updatedTime: now,

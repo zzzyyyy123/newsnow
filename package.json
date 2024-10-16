@@ -32,12 +32,13 @@
     "@tanstack/react-router": "^1.64.0",
     "@tsndr/cloudflare-worker-jwt": "^3.1.2",
     "@unocss/reset": "^0.63.4",
+    "better-sqlite3": "^11.3.0",
     "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
     "consola": "^3.2.3",
     "cookie-es": "^1.2.2",
     "dayjs": "1.11.13",
-    "db0": "npm:@ourongxing/db0@0.1.6",
+    "db0": "^0.2.1",
     "defu": "^6.1.4",
     "fast-xml-parser": "^4.5.0",
     "framer-motion": "^11.11.8",
@@ -46,7 +47,6 @@
     "jose": "^5.9.4",
     "jotai": "^2.10.0",
     "jsonwebtoken": "^9.0.2",
-    "libsql": "^0.4.6",
     "md5": "^2.3.0",
     "ofetch": "^1.4.1",
     "overlayscrollbars": "^2.10.0",
@@ -79,7 +79,6 @@
     "lint-staged": "^15.2.10",
     "mlly": "^1.7.2",
     "mockdate": "^3.0.5",
-    "nitropack": "^2.9.7",
     "simple-git-hooks": "^2.11.1",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3",
@@ -87,7 +86,7 @@
     "unocss": "^0.63.4",
     "unplugin-auto-import": "^0.18.3",
     "vite": "^5.4.8",
-    "vite-plugin-with-nitro": "0.0.0-beta.7",
+    "vite-plugin-with-nitro": "0.0.2",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.2",
     "wrangler": "^3.80.3"
@@ -99,8 +98,7 @@
   },
   "resolutions": {
     "dayjs": "1.11.13",
-    "db0": "npm:@ourongxing/db0@0.1.6",
-    "nitropack": "^2.9.7"
+    "picomatch": "^4.0.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
