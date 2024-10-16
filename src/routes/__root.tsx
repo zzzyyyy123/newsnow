@@ -19,7 +19,7 @@ export const Route = createRootRouteWithContext<{
   beforeLoad: () => {
     const theme = localStorage.getItem("color-scheme") || "auto"
     const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-    if (!theme ? isDark : theme === "dark") {
+    if (theme === "auto" ? isDark : theme === "dark") {
       document.documentElement.classList.add("dark")
     }
 
