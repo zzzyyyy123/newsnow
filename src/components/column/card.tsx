@@ -59,8 +59,8 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
 export function CardOverlay({ id }: { id: SourceID }) {
   return (
     <div className={clsx(
-      "flex flex-col h-500px rounded-2xl bg-op-50 p-4 backdrop-blur-5",
-      "backdrop-blur-5 bg-op-40",
+      "flex flex-col h-500px rounded-2xl p-4",
+      "backdrop-blur-5 bg-op-50",
       `bg-${sources[id].color}`,
     )}
     >

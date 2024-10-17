@@ -20,6 +20,7 @@ export const originSources = {
   "zhihu": {
     name: "知乎",
     type: "hottest",
+    color: "blue",
     home: "https://www.zhihu.com",
   },
   "weibo": {
@@ -47,12 +48,14 @@ export const originSources = {
     name: "华尔街见闻",
     interval: Time.Fast,
     type: "realtime",
+    color: "blue",
     home: "https://wallstreetcn.com/",
     title: "快讯",
   },
   "36kr": {
     name: "36氪",
     type: "realtime",
+    color: "blue",
     home: "https://36kr.com",
     sub: {
       quick: {
