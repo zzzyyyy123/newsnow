@@ -1,4 +1,3 @@
-import type { PropsWithChildren } from "react"
 import { useCallback, useState } from "react"
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core"
 import {
@@ -14,7 +13,7 @@ import { SortableContext, arrayMove, rectSortingStrategy, useSortable } from "@d
 import { useAtom } from "jotai"
 import type { SourceID } from "@shared/types"
 import { CSS } from "@dnd-kit/utilities"
-import { motion } from "framer-motion"
+import { LayoutGroup, motion } from "framer-motion"
 import type { ItemsProps } from "./card"
 import { CardOverlay, CardWrapper } from "./card"
 import { currentSourcesAtom } from "~/atoms"
@@ -23,37 +22,42 @@ export function Dnd() {
   const [items, setItems] = useAtom(currentSourcesAtom)
   return (
     <DndWrapper items={items} setItems={setItems}>
-      <motion.div
-        className="grid w-full gap-6"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-        }}
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: {
-            transition: {
-              delayChildren: 0.5,
-              staggerChildren: 0.2,
-            },
-          },
-        }}
-      >
-        {items.map(id => (
-          <motion.div
-            key={id}
-            variants={{
-              hidden: { y: 20, opacity: 0 },
-              visible: {
-                y: 0,
-                opacity: 1,
+      {activeid => (
+        <motion.ol
+          className="grid w-full gap-6"
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+          }}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: {
+                delayChildren: 0.3,
+                staggerChildren: 0.2,
               },
-            }}
-          >
-            <SortableCardWrapper id={id} />
-          </motion.div>
-        ))}
-      </motion.div>
+            },
+          }}
+        >
+          <LayoutGroup>
+            {items.map(id => (
+              <motion.li
+                layout={!activeid}
+                key={id}
+                variants={{
+                  hidden: { y: 20, opacity: 0 },
+                  visible: {
+                    y: 0,
+                    opacity: 1,
+                  },
+                }}
+              >
+                <SortableCardWrapper id={id} />
+              </motion.li>
+            ))}
+          </LayoutGroup>
+        </motion.ol>
+      )}
     </DndWrapper>
   )
 }
@@ -61,9 +65,10 @@ export function Dnd() {
 interface DndProps {
   items: SourceID[]
   setItems: (update: SourceID[]) => void
+  children: (activeId: string | null) => React.ReactNode
 }
 
-export function DndWrapper({ items, setItems, children }: PropsWithChildren<DndProps>) {
+export function DndWrapper({ items, setItems, children }: DndProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
@@ -95,7 +100,7 @@ export function DndWrapper({ items, setItems, children }: PropsWithChildren<DndP
       onDragCancel={handleDragCancel}
     >
       <SortableContext items={items} strategy={rectSortingStrategy}>
-        {children}
+        {children(activeId)}
       </SortableContext>
       <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
         {!!activeId && <CardOverlay id={activeId as SourceID} />}
