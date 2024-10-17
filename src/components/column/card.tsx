@@ -41,7 +41,8 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col h-500px rounded-2xl bg-op-40 p-4 backdrop-blur-5",
+        "flex flex-col h-500px rounded-2xl p-4",
+        "bg-op-40 backdrop-blur-5 transition-opacity-300",
         isDragged && "op-50",
         `bg-${sources[id].color}`,
       )}
@@ -55,44 +56,6 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     </div>
   )
 })
-
-export function CardOverlay({ id }: { id: SourceID }) {
-  return (
-    <div className={clsx(
-      "flex flex-col h-500px rounded-2xl p-4",
-      "backdrop-blur-5 bg-op-50",
-      `bg-${sources[id].color}`,
-    )}
-    >
-      <div className={clsx("flex justify-between mx-2 mt-0 mb-2 items-center")}>
-        <div className="flex gap-2 items-center">
-          <div
-            className={clsx("w-8 h-8 rounded-full bg-cover")}
-            style={{
-              backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
-            }}
-          />
-          <span className="flex flex-col">
-            <span className="flex items-center gap-2">
-              <span className="text-xl font-bold">
-                {sources[id].name}
-              </span>
-              {sources[id]?.title && <span className={clsx("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
-            </span>
-            <span className="text-xs">拖拽中</span>
-          </span>
-        </div>
-        <div className={clsx("flex gap-2 text-lg", `color-${sources[id].color}`)}>
-          <button
-            type="button"
-            className={clsx("i-ph:dots-six-vertical-duotone", "cursor-grabbing")}
-          />
-        </div>
-      </div>
-      <div className={`h-full p-2 overflow-x-auto bg-base bg-op-50! rounded-2xl sprinkle-${sources[id].color}`} />
-    </div>
-  )
-}
 
 function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
   const [focusSources, setFocusSources] = useAtom(focusSourcesAtom)
@@ -136,9 +99,9 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
       <div className={clsx("flex justify-between mx-2 mt-0 mb-2 items-center")}>
         <div className="flex gap-2 items-center">
           <div
-            className={clsx("w-8 h-8 rounded-full")}
+            className={clsx("w-8 h-8 rounded-full bg-cover")}
             style={{
-              background: `center / contain no-repeat url(/icons/${id.split("-")[0]}.png)`,
+              backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
             }}
           />
           <span className="flex flex-col">
@@ -148,7 +111,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
               </span>
               {sources[id]?.title && <span className={clsx("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
             </span>
-            <span className="text-xs"><UpdateTime query={query} /></span>
+            <span className="text-xs op-70"><UpdateTime query={query} /></span>
           </span>
         </div>
         <div className={clsx("flex gap-2 text-lg", `color-${sources[id].color}`)}>
@@ -179,8 +142,9 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
         options={{
           overflow: { x: "hidden" },
         }}
+        defer
       >
-        <div className={clsx("duration-500 transition-opacity", isFreshFetching && "op-20")}>
+        <div className={clsx("transition-opacity-500", isFreshFetching && "op-20")}>
           {sources[id].type === "hottest" ? <NewsList query={query} /> : <NewsListTimeLine query={query} />}
         </div>
       </OverlayScrollbar>

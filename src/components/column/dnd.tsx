@@ -8,6 +8,7 @@ import {
   MouseSensor,
   TouchSensor,
   closestCenter,
+  defaultDropAnimationSideEffects,
   useSensor,
   useSensors,
 } from "@dnd-kit/core"
@@ -17,8 +18,10 @@ import { useAtom } from "jotai"
 import type { SourceID } from "@shared/types"
 import { CSS } from "@dnd-kit/utilities"
 import { motion } from "framer-motion"
+import { sources } from "@shared/sources"
+import clsx from "clsx"
 import type { ItemsProps } from "./card"
-import { CardOverlay, CardWrapper } from "./card"
+import { CardWrapper } from "./card"
 import { currentSourcesAtom } from "~/atoms"
 
 export function Dnd() {
@@ -35,8 +38,8 @@ export function Dnd() {
         variants={{
           visible: {
             transition: {
-              delayChildren: 0.3,
-              staggerChildren: 0.2,
+              delayChildren: 0.2,
+              staggerChildren: 0.1,
             },
           },
         }}
@@ -65,13 +68,7 @@ interface DndProps {
   setItems: (update: SourceID[]) => void
 }
 
-const measuringConfig = {
-  droppable: {
-    strategy: MeasuringStrategy.Always,
-  },
-}
-
-export function DndWrapper({ items, setItems, children }: PropsWithChildren<DndProps>) {
+function DndWrapper({ items, setItems, children }: PropsWithChildren<DndProps>) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
@@ -97,7 +94,11 @@ export function DndWrapper({ items, setItems, children }: PropsWithChildren<DndP
   return (
     <DndContext
       sensors={sensors}
-      measuring={measuringConfig}
+      measuring={{
+        droppable: {
+          strategy: MeasuringStrategy.Always,
+        },
+      }}
       collisionDetection={closestCenter}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -107,16 +108,58 @@ export function DndWrapper({ items, setItems, children }: PropsWithChildren<DndP
         {children}
       </SortableContext>
       <DragOverlay
-        adjustScale
+        className="transition-opacity-300"
         dropAnimation={{
-          duration: 300,
           easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+          duration: 300,
+          sideEffects: defaultDropAnimationSideEffects({
+            className: {
+              active: "op-100",
+              dragOverlay: "op-0",
+            },
+          }),
         }}
       >
-        {/* {!!activeId && <CardOverlay id={activeId as SourceID} />} */}
-        <CardOverlay id={activeId as SourceID} />
+        {!!activeId && <CardOverlay id={activeId as SourceID} />}
       </DragOverlay>
     </DndContext>
+  )
+}
+
+function CardOverlay({ id }: { id: SourceID }) {
+  return (
+    <div className={clsx(
+      "flex flex-col rounded-2xl p-4",
+      "backdrop-blur-5 bg-op-40",
+      `bg-${sources[id].color}`,
+    )}
+    >
+      <div className={clsx("flex justify-between mx-2 items-center")}>
+        <div className="flex gap-2 items-center">
+          <div
+            className={clsx("w-8 h-8 rounded-full bg-cover")}
+            style={{
+              backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
+            }}
+          />
+          <span className="flex flex-col">
+            <span className="flex items-center gap-2">
+              <span className="text-xl font-bold">
+                {sources[id].name}
+              </span>
+              {sources[id]?.title && <span className={clsx("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
+            </span>
+            <span className="text-xs op-70">拖拽中</span>
+          </span>
+        </div>
+        <div className={clsx("flex gap-2 text-lg", `color-${sources[id].color}`)}>
+          <button
+            type="button"
+            className={clsx("i-ph:dots-six-vertical-duotone", "cursor-grabbing")}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 

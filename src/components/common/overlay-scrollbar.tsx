@@ -16,7 +16,7 @@ const defaultScrollbarParams: UseOverlayScrollbarsParams = {
   defer: true,
 }
 
-export function OverlayScrollbar({ children, options, events, defer, ...props }: PropsWithChildren<Props>) {
+export function OverlayScrollbar({ disabled, children, options, events, defer, ...props }: PropsWithChildren<Props>) {
   const ref = useRef<HTMLDivElement>(null)
   const scrollbarParams = useMemo(() => defu<UseOverlayScrollbarsParams, Array<UseOverlayScrollbarsParams> >({
     options,
@@ -27,14 +27,16 @@ export function OverlayScrollbar({ children, options, events, defer, ...props }:
   const [initialize] = useOverlayScrollbars(scrollbarParams)
 
   useEffect(() => {
-    initialize({
-      target: ref.current!,
-      cancel: {
+    if (!disabled) {
+      initialize({
+        target: ref.current!,
+        cancel: {
         // 如果浏览器原生滚动条是覆盖在元素上的，则取消初始化
-        nativeScrollbarsOverlaid: true,
-      },
-    })
-  }, [initialize])
+          nativeScrollbarsOverlaid: true,
+        },
+      })
+    }
+  }, [initialize, disabled])
 
   return (
     <div ref={ref} {...props}>
@@ -75,7 +77,7 @@ export function GlobalOverlayScrollbar({ children, ...props }: PropsWithChildren
     events: {
       scroll: (_, e) => onScroll(e),
     },
-    defer: true,
+    defer: false,
   })
 
   useEffect(() => {
