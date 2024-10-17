@@ -13,7 +13,7 @@ export function Column({ id }: { id: ColumnID }) {
   useEffect(() => {
     setCurrentColumnID(id)
   }, [id, setCurrentColumnID])
-  useTitle(`NewsNow ${metadata[id].name}`)
+  useTitle(`NewsNow | ${metadata[id].name}`)
   return (
     <>
       <div className="w-full flex justify-center">

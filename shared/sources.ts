@@ -68,12 +68,12 @@ export const originSources = {
   },
   "hupu": {
     name: "虎扑",
-    active: false,
+    disable: true,
     home: "https://hupu.com",
   },
   "tieba": {
     name: "百度贴吧",
-    active: false,
+    disable: true,
     home: "https://tieba.baidu.com",
   },
   "toutiao": {
@@ -91,13 +91,13 @@ export const originSources = {
   "thepaper": {
     name: "澎湃新闻",
     interval: Time.Common,
-    active: false,
+    disable: true,
     home: "https://www.thepaper.cn",
   },
   "sputniknewscn": {
     name: "卫星通讯社",
     color: "orange",
-    active: false,
+    disable: true,
     home: "https://sputniknews.cn",
   },
   "cankaoxiaoxi": {
@@ -116,7 +116,7 @@ function genSources() {
     const parent = {
       name: source.name,
       type: source.type,
-      active: source.active ?? true,
+      disable: source.disable,
       color: source.color ?? "red",
       interval: source.interval ?? Time.Default,
     }
@@ -139,5 +139,5 @@ function genSources() {
     }
   })
 
-  return typeSafeObjectFromEntries(_.filter(([_, v]) => v.active))
+  return typeSafeObjectFromEntries(_.filter(([_, v]) => !v.disable))
 }

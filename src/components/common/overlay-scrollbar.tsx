@@ -46,13 +46,13 @@ export function OverlayScrollbar({ children, options, events, defer, ...props }:
 
 export function GlobalOverlayScrollbar({ children, ...props }: PropsWithChildren<HTMLProps<HTMLDivElement>>) {
   const ref = useRef<HTMLDivElement>(null)
-  const lastScroll = useRef(0)
+  const lastTrigger = useRef(0)
   const timer = useRef<any>()
   const setGoToTop = useSetAtom(goToTopAtom)
   const onScroll = useCallback((e: Event) => {
     const now = Date.now()
-    if (now - lastScroll.current > 50) {
-      lastScroll.current = now
+    if (now - lastTrigger.current > 50) {
+      lastTrigger.current = now
       clearTimeout(timer.current)
       timer.current = setTimeout(
         () => {

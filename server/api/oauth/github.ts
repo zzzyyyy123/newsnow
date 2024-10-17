@@ -43,7 +43,6 @@ export default defineEventHandler(async (event) => {
     },
   })
 
-  console.log(userInfo)
   const userID = String(userInfo.id)
   await userTable.addUser(userID, userInfo.notification_email || userInfo.email, "github")
 

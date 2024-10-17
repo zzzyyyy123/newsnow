@@ -8,10 +8,10 @@ type ConstSources = typeof originSources
 type MainSourceID = keyof(ConstSources)
 
 export type SourceID = {
-  [Key in MainSourceID]: ConstSources[Key] extends { active?: false } ? never :
+  [Key in MainSourceID]: ConstSources[Key] extends { disable?: true } ? never :
     ConstSources[Key] extends { sub?: infer SubSource } ? {
     // @ts-expect-error >_<
-      [SubKey in keyof SubSource ]: SubSource[SubKey] extends { active?: false } ? never : `${Key}-${SubKey}`
+      [SubKey in keyof SubSource ]: SubSource[SubKey] extends { disable?: true } ? never : `${Key}-${SubKey}`
     }[keyof SubSource] | Key : Key;
 }[MainSourceID]
 
@@ -33,15 +33,15 @@ export interface OriginSource {
   interval?: number
   type?: "hottest" | "realtime"
   /**
-   * @default true
+   * @default false
    */
-  active?: boolean
+  disable?: boolean
   home: string
   color?: Color
   sub?: Record<string, {
     title: string
     type?: "hottest" | "realtime"
-    active?: boolean
+    disable?: boolean
     interval?: number
   }>
 }
@@ -51,7 +51,7 @@ export interface Source {
   title?: string
   type?: "hottest" | "realtime"
   color: Color
-  active: boolean
+  disable?: boolean
   interval: number
   redirect?: SourceID
 }
