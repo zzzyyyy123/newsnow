@@ -53,8 +53,8 @@ function RootComponent() {
         </header>
         <main className={clsx([
           "min-h-[calc(100vh-170px)] transition-margin",
-          "md:(min-h-[calc(100vh-105px)] mt--16)",
-          "lg:(min-h-[calc(100vh-120px)] mt--17)",
+          "md:(min-h-[calc(100vh-110px)] mt--14)",
+          "lg:(min-h-[calc(100vh-124px)] mt--16)",
         ])}
         >
           <Outlet />
