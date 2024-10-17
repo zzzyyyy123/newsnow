@@ -8,6 +8,7 @@ interface Res {
       icon?: string // 热，新 icon url
       icon_width: number
       icon_height: number
+      is_ad?: number // 1
       note: string
       small_icon_desc: string
       icon_desc?: string // 如果是 荐 ,就是广告
@@ -29,7 +30,7 @@ export default defineSource(async () => {
   const res: Res = await $fetch(url)
   if (!res.ok || res.data.realtime.length === 0) throw new Error("Cannot fetch data")
   return res.data.realtime
-    .filter(k => !k.icon_desc || !/[荐促商宣]/.test(k.icon_desc))
+    .filter(k => !k.is_ad)
     .slice(0, 30)
     .map((k) => {
       const keyword = k.word_scheme ? k.word_scheme : `#${k.word}#`
