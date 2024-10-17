@@ -43,8 +43,7 @@ button:disabled {
 }
 
 
-.bg {
-  background-image: radial-gradient(ellipse 80% 80% at 50% -30%,
-        rgba(254, 94, 83, 0.3),
-        rgba(255, 255, 255, 0));
+*, a, button {
+  cursor: default;
+  user-select: none;
 }

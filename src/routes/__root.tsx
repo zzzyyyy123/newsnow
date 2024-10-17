@@ -4,12 +4,12 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import type { QueryClient } from "@tanstack/react-query"
-import { Author, Homepage } from "@shared/consts"
 import clsx from "clsx"
 import { Header } from "~/components/header"
 import { useOnReload } from "~/hooks/useOnReload"
 import { GlobalOverlayScrollbar } from "~/components/common/overlay-scrollbar"
 import { useSync } from "~/hooks/useSync"
+import { Footer } from "~/components/footer"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -60,13 +60,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <footer className="py-6 flex flex-col items-center justify-center text-sm text-neutral-500 font-mono">
-          <a href={`${Homepage}/LICENCE`}>MIT LICENCE</a>
-          <span>
-            <span> © 2024 By </span>
-            <a href={Author.url}>
-              {Author.name}
-            </a>
-          </span>
+          <Footer />
         </footer>
       </GlobalOverlayScrollbar>
       {import.meta.env.DEV && (

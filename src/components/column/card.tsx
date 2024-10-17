@@ -41,7 +41,7 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
     <div
       ref={ref}
       className={clsx(
-        "flex flex-col h-500px rounded-2xl p-4",
+        "flex flex-col h-500px rounded-2xl p-4 cursor-default",
         "bg-op-40 backdrop-blur-5 transition-opacity-300",
         isDragged && "op-50",
         `bg-${sources[id].color}`,
@@ -98,7 +98,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
     <>
       <div className={clsx("flex justify-between mx-2 mt-0 mb-2 items-center")}>
         <div className="flex gap-2 items-center">
-          <div
+          <a
             className={clsx("w-8 h-8 rounded-full bg-cover")}
             style={{
               backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
@@ -145,7 +145,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
         defer
       >
         <div className={clsx("transition-opacity-500", isFreshFetching && "op-20")}>
-          {sources[id].type === "hottest" ? <NewsList query={query} /> : <NewsListTimeLine query={query} />}
+          {sources[id].type === "hottest" ? <NewsListHot query={query} /> : <NewsListTimeLine query={query} />}
         </div>
       </OverlayScrollbar>
     </>
@@ -168,26 +168,26 @@ function ExtraInfo({ item }: { item: NewsItem }) {
   }
 }
 
-function NewsList({ query }: Query) {
+function NewsListHot({ query }: Query) {
   const items = query.data?.items
   return (
-    <ol>
+    <>
       {items?.map((item, i) => (
-        <li key={item.title} className="flex gap-2 items-center mb-2 items-stretch">
+        <a href={item.url} target="_blank" key={item.title} className="flex gap-2 items-center mb-2 items-stretch hover:bg-neutral-400/10 rounded-md">
           <span className={clsx("bg-neutral-400/10 min-w-6 flex justify-center items-center rounded-md text-sm")}>
             {i + 1}
           </span>
-          <a href={item.url} target="_blank" className="self-start line-height-none">
+          <span className="self-start line-height-none">
             <span className="mr-2 text-base">
               {item.title}
             </span>
             <span className="text-xs text-neutral-400/80 truncate align-middle">
               <ExtraInfo item={item} />
             </span>
-          </a>
-        </li>
+          </span>
+        </a>
       ))}
-    </ol>
+    </>
   )
 }
 
@@ -201,21 +201,21 @@ function NewsListTimeLine({ query }: Query) {
   return (
     <ol className="relative border-s border-dash border-neutral-400/10">
       {items?.map(item => (
-        <li key={item.title} className="flex gap-2 mb-2 ms-4">
+        <li key={item.title} className="flex gap-2 mb-2 ms-2">
           <div className={clsx("absolute w-2 h-2 bg-neutral-400/50 rounded-full ml-0.5 mt-1 -start-1.5")} />
-          <span className="flex flex-col">
+          <a href={item.url} target="_blank" className="flex flex-col pl-2 hover:bg-neutral-400/10 rounded-md w-full">
             <span className="text-xs text-neutral-400/80 truncate align-middle">
               <UpdatedTime item={item} />
             </span>
-            <a href={item.url} target="_blank">
+            <span>
               <span>
                 {item.title}
               </span>
               <span className="text-xs text-neutral-400/80 truncate align-middle">
                 <ExtraInfo item={item} />
               </span>
-            </a>
-          </span>
+            </span>
+          </a>
         </li>
       ))}
     </ol>

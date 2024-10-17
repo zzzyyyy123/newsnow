@@ -18,7 +18,7 @@ export function Column({ id }: { id: ColumnID }) {
     <>
       <div className="w-full flex justify-center">
         <span className={clsx([
-          "flex gap-2 mb-4 py-3 px-6 rounded-2xl bg-primary/1 shadow shadow-primary/20 hover:shadow-primary/50 transition-shadow duration-500",
+          "flex mb-4 p-3 rounded-2xl bg-primary/1 shadow shadow-primary/20 hover:shadow-primary/50 transition-shadow duration-500",
           "md:(z-100 mb-6)",
         ])}
         >
@@ -28,8 +28,8 @@ export function Column({ id }: { id: ColumnID }) {
               to="/c/$column"
               params={{ column: columnId }}
               className={clsx(
-                "text-sm",
-                id === columnId ? "color-primary font-bold" : "op-70 dark:op-90",
+                "text-sm px-2",
+                id === columnId ? "color-primary font-bold" : "op-70 dark:op-90 hover:(bg-primary/15 rounded-md)",
               )}
             >
               {metadata[columnId].name}

@@ -115,7 +115,7 @@ export function Header() {
             </p>
           </span>
         </Link>
-        <a className="btn text-sm ml-1 font-mono">
+        <a target="_blank" className="btn text-sm ml-1 font-mono">
           {`v${Version}`}
         </a>
       </span>
