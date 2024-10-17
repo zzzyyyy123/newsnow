@@ -17,12 +17,6 @@ export const Route = createRootRouteWithContext<{
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   beforeLoad: () => {
-    const theme = localStorage.getItem("color-scheme") || "auto"
-    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-    if (theme === "auto" ? isDark : theme === "dark") {
-      document.documentElement.classList.add("dark")
-    }
-
     const query = new URLSearchParams(window.location.search)
     if (query.has("login")) {
       [...query.entries()].forEach(key => localStorage.setItem(key[0], key[1]))
