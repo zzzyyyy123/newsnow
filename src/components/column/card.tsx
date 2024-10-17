@@ -154,18 +154,18 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
         <div className={clsx("flex gap-2 text-lg", `color-${sources[id].color}`)}>
           <button
             type="button"
-            className={clsx("i-ph:arrow-counter-clockwise-duotone", query.isFetching && "animate-spin i-ph:circle-dashed-duotone")}
+            className={clsx("btn i-ph:arrow-counter-clockwise-duotone", query.isFetching && "animate-spin i-ph:circle-dashed-duotone")}
             onClick={manualRefetch}
           />
           <button
             type="button"
-            className={clsx(focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star-duotone")}
+            className={clsx("btn", focusSources.includes(id) ? "i-ph:star-fill" : "i-ph:star-duotone")}
             onClick={addFocusList}
           />
           <button
             {...handleListeners}
             type="button"
-            className={clsx("i-ph:dots-six-vertical-duotone", "cursor-grab")}
+            className={clsx("btn", "i-ph:dots-six-vertical-duotone", "cursor-grab")}
           />
         </div>
       </div>

@@ -20,7 +20,7 @@ html.dark {
 }
 
 body {
-  --at-apply: color-base bg-base sprinkle-red;
+  --at-apply: color-base bg-base sprinkle-primary;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;

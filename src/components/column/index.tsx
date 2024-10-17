@@ -18,7 +18,7 @@ export function Column({ id }: { id: ColumnID }) {
     <>
       <div className="w-full flex justify-center">
         <span className={clsx([
-          "flex gap-2 mb-4 py-3 px-6 rounded-2xl bg-primary/1 shadow shadow-red/20 hover:shadow-red/50 transition-shadow duration-500",
+          "flex gap-2 mb-4 py-3 px-6 rounded-2xl bg-primary/1 shadow shadow-primary/20 hover:shadow-primary/50 transition-shadow duration-500",
           "md:(z-100 mb-6)",
         ])}
         >

@@ -15,7 +15,7 @@ function ThemeToggle() {
     <button
       type="button"
       title="Toggle Dark Mode"
-      className="i-ph-sun-dim-duotone dark:i-ph-moon-stars-duotone btn-pure"
+      className="i-ph-sun-dim-duotone dark:i-ph-moon-stars-duotone btn"
       onClick={toggleDark}
     />
   )
@@ -31,7 +31,7 @@ function LoginIn() {
     return (
       <button
         type="button"
-        className="btn-pure"
+        className="btn"
         title={info?.name ?? ""}
         onClick={() => {
           // setJwt("")
@@ -51,7 +51,7 @@ function LoginIn() {
   return (
     <a
       title="Login in with GitHub"
-      className="i-ph:sign-in-duotone btn-pure"
+      className="i-ph:sign-in-duotone btn"
       href={`https://github.com/login/oauth/authorize?client_id=${__G_CLIENT_ID__}`}
     />
   )
@@ -64,14 +64,14 @@ function GoTop() {
       <button
         type="button"
         title="Go To Top"
-        className="i-ph:arrow-fat-up-duotone btn-pure"
+        className="i-ph:arrow-fat-up-duotone btn"
         onClick={goToTop}
       />
     )
   )
 }
 export function GithubIcon() {
-  return <a className="i-ph-github-logo-duotone inline-block btn-pure" href={Homepage} title="Project Homepage" />
+  return <a className="i-ph-github-logo-duotone inline-block btn" href={Homepage} title="Project Homepage" />
 }
 
 function RefreshButton() {
@@ -95,7 +95,7 @@ function RefreshButton() {
     <button
       type="button"
       title="Refresh"
-      className={clsx("i-ph:arrow-counter-clockwise-duotone btn-pure", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
+      className={clsx("i-ph:arrow-counter-clockwise-duotone btn", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
       onClick={refreshAll}
     />
   )
@@ -110,12 +110,12 @@ export function Header() {
           <span className="text-2xl font-brand line-height-none!">
             <p>News</p>
             <p className="mt--1">
-              <span className="color-red-6">N</span>
+              <span className="color-primary-6">N</span>
               <span>ow</span>
             </p>
           </span>
         </Link>
-        <a className="btn-pure text-sm ml-1 font-mono">
+        <a className="btn text-sm ml-1 font-mono">
           {`v${Version}`}
         </a>
       </span>
