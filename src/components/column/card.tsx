@@ -98,7 +98,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
     <>
       <div className={clsx("flex justify-between mx-2 mt-0 mb-2 items-center")}>
         <div className="flex gap-2 items-center">
-          <a
+          <span
             className={clsx("w-8 h-8 rounded-full bg-cover")}
             style={{
               backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
@@ -111,7 +111,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
               </span>
               {sources[id]?.title && <span className={clsx("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
             </span>
-            <span className="text-xs op-70"><UpdateTime query={query} /></span>
+            <span className="text-xs op-70"><UpdatedTime query={query} /></span>
           </span>
         </div>
         <div className={clsx("flex gap-2 text-lg", `color-${sources[id].color}`)}>
@@ -152,7 +152,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
   )
 }
 
-function UpdateTime({ query }: Query) {
+function UpdatedTime({ query }: Query) {
   const updatedTime = useRelativeTime(query.data?.updatedTime ?? "")
   if (updatedTime) return `${updatedTime}更新`
   if (query.isError) return "获取失败"
@@ -168,12 +168,17 @@ function ExtraInfo({ item }: { item: NewsItem }) {
   }
 }
 
+function NewsUpdatedTime({ date }: { date: string }) {
+  const relativeTime = useRelativeTime(date)
+  return <>{relativeTime}</>
+}
+
 function NewsListHot({ query }: Query) {
   const items = query.data?.items
   return (
     <>
       {items?.map((item, i) => (
-        <a href={item.url} target="_blank" key={item.title} className="flex gap-2 items-center mb-2 items-stretch hover:bg-neutral-400/10 rounded-md">
+        <a href={item.url} target="_blank" key={item.title} className="flex gap-2 items-center mb-2 items-stretch hover:bg-neutral-400/10 rounded-md  visited:(text-neutral-400)">
           <span className={clsx("bg-neutral-400/10 min-w-6 flex justify-center items-center rounded-md text-sm")}>
             {i + 1}
           </span>
@@ -191,11 +196,6 @@ function NewsListHot({ query }: Query) {
   )
 }
 
-function UpdatedTime({ item }: { item: NewsItem }) {
-  const relativeTime = useRelativeTime(item?.extra?.date)
-  return <>{relativeTime}</>
-}
-
 function NewsListTimeLine({ query }: Query) {
   const items = query.data?.items
   return (
@@ -203,9 +203,9 @@ function NewsListTimeLine({ query }: Query) {
       {items?.map(item => (
         <li key={item.title} className="flex gap-2 mb-2 ms-2">
           <div className={clsx("absolute w-2 h-2 bg-neutral-400/50 rounded-full ml-0.5 mt-1 -start-1.5")} />
-          <a href={item.url} target="_blank" className="flex flex-col pl-2 hover:bg-neutral-400/10 rounded-md w-full">
-            <span className="text-xs text-neutral-400/80 truncate align-middle">
-              <UpdatedTime item={item} />
+          <a href={item.url} target="_blank" className="flex flex-col pl-2 hover:bg-neutral-400/10 rounded-md w-full visited:(text-neutral-400/80)">
+            <span className="text-xs text-neutral-400/80">
+              {item?.extra?.date && <NewsUpdatedTime date={item.extra.date} />}
             </span>
             <span>
               <span>
