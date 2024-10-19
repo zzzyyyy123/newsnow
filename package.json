@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "commit-id": "",
   "packageManager": "pnpm@9.12.1",
   "author": {
     "url": "https://github.com/ourongxing/",
@@ -88,9 +89,11 @@
     "unocss": "^0.63.4",
     "unplugin-auto-import": "^0.18.3",
     "vite": "^5.4.8",
+    "vite-plugin-pwa": "^0.20.5",
     "vite-plugin-with-nitro": "0.0.2",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.2",
+    "workbox-window": "^7.1.0",
     "wrangler": "^3.80.3"
   },
   "pnpm": {

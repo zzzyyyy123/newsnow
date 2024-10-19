@@ -11,6 +11,7 @@ import { GlobalOverlayScrollbar } from "~/components/common/overlay-scrollbar"
 import { useSync } from "~/hooks/useSync"
 import { Footer } from "~/components/footer"
 import { Toast } from "~/components/common/toast"
+import { usePWA } from "~/hooks/usePWA"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -37,6 +38,7 @@ function NotFoundComponent() {
 function RootComponent() {
   useOnReload()
   useSync()
+  usePWA()
   return (
     <>
       <GlobalOverlayScrollbar className={clsx([
