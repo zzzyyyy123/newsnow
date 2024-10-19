@@ -50,7 +50,7 @@ export function Menu() {
           id="dropdown-menu"
           className={clsx([
             "absolute top-2rem right-0 z-99 w-200px",
-            "bg-primary p-1 backdrop-blur-5 bg-op-70! rounded-xl",
+            "bg-primary p-1px backdrop-blur-5 bg-op-70! rounded-lg",
           ])}
           initial={{
             scale: 0.9,

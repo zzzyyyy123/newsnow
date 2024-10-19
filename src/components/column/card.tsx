@@ -179,7 +179,15 @@ function NewsListHot({ query }: Query) {
   return (
     <>
       {items?.map((item, i) => (
-        <a href={item.url} target="_blank" key={item.title} className="flex gap-2 items-center mb-2 items-stretch hover:bg-neutral-400/10 rounded-md  visited:(text-neutral-400)">
+        <a
+          href={item.url}
+          target="_blank"
+          key={item.id}
+          className={clsx(
+            "flex gap-2 items-center mb-2 items-stretch",
+            "hover:bg-neutral-400/10 rounded-md pr-1 visited:(text-neutral-400)",
+          )}
+        >
           <span className={clsx("bg-neutral-400/10 min-w-6 flex justify-center items-center rounded-md text-sm")}>
             {i + 1}
           </span>
@@ -200,22 +208,20 @@ function NewsListHot({ query }: Query) {
 function NewsListTimeLine({ query }: Query) {
   const items = query.data?.items
   return (
-    <ol className="relative border-s border-dash border-neutral-400/10">
+    <ol className="border-s border-neutral-400/50 flex flex-col ml-1">
       {items?.map(item => (
-        <li key={item.title} className="flex gap-2 mb-2 ms-2">
-          <div className={clsx("absolute w-2 h-2 bg-neutral-400/50 rounded-full ml-0.5 mt-1 -start-1.5")} />
-          <a href={item.url} target="_blank" className="flex flex-col pl-2 hover:bg-neutral-400/10 rounded-md w-full visited:(text-neutral-400/80)">
+        <li key={item.id} className="flex flex-col">
+          <span className="flex items-center gap-1 text-neutral-400/50 ml--1px">
+            <span className="">-</span>
             <span className="text-xs text-neutral-400/80">
               {item?.extra?.date && <NewsUpdatedTime date={item.extra.date} />}
             </span>
-            <span>
-              <span>
-                {item.title}
-              </span>
-              <span className="text-xs text-neutral-400/80 truncate align-middle">
-                <ExtraInfo item={item} />
-              </span>
+            <span className="text-xs text-neutral-400/80">
+              <ExtraInfo item={item} />
             </span>
+          </span>
+          <a className={clsx("ml-2 px-1 hover:bg-neutral-400/10 rounded-md visited:(text-neutral-400/80)")} href={item.url} target="_blank">
+            {item.title}
           </a>
         </li>
       ))}
