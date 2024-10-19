@@ -47,7 +47,7 @@ export const metadata = typeSafeObjectFromEntries(typeSafeObjectEntries(originMe
     case "realtime":
       return [k, {
         ...v,
-        sources: typeSafeObjectEntries(sources).filter(([, v]) => v.type === "realtime" && !v.redirect).map(([k]) => k),
+        sources: ["weibo", ...typeSafeObjectEntries(sources).filter(([, v]) => v.type === "realtime" && !v.redirect).map(([k]) => k)],
       }]
     default:
       return [k, {

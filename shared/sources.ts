@@ -34,6 +34,7 @@ export const originSources = {
   "zaobao": {
     name: "联合早报",
     interval: Time.Common,
+    type: "realtime",
     color: "red",
     home: "https://www.zaobao.com",
   },
