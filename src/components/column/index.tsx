@@ -14,14 +14,12 @@ export function Column({ id }: { id: ColumnID }) {
   }, [id, setCurrentColumnID])
 
   useTitle(`NewsNow | ${metadata[id].name}`)
-  if (id === currentColumnID) {
-    return (
-      <>
-        <div className="flex justify-center md:hidden mb-6">
-          <NavBar />
-        </div>
-        <Dnd />
-      </>
-    )
-  }
+  return (
+    <>
+      <div className="flex justify-center md:hidden mb-6">
+        <NavBar />
+      </div>
+      {id === currentColumnID && <Dnd />}
+    </>
+  )
 }
