@@ -44,12 +44,10 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
           // 没有 latest
           // 有 latest，服务器可以登录但没有登录
           if (!latest || (!event.context.disabledLogin && !event.context.user)) {
-            if (event.context.disabledLogin) {
-              return {
-                status: "cache",
-                updatedTime: cache.updated,
-                items: cache.data,
-              }
+            return {
+              status: "cache",
+              updatedTime: cache.updated,
+              items: cache.data,
             }
           }
         }
