@@ -50,7 +50,7 @@ export function Menu() {
           id="dropdown-menu"
           className={clsx([
             "absolute top-2rem right-0 z-99 w-200px",
-            "bg-primary p-1 backdrop-blur-5 bg-op-40! rounded-xl",
+            "bg-primary p-1 backdrop-blur-5 bg-op-70! rounded-xl",
           ])}
           initial={{
             scale: 0.9,
@@ -59,7 +59,7 @@ export function Menu() {
             scale: 1,
           }}
         >
-          <ol className="bg-base bg-op-70! backdrop-blur-md p-2 rounded-md color-base text-base">
+          <ol className="bg-base bg-op-70! backdrop-blur-md p-2 rounded-lg color-base text-base">
             {enabledLogin && !loggedIn && (
               <li onClick={login}>
                 <span className="i-ph:sign-in-duotone inline-block" />

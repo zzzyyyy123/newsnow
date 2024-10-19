@@ -17,12 +17,10 @@ export function Column({ id }: { id: ColumnID }) {
   if (id === currentColumnID) {
     return (
       <>
-        <div className="flex justify-center md:hidden">
+        <div className="flex justify-center md:hidden mb-6">
           <NavBar />
         </div>
-        <div className="mt-10">
-          <Dnd />
-        </div>
+        <Dnd />
       </>
     )
   }

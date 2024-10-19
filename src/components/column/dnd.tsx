@@ -51,6 +51,9 @@ export function Dnd() {
         {items.map(id => (
           <motion.li
             key={id}
+            transition={{
+              type: "tween",
+            }}
             variants={{
               hidden: { y: 20, opacity: 0 },
               visible: {

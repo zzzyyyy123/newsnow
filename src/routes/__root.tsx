@@ -54,9 +54,10 @@ function RootComponent() {
           <Header />
         </header>
         <main className={clsx([
-          "min-h-[calc(100vh-170px)]",
-          "md:(min-h-[calc(100vh-110px)])",
-          "lg:(min-h-[calc(100vh-124px)])",
+          "mt-2",
+          "min-h-[calc(100vh-180px)]",
+          "md:(min-h-[calc(100vh-175px)])",
+          "lg:(min-h-[calc(100vh-194px)])",
         ])}
         >
           <Outlet />
