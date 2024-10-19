@@ -10,6 +10,7 @@ import { useOnReload } from "~/hooks/useOnReload"
 import { GlobalOverlayScrollbar } from "~/components/common/overlay-scrollbar"
 import { useSync } from "~/hooks/useSync"
 import { Footer } from "~/components/footer"
+import { Toast } from "~/components/common/toast"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -18,8 +19,9 @@ export const Route = createRootRouteWithContext<{
   notFoundComponent: NotFoundComponent,
   beforeLoad: () => {
     const query = new URLSearchParams(window.location.search)
-    if (query.has("login")) {
-      [...query.entries()].forEach(key => localStorage.setItem(key[0], key[1]))
+    if (query.has("login") && query.has("user") && query.has("jwt")) {
+      localStorage.setItem("user", query.get("user")!)
+      localStorage.setItem("jwt", JSON.stringify(query.get("jwt")!))
       window.history.replaceState({}, document.title, window.location.pathname)
     }
   },
@@ -46,15 +48,15 @@ function RootComponent() {
         <header className={clsx([
           "flex justify-between items-center py-4 px-5",
           "lg:(py-6)",
-          "sticky top-0 z-100 backdrop-blur-md",
+          "sticky top-0 z-10 backdrop-blur-md",
         ])}
         >
           <Header />
         </header>
         <main className={clsx([
-          "min-h-[calc(100vh-170px)] transition-margin",
-          "md:(min-h-[calc(100vh-110px)] mt--14)",
-          "lg:(min-h-[calc(100vh-124px)] mt--16)",
+          "min-h-[calc(100vh-170px)]",
+          "md:(min-h-[calc(100vh-110px)])",
+          "lg:(min-h-[calc(100vh-124px)])",
         ])}
         >
           <Outlet />
@@ -63,6 +65,7 @@ function RootComponent() {
           <Footer />
         </footer>
       </GlobalOverlayScrollbar>
+      <Toast />
       {import.meta.env.DEV && (
         <>
           <ReactQueryDevtools buttonPosition="bottom-left" />

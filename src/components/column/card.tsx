@@ -11,6 +11,7 @@ import { ofetch } from "ofetch"
 import { OverlayScrollbar } from "../common/overlay-scrollbar"
 import { focusSourcesAtom, refetchSourcesAtom } from "~/atoms"
 import { useRelativeTime } from "~/hooks/useRelativeTime"
+import { safeParseString } from "~/utils"
 
 export interface ItemsProps extends React.HTMLAttributes<HTMLDivElement> {
   id: SourceID
@@ -71,7 +72,7 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
       const response: SourceResponse = await ofetch(url, {
         timeout: 10000,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("user_jwt")}`,
+          Authorization: `Bearer ${safeParseString(localStorage.getItem("jwt"))}`,
         },
       })
       return response

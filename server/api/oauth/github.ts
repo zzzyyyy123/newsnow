@@ -63,8 +63,8 @@ export default defineEventHandler(async (event) => {
 
   const params = new URLSearchParams({
     login: "github",
-    user_jwt: jwtToken,
-    user_info: JSON.stringify({
+    jwt: jwtToken,
+    user: JSON.stringify({
       avatar: userInfo.avatar_url,
       name: userInfo.name,
     }),
