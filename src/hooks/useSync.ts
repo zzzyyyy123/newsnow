@@ -9,7 +9,7 @@ import { safeParseString } from "~/utils"
 
 export async function uploadMetadata(metadata: PrimitiveMetadata) {
   if (!__ENABLE_LOGIN__) return
-  const jwt = localStorage.getItem("jwt")
+  const jwt = safeParseString(localStorage.getItem("jwt"))
   if (!jwt) return
   try {
     await ofetch("/api/me/sync", {
