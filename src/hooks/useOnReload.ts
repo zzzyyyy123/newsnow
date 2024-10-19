@@ -1,5 +1,4 @@
-import { useEffect } from "react"
-import { useBeforeUnload } from "react-use"
+import { useBeforeUnload, useMount } from "react-use"
 
 export function useOnReload(fn?: () => Promise<void> | void, fallback?: () => Promise<void> | void) {
   useBeforeUnload(() => {
@@ -7,7 +6,7 @@ export function useOnReload(fn?: () => Promise<void> | void, fallback?: () => Pr
     return false
   })
 
-  useEffect(() => {
+  useMount(() => {
     const _ = localStorage.getItem("quitTime")
     const quitTime = _ ? Number(_) : 0
     if (!Number.isNaN(quitTime) && Date.now() - quitTime < 1000) {
@@ -15,6 +14,5 @@ export function useOnReload(fn?: () => Promise<void> | void, fallback?: () => Pr
     } else {
       fallback?.()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 }
