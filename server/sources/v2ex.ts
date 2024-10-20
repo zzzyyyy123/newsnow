@@ -16,7 +16,7 @@ interface Res {
   }[]
 }
 
-export default defineSource(async () => {
+const share = defineSource(async () => {
   const res = await Promise.all(["create", "ideas", "programmer", "share"].map(k => $fetch(`https://www.v2ex.com/feed/${k}.json`) as Promise< Res>))
   if (!res?.[0]?.items?.length) throw new Error("Cannot fetch data")
   return res.map(k => k.items).flat().map(k => ({
@@ -26,5 +26,10 @@ export default defineSource(async () => {
       date: k.date_modified ?? k.date_published,
     },
     url: k.url,
-  })).sort((m, n) => m.extra.date < n.extra.date ? 1 : -1).slice(0, 30)
+  })).sort((m, n) => m.extra.date < n.extra.date ? 1 : -1)
+})
+
+export default defineSource({
+  "v2ex": share,
+  "v2ex-share": share,
 })

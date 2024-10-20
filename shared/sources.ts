@@ -16,6 +16,11 @@ export const originSources = {
     name: "V2EX",
     color: "slate",
     home: "https://v2ex.com/",
+    sub: {
+      share: {
+        title: "最新分享",
+      },
+    },
   },
   "zhihu": {
     name: "知乎",

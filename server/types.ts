@@ -44,3 +44,34 @@ export interface UserInfo {
   created: number
   updated: number
 }
+
+export interface RSSHubOption {
+  // default: true
+  sorted?: boolean
+  // default: 20
+  limit?: number
+}
+
+export interface SourceOption {
+  // default: false
+  hiddenDate?: boolean
+}
+
+export interface FallbackResponse {
+  code: number
+  message: string
+  name: string
+  title: string
+  subtitle: string
+  total: number
+  updateTime: string
+  data: {
+    title: string
+    desc: string
+    time?: string
+    url: string
+    mobileUrl: string
+  }[]
+}
+
+export type SourceGetter = () => Promise<NewsItem[]>

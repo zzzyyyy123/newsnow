@@ -1,36 +1,18 @@
-import type { NewsItem, RSSHubInfo, SourceID } from "@shared/types"
+import type { SourceID } from "@shared/types"
+import defu from "defu"
+import type { FallbackResponse, RSSHubOption, RSSHubInfo as RSSHubResponse, SourceGetter, SourceOption } from "#/types"
 
-export function defineSource(source: () => Promise<NewsItem[]>): () => Promise<NewsItem[]> {
+type X = SourceGetter | Partial<Record<SourceID, SourceGetter>>
+export function defineSource<T extends X>(source: T): T {
   return source
 }
 
-interface SourceOption {
-  // default: false
-  hiddenDate?: boolean
-}
-
-interface FallbackRes {
-  code: number
-  message: string
-  name: string
-  title: string
-  subtitle: string
-  total: number
-  updateTime: string
-  data: {
-    title: string
-    desc: string
-    time?: string
-    url: string
-    mobileUrl: string
-  }[]
-}
-export function defineFallbackSource(id: SourceID, option?: SourceOption): () => Promise<NewsItem[]> {
+export function defineFallbackSource(id: SourceID, option?: SourceOption): SourceGetter {
   return async () => {
     const url = `https://smzdk.top/api/${id}/new`
-    const res: FallbackRes = await $fetch(url)
+    const res: FallbackResponse = await $fetch(url)
     if (res.code !== 200 || !res.data) throw new Error(res.message)
-    return res.data.slice(0, 30).map(item => ({
+    return res.data.map(item => ({
       extra: {
         date: !option?.hiddenDate && item.time,
       },
@@ -42,11 +24,11 @@ export function defineFallbackSource(id: SourceID, option?: SourceOption): () =>
   }
 }
 
-export function defineRSSSource(url: string, option?: SourceOption): () => Promise<NewsItem[]> {
+export function defineRSSSource(url: string, option?: SourceOption): SourceGetter {
   return async () => {
     const data = await rss2json(url)
     if (!data?.items.length) throw new Error("Cannot fetch data")
-    return data.items.slice(0, 30).map(item => ({
+    return data.items.map(item => ({
       title: item.title,
       url: item.link,
       id: item.link,
@@ -57,28 +39,21 @@ export function defineRSSSource(url: string, option?: SourceOption): () => Promi
   }
 }
 
-interface RSSHubOption {
-  // default: true
-  sorted?: boolean
-  // default: 20
-  limit?: number
-}
-export function defineRSSHubSource(route: string, RSSHubOptions?: RSSHubOption, sourceOption?: SourceOption): () => Promise<NewsItem[]> {
+export function defineRSSHubSource(route: string, RSSHubOptions?: RSSHubOption, sourceOption?: SourceOption): SourceGetter {
   return async () => {
     // "https://rsshub.pseudoyu.com"
     const RSSHubBase = "https://rsshub.rssforever.com"
     const url = new URL(route, RSSHubBase)
     url.searchParams.set("format", "json")
-    const defaultRSSHubOption: RSSHubOption = {
+    RSSHubOptions = defu<RSSHubOption, RSSHubOption[]>(RSSHubOptions, {
       sorted: true,
-      limit: 20,
-    }
-    Object.assign(defaultRSSHubOption, RSSHubOptions)
-    Object.entries(defaultRSSHubOption).forEach(([key, value]) => {
+    })
+
+    Object.entries(RSSHubOptions).forEach(([key, value]) => {
       url.searchParams.set(key, value.toString())
     })
-    const data: RSSHubInfo = await $fetch(url)
-    return data.items.slice(0, 30).map(item => ({
+    const data: RSSHubResponse = await $fetch(url)
+    return data.items.map(item => ({
       title: item.title,
       url: item.url,
       id: item.id ?? item.url,

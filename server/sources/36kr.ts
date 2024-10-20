@@ -1,7 +1,7 @@
 import type { NewsItem } from "@shared/types"
 import { load } from "cheerio"
 
-export default defineSource(async () => {
+const quick = defineSource(async () => {
   const url = "https://www.36kr.com/newsflashes"
   const response = await $fetch(url) as any
   const $ = load(response)
@@ -25,5 +25,10 @@ export default defineSource(async () => {
     }
   })
 
-  return news.slice(0, 30)
+  return news
+})
+
+export default defineSource({
+  "36kr": quick,
+  "36kr-quick": quick,
 })

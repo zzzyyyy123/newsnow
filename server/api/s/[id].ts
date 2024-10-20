@@ -2,7 +2,7 @@ import process from "node:process"
 import { TTL } from "@shared/consts"
 import type { SourceID, SourceResponse } from "@shared/types"
 import { sources } from "@shared/sources"
-import { sourcesFn } from "#/sources"
+import { sourcesGetters } from "#/sources"
 import { useCache } from "#/hooks/useCache"
 
 export default defineEventHandler(async (event): Promise<SourceResponse> => {
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
     let id = getRouterParam(event, "id") as SourceID
     const query = getQuery(event)
     const latest = query.latest !== undefined && query.latest !== "false"
-    const isValid = (id: SourceID) => !id || !sources[id] || !sourcesFn[id]
+    const isValid = (id: SourceID) => !id || !sources[id] || !sourcesGetters[id]
 
     if (isValid(id)) {
       const redirectID = sources?.[id].redirect
@@ -54,7 +54,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
       }
     }
 
-    const data = await sourcesFn[id]()
+    const data = (await sourcesGetters[id]()).slice(0, 30)
     logger.success(`fetch ${id} latest`)
     if (cacheTable) {
       if (event.context.waitUntil) event.context.waitUntil(cacheTable.set(id, data))
