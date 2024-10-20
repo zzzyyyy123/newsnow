@@ -12,9 +12,9 @@ import { VitePWA } from "vite-plugin-pwa"
 import { projectDir } from "./shared/dir"
 
 const isCF = process.env.CF_PAGES
+
 dotenv.config({
   path: join(projectDir, ".env.server"),
-
 })
 
 const pwaOption: Partial<VitePWAOptions> = {
