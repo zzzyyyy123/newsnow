@@ -20,7 +20,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
 
     const cacheTable = useCache()
     const now = Date.now()
-    if (cacheTable) {
+    if (process.env.NODE_ENV === "production" && cacheTable) {
       if (process.env.INIT_TABLE !== "false") await cacheTable.init()
       const cache = await cacheTable.get(id)
       if (cache) {

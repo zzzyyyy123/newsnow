@@ -1,9 +1,8 @@
 import * as cheerio from "cheerio"
 import type { NewsItem } from "@shared/types"
-import { $fetch } from "ofetch"
 
 export default defineSource(async () => {
-  const response = await $fetch("https://sputniknews.cn/services/widget/lenta/")
+  const response: any = await $fetch("https://sputniknews.cn/services/widget/lenta/")
   const $ = cheerio.load(response)
   const $items = $(".lenta__item")
   const news: NewsItem[] = []
@@ -24,5 +23,5 @@ export default defineSource(async () => {
       })
     }
   })
-  return news.slice(0, 30)
+  return news
 })

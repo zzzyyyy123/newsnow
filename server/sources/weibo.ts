@@ -28,10 +28,8 @@ interface Res {
 export default defineSource(async () => {
   const url = "https://weibo.com/ajax/side/hotSearch"
   const res: Res = await $fetch(url)
-  if (!res.ok || res.data.realtime.length === 0) throw new Error("Cannot fetch data")
   return res.data.realtime
     .filter(k => !k.is_ad)
-    .slice(0, 30)
     .map((k) => {
       const keyword = k.word_scheme ? k.word_scheme : `#${k.word}#`
       return {

@@ -18,7 +18,6 @@ interface Res {
 
 const share = defineSource(async () => {
   const res = await Promise.all(["create", "ideas", "programmer", "share"].map(k => $fetch(`https://www.v2ex.com/feed/${k}.json`) as Promise< Res>))
-  if (!res?.[0]?.items?.length) throw new Error("Cannot fetch data")
   return res.map(k => k.items).flat().map(k => ({
     id: k.id,
     title: k.title,

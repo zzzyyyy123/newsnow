@@ -74,6 +74,7 @@ export default defineConfig({
       experimental: {
         database: true,
       },
+      sourceMap: false,
       database: {
         default: {
           connector: isCF ? "cloudflare-d1" : "sqlite",

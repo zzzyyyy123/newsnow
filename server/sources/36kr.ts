@@ -2,7 +2,8 @@ import type { NewsItem } from "@shared/types"
 import { load } from "cheerio"
 
 const quick = defineSource(async () => {
-  const url = "https://www.36kr.com/newsflashes"
+  const baseURL = "https://www.36kr.com"
+  const url = `${baseURL}/newsflashes`
   const response = await $fetch(url) as any
   const $ = load(response)
   const news: NewsItem[] = []
@@ -15,7 +16,7 @@ const quick = defineSource(async () => {
     const relativeDate = $el.find(".time")
     if (url && title && relativeDate) {
       news.push({
-        url: `https://www.36kr.com${url}`,
+        url: `${baseURL}${url}`,
         title,
         id: url,
         extra: {

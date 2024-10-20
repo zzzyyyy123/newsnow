@@ -22,7 +22,6 @@ interface Res {
 export default defineSource(async () => {
   const url = "https://www.zhihu.com/api/v3/feed/topstory/hot-lists/total?limit=20&desktop=true"
   const res: Res = await $fetch(url)
-  if (!res.data || res.data.length === 0) throw new Error("Cannot fetch data")
   return res.data
     .slice(0, 30)
     .map((k) => {

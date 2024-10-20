@@ -52,16 +52,30 @@ export const originSources = {
   },
   "wallstreetcn": {
     name: "华尔街见闻",
-    interval: Time.Fast,
-    type: "realtime",
     color: "blue",
     home: "https://wallstreetcn.com/",
-    title: "快讯",
+    sub: {
+      quick: {
+        type: "realtime",
+        interval: Time.Fast,
+        title: "实时快讯",
+      },
+      news: {
+        title: "最新资讯",
+        interval: Time.Common,
+      },
+      hot: {
+        title: "最热文章",
+        type: "hottest",
+        interval: Time.Common,
+      },
+    },
   },
   "36kr": {
     name: "36氪",
     type: "realtime",
     color: "blue",
+    disable: true,
     home: "https://36kr.com",
     sub: {
       quick: {
@@ -114,6 +128,22 @@ export const originSources = {
     color: "red",
     interval: Time.Common,
     home: "https://china.cankaoxiaoxi.com",
+  },
+  "cls": {
+    name: "财联社",
+    color: "red",
+    home: "https://www.cls.cn",
+    sub: {
+      telegraph: {
+        title: "电报",
+        interval: Time.Fast,
+        type: "realtime",
+      },
+      depth: {
+        title: "深度头条",
+        interval: Time.Common,
+      },
+    },
   },
 } as const satisfies Record<string, OriginSource>
 

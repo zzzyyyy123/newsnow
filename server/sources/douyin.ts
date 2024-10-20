@@ -1,6 +1,6 @@
 interface Res {
-  data?: {
-    word_list?: {
+  data: {
+    word_list: {
       sentence_id: string
       word: string
       event_time: string
@@ -33,16 +33,11 @@ export default defineSource(async () => {
       Cookie: `passport_csrf_token=${cookie}`,
     },
   })
-  if (!res?.data?.word_list || res.data.word_list.length === 0) throw new Error("Cannot fetch data")
   return res.data.word_list
-    .slice(0, 30)
     .map((k) => {
       return {
         id: k.sentence_id,
         title: k.word,
-        extra: {
-          info: k.hot_value,
-        },
         url: `https://www.douyin.com/hot/${k.sentence_id}`,
       }
     })
