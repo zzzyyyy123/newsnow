@@ -145,6 +145,18 @@ export const originSources = {
       },
     },
   },
+  "xueqiu": {
+    name: "雪球",
+    color: "blue",
+    home: "https://xueqiu.com",
+    sub: {
+      hotstock: {
+        title: "热门股票",
+        interval: Time.Realtime,
+        type: "hottest",
+      },
+    },
+  },
 } as const satisfies Record<string, OriginSource>
 
 export const sources = genSources()

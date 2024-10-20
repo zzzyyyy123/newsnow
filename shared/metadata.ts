@@ -19,7 +19,7 @@ const originMetadata: Metadata = {
   },
   finance: {
     name: "财经",
-    sources: ["cls-telegraph", "cls-depth", "wallstreetcn", "wallstreetcn-hot", "wallstreetcn-news"],
+    sources: ["cls-telegraph", "cls-depth", "wallstreetcn", "wallstreetcn-hot", "wallstreetcn-news", "xueqiu-hotstock"],
   },
   focus: {
     name: "关注",
