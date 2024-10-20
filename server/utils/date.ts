@@ -164,7 +164,6 @@ export function parseRelativeDate(date: string) {
       if (beforeMatches) {
         matches.push(beforeMatches[1])
         // duration 这个插件有 bug，他会重新实现 subtract 这个方法，并且不会处理 weeks。用 ms 就可以调用默认的方法
-        // 改成这样之后，月又出问题了，我也是服了
         return dayjs().subtract(dayjs.duration(toDurations(matches))).toDate()
       }
 
@@ -218,5 +217,5 @@ export function parseRelativeDate(date: string) {
     }
   }
 
-  return date
+  return new Date()
 }

@@ -1,9 +1,8 @@
 import * as cheerio from "cheerio"
 import type { NewsItem } from "@shared/types"
-import { $fetch } from "ofetch"
 
 export default defineSource(async () => {
-  const response = await $fetch("https://www.ithome.com/list/")
+  const response: any = await $fetch("https://www.ithome.com/list/")
   const $ = cheerio.load(response)
   const $main = $("#list > div.fl > ul > li")
   const news: NewsItem[] = []

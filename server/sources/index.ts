@@ -13,6 +13,7 @@ import toutiao from "./toutiao"
 import cls from "./cls"
 import sputniknewscn from "./sputniknewscn"
 import xueqiu from "./xueqiu"
+import gelonghui from "./gelonghui"
 import type { SourceGetter } from "#/types"
 
 export const sourcesGetters = {
@@ -26,6 +27,7 @@ export const sourcesGetters = {
   sputniknewscn,
   ...wallstreetcn,
   ...xueqiu,
+  gelonghui,
   douyin,
   ...cls,
   toutiao,
