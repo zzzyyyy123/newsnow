@@ -13,7 +13,7 @@
   "homepage": "https://github.com/ourongxing/newsnow",
   "scripts": {
     "dev": "vite dev",
-    "build": "nr typecheck && vite build",
+    "build": "pnpm run typecheck && vite build",
     "lint": "eslint",
     "favicon": "tsx ./scripts/favicon.ts",
     "start": "PORT=4444 node --env-file .env.server dist/output/server/index.mjs",
