@@ -17,4 +17,7 @@ jobs:
         with:
           node-version: lts/*
 
-      - run: npx tsx ./scripts/refresh.ts
+      - name: Refresh
+        env:
+          JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
+        run: npx tsx ./scripts/refresh.ts

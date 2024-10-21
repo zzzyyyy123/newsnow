@@ -1,11 +1,10 @@
+import process from "node:process"
 import { sources } from "../shared/sources"
-import { delay } from "../shared/utils"
 
-async function main() {
-  for (const id of Object.keys(sources)) {
-    await delay(100)
-    fetch(`https://newsnow.busiyi.world/api/s/${id}`)
-  }
-}
-
-main().catch(console.error)
+Promise.all(Object.keys(sources).map(id =>
+  fetch(`https://newsnow.busiyi.world/api/s/${id}?latest`, {
+    headers: {
+      Authorization: `Bearer ${process.env.JWT_TOKEN}`,
+    },
+  }),
+)).catch(console.error)
