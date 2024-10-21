@@ -1,8 +1,8 @@
 import { Homepage } from "@shared/consts"
 import clsx from "clsx"
 import { motion } from "framer-motion"
-import { useRef, useState } from "react"
-import { useClickAway } from "react-use"
+import { useEffect, useRef, useState } from "react"
+import { useHoverDirty } from "react-use"
 import { useDark } from "~/hooks/useDark"
 import { useLogin } from "~/hooks/useLogin"
 
@@ -21,13 +21,14 @@ function ThemeToggle() {
 export function Menu() {
   const { loggedIn, login, logout, enabledLogin, userInfo } = useLogin()
   const [shown, show] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  useClickAway(ref, () => {
-    show(false)
-  })
+  const ref = useRef<HTMLElement>(null)
+  const isHover = useHoverDirty(ref)
+  useEffect(() => {
+    show(isHover)
+  }, [shown, isHover])
   return (
     <span ref={ref} className="relative">
-      <span className="flex items-center scale-90" onClick={() => show(!shown)}>
+      <span className="flex items-center scale-90">
         {
           enabledLogin && loggedIn && userInfo.avatar
             ? (
@@ -46,39 +47,41 @@ export function Menu() {
         }
       </span>
       {shown && (
-        <motion.div
-          id="dropdown-menu"
-          className={clsx([
-            "absolute top-2rem right-0 z-99 w-200px",
-            "bg-primary p-1px backdrop-blur-5 bg-op-70! rounded-lg",
-          ])}
-          initial={{
-            scale: 0.9,
-          }}
-          animate={{
-            scale: 1,
-          }}
-        >
-          <ol className="bg-base bg-op-70! backdrop-blur-md p-2 rounded-lg color-base text-base">
-            {enabledLogin && !loggedIn && (
-              <li onClick={login}>
-                <span className="i-ph:sign-in-duotone inline-block" />
-                <span>Github 账号登录</span>
+        <div className="absolute right-0 z-99 bg-transparent pt-8 top-0">
+          <motion.div
+            id="dropdown-menu"
+            className={clsx([
+              "w-200px",
+              "bg-primary p-1px backdrop-blur-5 bg-op-70! rounded-lg",
+            ])}
+            initial={{
+              scale: 0.9,
+            }}
+            animate={{
+              scale: 1,
+            }}
+          >
+            <ol className="bg-base bg-op-70! backdrop-blur-md p-2 rounded-lg color-base text-base">
+              {enabledLogin && !loggedIn && (
+                <li onClick={login}>
+                  <span className="i-ph:sign-in-duotone inline-block" />
+                  <span>Github 账号登录</span>
+                </li>
+              )}
+              {enabledLogin && loggedIn && (
+                <li onClick={logout}>
+                  <span className="i-ph:sign-out-duotone inline-block" />
+                  <span>退出登录</span>
+                </li>
+              )}
+              <ThemeToggle />
+              <li onClick={() => window.open(Homepage)}>
+                <span className="i-ph:github-logo-duotone inline-block" />
+                <span>Star on Github </span>
               </li>
-            )}
-            {enabledLogin && loggedIn && (
-              <li onClick={logout}>
-                <span className="i-ph:sign-out-duotone inline-block" />
-                <span>退出登录</span>
-              </li>
-            )}
-            <ThemeToggle />
-            <li onClick={() => window.open(Homepage)}>
-              <span className="i-ph:github-logo-duotone inline-block" />
-              <span>Star on Github </span>
-            </li>
-          </ol>
-        </motion.div>
+            </ol>
+          </motion.div>
+        </div>
       )}
     </span>
   )
