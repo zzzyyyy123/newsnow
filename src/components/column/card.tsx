@@ -8,6 +8,7 @@ import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from "r
 import { sources } from "@shared/sources"
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities"
 import { ofetch } from "ofetch"
+import { useWindowSize } from "react-use"
 import { OverlayScrollbar } from "../common/overlay-scrollbar"
 import { focusSourcesAtom, refetchSourcesAtom } from "~/atoms"
 import { useRelativeTime } from "~/hooks/useRelativeTime"
@@ -173,14 +174,14 @@ function NewsUpdatedTime({ date }: { date: string }) {
   const relativeTime = useRelativeTime(date)
   return <>{relativeTime}</>
 }
-
 function NewsListHot({ query }: Query) {
   const items = query.data?.items
+  const { width } = useWindowSize()
   return (
     <>
       {items?.map((item, i) => (
         <a
-          href={item.url}
+          href={width < 768 ? item.mobileUrl || item.url : item.url}
           target="_blank"
           key={item.id}
           className={clsx(
@@ -207,6 +208,7 @@ function NewsListHot({ query }: Query) {
 
 function NewsListTimeLine({ query }: Query) {
   const items = query.data?.items
+  const { width } = useWindowSize()
   return (
     <ol className="border-s border-neutral-400/50 flex flex-col ml-1">
       {items?.map(item => (
@@ -220,7 +222,11 @@ function NewsListTimeLine({ query }: Query) {
               <ExtraInfo item={item} />
             </span>
           </span>
-          <a className={clsx("ml-2 px-1 hover:bg-neutral-400/10 rounded-md visited:(text-neutral-400/80)")} href={item.url} target="_blank">
+          <a
+            className={clsx("ml-2 px-1 hover:bg-neutral-400/10 rounded-md visited:(text-neutral-400/80)")}
+            href={width < 768 ? item.mobileUrl || item.url : item.url}
+            target="_blank"
+          >
             {item.title}
           </a>
         </li>
