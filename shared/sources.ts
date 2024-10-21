@@ -161,6 +161,7 @@ export const originSources = {
     name: "格隆汇",
     color: "blue",
     title: "事件",
+    type: "realtime",
     interval: Time.Realtime,
     home: "https://www.gelonghui.com",
   },
