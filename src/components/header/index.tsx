@@ -51,7 +51,7 @@ function Refresh() {
 export function Header() {
   return (
     <>
-      <span className="flex">
+      <span className="flex justify-self-start">
         <Link to="/" className="flex gap-2 items-center">
           <div className="h-10 w-10 bg-cover" title="logo" style={{ backgroundImage: "url(/icon.svg)" }} />
           <span className="text-2xl font-brand line-height-none!">
@@ -66,10 +66,12 @@ export function Header() {
           {`v${Version}`}
         </a>
       </span>
-      <span className="hidden md:inline-block">
-        <NavBar />
+      <span className="justify-self-center">
+        <span className="hidden md:(inline-block)">
+          <NavBar />
+        </span>
       </span>
-      <span className="flex gap-2 items-center text-xl text-primary-600 dark:text-primary">
+      <span className="justify-self-end flex gap-2 items-center text-xl text-primary-600 dark:text-primary">
         <GoTop />
         <Refresh />
         <Menu />
