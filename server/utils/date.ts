@@ -21,8 +21,6 @@ export function tranformToUTC(date: string, format?: string, timezone: string = 
   return dayjs.tz(date, format, timezone).valueOf()
 }
 
-export const day = dayjs
-
 const words = [
   {
     startAt: dayjs(),
@@ -142,7 +140,7 @@ function toDurations(matches: string[]) {
 
 export const parseDate = (date: string | number, ...options: any) => dayjs(date, ...options).toDate()
 
-export function parseRelativeDate(date: string) {
+export function parseRelativeDate(date: string, timezone: string = "Asia/Shanghai") {
   // 预处理日期字符串 date
 
   const theDate = toDate(date)
@@ -194,7 +192,7 @@ export function parseRelativeDate(date: string) {
           // 取特殊词对应日零时为起点，加上相应的时间长度
 
           return w.startAt
-            .set("hour", 0)
+            .set("hour", (dayjs().tz(timezone).utcOffset() - dayjs().utcOffset() / 60))
             .set("minute", 0)
             .set("second", 0)
             .set("millisecond", 0)
@@ -212,10 +210,10 @@ export function parseRelativeDate(date: string) {
       if (wordMatches) {
         // The default parser of dayjs() can parse '8:00 pm' but not '8:00pm'
         // so we need to insert a space in between
-        return dayjs(`${w.startAt.format("YYYY-MM-DD")} ${/a|pm$/.test(wordMatches[1]) ? wordMatches[1].replace(/a|pm/, " $&") : wordMatches[1]}`).toDate()
+        return dayjs.tz(`${w.startAt.format("YYYY-MM-DD")} ${/a|pm$/.test(wordMatches[1]) ? wordMatches[1].replace(/a|pm/, " $&") : wordMatches[1]}`, timezone).toDate()
       }
     }
   }
 
-  return new Date()
+  return date
 }

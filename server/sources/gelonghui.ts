@@ -21,7 +21,7 @@ export default defineSource(async () => {
         title,
         id: url,
         extra: {
-          date: parseRelativeDate(relatieveTime).toDateString(),
+          date: parseRelativeDate(relatieveTime),
           info,
         },
       })
