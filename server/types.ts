@@ -57,21 +57,4 @@ export interface SourceOption {
   hiddenDate?: boolean
 }
 
-export interface FallbackResponse {
-  code: number
-  message: string
-  name: string
-  title: string
-  subtitle: string
-  total: number
-  updateTime: string
-  data: {
-    title: string
-    desc: string
-    time?: string
-    url: string
-    mobileUrl: string
-  }[]
-}
-
 export type SourceGetter = () => Promise<NewsItem[]>

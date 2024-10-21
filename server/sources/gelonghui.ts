@@ -12,7 +12,7 @@ export default defineSource(async () => {
     // https://www.kzaobao.com/shiju/20241002/170659.html
     const url = a.attr("href")
     const title = a.find("h2").text()
-    const info = $(el).find(".about-stocks").text()
+    const info = $(el).find(".time > span:nth-child(1)").text()
     // 第三个 p
     const relatieveTime = $(el).find(".time > span:nth-child(3)").text()
     if (url && title && relatieveTime) {
@@ -27,5 +27,5 @@ export default defineSource(async () => {
       })
     }
   })
-  return news.sort((m, n) => n.extra!.date > m.extra!.date ? 1 : -1)
+  return news
 })

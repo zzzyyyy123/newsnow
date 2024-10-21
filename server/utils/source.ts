@@ -1,27 +1,10 @@
-import type { AllSourceID, SourceID } from "@shared/types"
+import type { AllSourceID } from "@shared/types"
 import defu from "defu"
-import type { FallbackResponse, RSSHubOption, RSSHubInfo as RSSHubResponse, SourceGetter, SourceOption } from "#/types"
+import type { RSSHubOption, RSSHubInfo as RSSHubResponse, SourceGetter, SourceOption } from "#/types"
 
 type X = SourceGetter | Partial<Record<AllSourceID, SourceGetter>>
 export function defineSource<T extends X>(source: T): T {
   return source
-}
-
-export function defineFallbackSource(id: SourceID, option?: SourceOption): SourceGetter {
-  return async () => {
-    const url = `https://smzdk.top/api/${id}/new`
-    const res: FallbackResponse = await $fetch(url)
-    if (res.code !== 200 || !res.data) throw new Error(res.message)
-    return res.data.map(item => ({
-      extra: {
-        date: !option?.hiddenDate && item.time,
-      },
-      id: item.url,
-      title: item.title,
-      url: item.url,
-      mobileUrl: item.mobileUrl,
-    }))
-  }
 }
 
 export function defineRSSSource(url: string, option?: SourceOption): SourceGetter {

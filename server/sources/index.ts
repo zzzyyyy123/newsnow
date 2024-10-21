@@ -14,6 +14,8 @@ import cls from "./cls"
 import sputniknewscn from "./sputniknewscn"
 import xueqiu from "./xueqiu"
 import gelonghui from "./gelonghui"
+import tieba from "./tieba"
+import thepaper from "./thepaper"
 import type { SourceGetter } from "#/types"
 
 export const sourcesGetters = {
@@ -24,6 +26,7 @@ export const sourcesGetters = {
   zhihu,
   coolapk,
   cankaoxiaoxi,
+  thepaper,
   sputniknewscn,
   ...wallstreetcn,
   ...xueqiu,
@@ -31,5 +34,6 @@ export const sourcesGetters = {
   douyin,
   ...cls,
   toutiao,
+  tieba,
   ...kr36,
 } as Record<SourceID, SourceGetter> & Partial<Record<DisabledSourceID, SourceGetter>>

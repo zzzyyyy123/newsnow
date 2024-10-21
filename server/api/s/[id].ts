@@ -13,7 +13,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
     const isValid = (id: SourceID) => !id || !sources[id] || !sourcesGetters[id]
 
     if (isValid(id)) {
-      const redirectID = sources?.[id].redirect
+      const redirectID = sources?.[id]?.redirect
       if (redirectID) id = redirectID
       if (isValid(id)) throw new Error("Invalid source id")
     }

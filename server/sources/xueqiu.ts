@@ -26,7 +26,7 @@ const hotstock = defineSource(async () => {
     url: `https://xueqiu.com/s/${k.code}`,
     title: k.name,
     extra: {
-      info: `${k.percent}%`,
+      info: `${k.percent}% ${k.exchange}`,
     },
   }))
 })
