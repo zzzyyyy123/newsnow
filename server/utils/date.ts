@@ -145,12 +145,12 @@ export function parseRelativeDate(date: string, timezone: string = "UTC") {
   // 预处理日期字符串 date
 
   const theDate = toDate(date)
+  console.log(theDate)
 
   // 将 `\d+年\d+月...\d+秒前` 分割成 `['\d+年', ..., '\d+秒前']`
 
   const matches = theDate.match(/\D*\d+(?![:\-/]|(a|p)m)\D+/g)
   const offset = dayjs.duration({ hours: (dayjs().tz(timezone).utcOffset() - dayjs().utcOffset()) / 60 })
-  console.log((dayjs().tz(timezone).utcOffset() - dayjs().utcOffset()) / 60)
 
   if (matches) {
     // 获得最后的时间单元，如 `\d+秒前`
@@ -212,6 +212,7 @@ export function parseRelativeDate(date: string, timezone: string = "UTC") {
     for (const w of words) {
       const wordMatches = w.regExp.exec(theDate)
       if (wordMatches) {
+        console.log(`${w.startAt.add(offset).format("YYYY-MM-DD")}`)
         // The default parser of dayjs() can parse '8:00 pm' but not '8:00pm'
         // so we need to insert a space in between
         return dayjs.tz(`${w.startAt.add(offset).format("YYYY-MM-DD")} ${/a|pm$/.test(wordMatches[1]) ? wordMatches[1].replace(/a|pm/, " $&") : wordMatches[1]}`, timezone).toDate()
