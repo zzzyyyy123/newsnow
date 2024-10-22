@@ -150,6 +150,7 @@ export function parseRelativeDate(date: string, timezone: string = "UTC") {
 
   const matches = theDate.match(/\D*\d+(?![:\-/]|(a|p)m)\D+/g)
   const offset = dayjs.duration({ hours: (dayjs().tz(timezone).utcOffset() - dayjs().utcOffset()) / 60 })
+  console.log((dayjs().tz(timezone).utcOffset() - dayjs().utcOffset()) / 60)
 
   if (matches) {
     // 获得最后的时间单元，如 `\d+秒前`
