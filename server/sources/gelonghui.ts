@@ -15,13 +15,14 @@ export default defineSource(async () => {
     const info = $(el).find(".time > span:nth-child(1)").text()
     // 第三个 p
     const relatieveTime = $(el).find(".time > span:nth-child(3)").text()
+    console.log(relatieveTime)
     if (url && title && relatieveTime) {
       news.push({
         url: baseURL + url,
         title,
         id: url,
         extra: {
-          date: parseRelativeDate(relatieveTime),
+          date: parseRelativeDate(relatieveTime, "Asia/Shanghai"),
           info,
         },
       })
