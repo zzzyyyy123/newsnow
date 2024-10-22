@@ -36,7 +36,7 @@ export default defineConfig({
     "btn": "op50 hover:op85",
   },
   safelist: [
-    ...[...new Set(Object.values(sources).map(k => k.color))].map(k =>
+    ...["orange", ...new Set(Object.values(sources).map(k => k.color))].map(k =>
       `bg-${k} color-${k} border-${k} sprinkle-${k} shadow-${k}
        bg-${k}-500 color-${k}-500
        dark:bg-${k} dark:color-${k}`.trim().split(/\s+/)).flat(),

@@ -2,7 +2,7 @@ import { atom } from "jotai"
 import type { ColumnID, SourceID } from "@shared/types"
 import { sources } from "@shared/sources"
 import { primitiveMetadataAtom } from "./primitiveMetadataAtom"
-import type { Update } from "./types"
+import type { ToastItem, Update } from "./types"
 
 export { primitiveMetadataAtom, preprocessMetadata } from "./primitiveMetadataAtom"
 
@@ -56,3 +56,5 @@ export const goToTopAtom = atom({
   ok: false,
   fn: undefined as (() => void) | undefined,
 })
+
+export const toastAtom = atom<ToastItem[]>([])

@@ -1,35 +1,125 @@
 import clsx from "clsx"
-import { Toaster } from "sonner"
+import { AnimatePresence, motion } from "framer-motion"
+import { useAtomValue, useSetAtom } from "jotai"
+import { useCallback, useMemo, useRef } from "react"
+import { useHoverDirty, useMount, useUpdateEffect, useWindowSize } from "react-use"
+import { toastAtom } from "~/atoms"
+import type { ToastItem } from "~/atoms/types"
+import { Timer } from "~/utils"
 
+const WIDTH = 320
 export function Toast() {
+  const { width } = useWindowSize()
+  const center = useMemo(() => {
+    const t = (width - WIDTH) / 2
+    return t > width * 0.9 ? width * 0.9 : t
+  }, [width])
+  const toastItems = useAtomValue(toastAtom)
+
   return (
-    <Toaster
-      toastOptions={{
-        duration: 5000,
-        unstyled: true,
-        classNames: {
-          toast: clsx(
-            "flex gap-1 p-1 rounded-xl backdrop-blur-5 items-center bg-op-70! w-full",
-            "bg-blue",
-            "data-[type=error]:(bg-red)",
-            "data-[type=success]:(bg-green)",
-            "data-[type=info]:(bg-blue)",
-            "data-[type=warning]:(bg-yellow)",
-          ),
-          icon: "text-white ml-1 dark:text-dark-600 text-op-80!",
-          content: "bg-base bg-op-70! p-2 rounded-lg color-base w-full backdrop-blur-xl",
-          title: "font-normal text-base",
-          description: "color-base text-op-80! text-sm",
-          actionButton: "bg-base bg-op-70! rounded-lg py-2 w-4em backdrop-blur-lg hover:(bg-base bg-op-60!)",
-          closeButton: "bg-base bg-op-50! border-0 hover:(bg-base bg-op-70!)",
+    <AnimatePresence>
+      {toastItems.length && (
+        <motion.ol
+          initial="hidden"
+          animate="visible"
+          style={{
+            width: WIDTH,
+            left: center,
+          }}
+          variants={{
+            visible: {
+              transition: {
+                delayChildren: 0.1,
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+          className="absolute top-0 z-99 flex flex-col gap-2"
+        >
+          {
+            toastItems.map(k => <Item key={k.id} info={k} />)
+          }
+        </motion.ol>
+      )}
+    </AnimatePresence>
+  )
+}
+
+const colors = {
+  success: "green",
+  error: "red",
+  warning: "orange",
+  info: "blue",
+}
+
+function Item({ info }: { info: ToastItem }) {
+  const color = colors[info.type ?? "info"]
+  const setToastItems = useSetAtom(toastAtom)
+  const hidden = useCallback((dismiss = true) => {
+    setToastItems(prev => prev.filter(k => k.id !== info.id))
+    if (dismiss) {
+      info.onDismiss?.()
+    }
+  }, [info, setToastItems])
+  const timer = useRef<Timer>()
+
+  useMount(() => {
+    timer.current = new Timer(() => {
+      hidden()
+    }, info.duration ?? 5000)
+    return () => timer.current?.clear()
+  })
+
+  const ref = useRef(null)
+  const isHoverd = useHoverDirty(ref)
+  useUpdateEffect(() => {
+    if (isHoverd) {
+      timer.current?.pause()
+    } else {
+      timer.current?.resume()
+    }
+  }, [isHoverd])
+
+  return (
+    <motion.li
+      ref={ref}
+      layout
+      variants={{
+        hidden: { y: 0, opacity: 0 },
+        visible: {
+          y: 15,
+          opacity: 1,
         },
       }}
-      closeButton
-      expand
-      style={{
-        top: 10,
-      }}
-      position="top-center"
-    />
+      className={clsx(
+        "bg-base rounded-lg shadow-xl relative",
+      )}
+    >
+      <div className={clsx(
+        `bg-${color}-500 dark:bg-${color} bg-op-40! p2 backdrop-blur-5 rounded-lg w-full`,
+        "flex items-center gap-2",
+      )}
+      >
+        {
+          isHoverd
+            ? <button type="button" className={`i-ph:x-circle color-${color}-500 i-ph:info`} onClick={() => hidden(false)} />
+            : <span className={`i-ph:info color-${color}-500 `} />
+        }
+        <div className="flex justify-between w-full">
+          <span className="op-90 dark:op-100">
+            {info.msg}
+          </span>
+          {info.action && (
+            <button
+              type="button"
+              className={`text-sm color-${color}-500 bg-base op-80 bg-op-50! px-1 rounded min-w-10 hover:bg-op-70!`}
+              onClick={info.action.onClick}
+            >
+              {info.action.label}
+            </button>
+          )}
+        </div>
+      </div>
+    </motion.li>
   )
 }

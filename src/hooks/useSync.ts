@@ -2,8 +2,8 @@ import type { PrimitiveMetadata } from "@shared/types"
 import { useAtom } from "jotai"
 import { ofetch } from "ofetch"
 import { useDebounce, useMount } from "react-use"
-import { toast } from "sonner"
 import { useLogin } from "./useLogin"
+import { useToast } from "./useToast"
 import { preprocessMetadata, primitiveMetadataAtom } from "~/atoms"
 import { safeParseString } from "~/utils"
 
@@ -49,6 +49,7 @@ export async function downloadMetadata(): Promise<PrimitiveMetadata | undefined>
 export function useSync() {
   const [primitiveMetadata, setPrimitiveMetadata] = useAtom(primitiveMetadataAtom)
   const { logout, login } = useLogin()
+  const toaster = useToast()
 
   useDebounce(async () => {
     if (primitiveMetadata.action === "manual") {
@@ -64,7 +65,8 @@ export function useSync() {
         }
       } catch (e: any) {
         if (e.statusCode === 401) {
-          toast.error("身份校验失败，请重新登录", {
+          toaster("身份校验失败，请重新登录", {
+            type: "error",
             action: {
               label: "登录",
               onClick: login,
