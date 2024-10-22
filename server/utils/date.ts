@@ -212,6 +212,8 @@ export function parseRelativeDate(date: string, timezone: string = "UTC") {
     for (const w of words) {
       const wordMatches = w.regExp.exec(theDate)
       if (wordMatches) {
+        console.log(offset)
+        console.log(w.startAt.format("YYYY-MM-DD"))
         console.log(`${w.startAt.add(offset).format("YYYY-MM-DD")}`)
         // The default parser of dayjs() can parse '8:00 pm' but not '8:00pm'
         // so we need to insert a space in between
