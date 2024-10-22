@@ -136,9 +136,8 @@ function DndWrapper({ items, setItems, children }: PropsWithChildren<DndProps>) 
 function CardOverlay({ id }: { id: SourceID }) {
   return (
     <div className={clsx(
-      "flex flex-col rounded-2xl p-4",
-      "backdrop-blur-5 bg-op-40",
-      `bg-${sources[id].color}`,
+      "flex flex-col rounded-2xl p-4 backdrop-blur-5",
+      `bg-${sources[id].color}-500 dark:bg-${sources[id].color} bg-op-40!`,
     )}
     >
       <div className={clsx("flex justify-between mx-2 items-center")}>

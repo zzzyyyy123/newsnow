@@ -44,9 +44,9 @@ export const CardWrapper = forwardRef<HTMLDivElement, ItemsProps>(({ id, isDragg
       ref={ref}
       className={clsx(
         "flex flex-col h-500px rounded-2xl p-4 cursor-default",
-        "bg-op-40 backdrop-blur-5 transition-opacity-300",
+        "backdrop-blur-5 transition-opacity-300",
         isDragged && "op-50",
-        `bg-${sources[id].color}`,
+        `bg-${sources[id].color}-500 dark:bg-${sources[id].color} bg-op-40!`,
       )}
       style={{
         transformOrigin: "50% 50%",
