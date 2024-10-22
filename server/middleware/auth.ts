@@ -3,7 +3,6 @@ import { jwtVerify } from "jose"
 
 export default defineEventHandler(async (event) => {
   const url = getRequestURL(event)
-  console.log(url.pathname)
   if (["JWT_SECRET", "G_CLIENT_ID", "G_CLIENT_SECRET"].find(k => !process.env[k])) {
     event.context.disabledLogin = true
     if (url.pathname.startsWith("/api/me")) throw createError({ statusCode: 506, message: "Server not configured" })
