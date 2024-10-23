@@ -21,7 +21,7 @@ JWT_SECRET=
 INIT_TABLE=true
 ```
 
-This project primarily supports deployment on Cloudflare Pages and Docker. For Vercel, you need to set up your own database. Supported databases can be found at https://db0.unjs.io/connectors.
+This project primarily supports deployment on Cloudflare Pages and Docker. For Vercel, you need to set up your own database. Supported databases can be found at https://db0.unjs.io/connectors .
 
 Cloudflare D1 database is free to use. You can manually create a database in the Cloudflare Worker control panel and add the database_id and database_name to the corresponding positions in wrangler.toml. The changes will take effect on the next deployment.
 
