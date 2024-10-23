@@ -12,6 +12,7 @@ import { VitePWA } from "vite-plugin-pwa"
 import { projectDir } from "./shared/dir"
 
 const isCF = process.env.CF_PAGES
+const isVercel = process.env.VERCEL
 
 dotenv.config({
   path: join(projectDir, ".env.server"),
@@ -57,6 +58,39 @@ const pwaOption: Partial<VitePWAOptions> = {
 
 }
 
+const nitroOption: Parameters<typeof nitro>[0] = {
+  experimental: {
+    database: true,
+  },
+  sourceMap: false,
+  database: {
+    default: {
+      connector: "sqlite",
+    },
+  },
+  alias: {
+    "@shared": join(projectDir, "shared"),
+    "#": join(projectDir, "server"),
+  },
+  preset: "node-server",
+}
+
+if (isVercel) {
+  nitroOption.preset = "vercel-edge"
+  // You can use other online database, do it yourself. For more info: https://db0.unjs.io/connectors
+  nitroOption.database = undefined
+} else if (isCF) {
+  nitroOption.preset = "cloudflare-workers"
+  nitroOption.database = {
+    default: {
+      connector: "cloudflare-d1",
+      options: {
+        bindingName: "NEWSNOW_DB",
+      },
+    },
+  }
+}
+
 export default defineConfig({
   define: {
     __G_CLIENT_ID__: `"${process.env.G_CLIENT_ID}"`,
@@ -70,24 +104,6 @@ export default defineConfig({
     unocss(),
     react(),
     VitePWA(pwaOption),
-    nitro({
-      experimental: {
-        database: true,
-      },
-      sourceMap: false,
-      database: {
-        default: {
-          connector: isCF ? "cloudflare-d1" : "sqlite",
-          options: {
-            bindingName: "NEWSNOW_DB",
-          },
-        },
-      },
-      alias: {
-        "@shared": join(projectDir, "shared"),
-        "#": join(projectDir, "server"),
-      },
-      preset: isCF ? "cloudflare-pages" : "node-server",
-    }),
+    nitro(nitroOption),
   ],
 })
