@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 import MockDate from "mockdate"
 
 describe("parseRelativeDate", () => {
+  Object.assign(process.env, { TZ: "UTC" })
   const second = 1000
   const minute = 60 * second
   const hour = 60 * minute

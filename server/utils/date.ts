@@ -21,56 +21,59 @@ export function tranformToUTC(date: string, format?: string, timezone: string = 
   return dayjs.tz(date, format, timezone).valueOf()
 }
 
-const words = [
-  {
-    startAt: dayjs(),
-    regExp: /^(?:今[天日]|to?day?)(.*)/,
-  },
-  {
-    startAt: dayjs().subtract(1, "days"),
-    regExp: /^(?:昨[天日]|y(?:ester)?day?)(.*)/,
-  },
-  {
-    startAt: dayjs().subtract(2, "days"),
-    regExp: /^(?:前天|(?:the)?d(?:ay)?b(?:eforeyesterda)?y)(.*)/,
-  },
-  {
-    startAt: dayjs().isSameOrBefore(dayjs().weekday(1)) ? dayjs().weekday(1).subtract(1, "week") : dayjs().weekday(1),
-    regExp: /^(?:周|星期)一(.*)/,
-  },
-  {
-    startAt: dayjs().isSameOrBefore(dayjs().weekday(2)) ? dayjs().weekday(2).subtract(1, "week") : dayjs().weekday(2),
-    regExp: /^(?:周|星期)二(.*)/,
-  },
-  {
-    startAt: dayjs().isSameOrBefore(dayjs().weekday(3)) ? dayjs().weekday(3).subtract(1, "week") : dayjs().weekday(3),
-    regExp: /^(?:周|星期)三(.*)/,
-  },
-  {
-    startAt: dayjs().isSameOrBefore(dayjs().weekday(4)) ? dayjs().weekday(4).subtract(1, "week") : dayjs().weekday(4),
-    regExp: /^(?:周|星期)四(.*)/,
-  },
-  {
-    startAt: dayjs().isSameOrBefore(dayjs().weekday(5)) ? dayjs().weekday(5).subtract(1, "week") : dayjs().weekday(5),
-    regExp: /^(?:周|星期)五(.*)/,
-  },
-  {
-    startAt: dayjs().isSameOrBefore(dayjs().weekday(6)) ? dayjs().weekday(6).subtract(1, "week") : dayjs().weekday(6),
-    regExp: /^(?:周|星期)六(.*)/,
-  },
-  {
-    startAt: dayjs().isSameOrBefore(dayjs().weekday(7)) ? dayjs().weekday(7).subtract(1, "week") : dayjs().weekday(7),
-    regExp: /^(?:周|星期)[天日](.*)/,
-  },
-  {
-    startAt: dayjs().add(1, "days"),
-    regExp: /^(?:明[天日]|y(?:ester)?day?)(.*)/,
-  },
-  {
-    startAt: dayjs().add(2, "days"),
-    regExp: /^(?:[后後][天日]|(?:the)?d(?:ay)?a(?:fter)?t(?:omrrow)?)(.*)/,
-  },
-]
+// cloudflare 里 dayjs() 结果为 0，不能放在 top
+function words() {
+  return [
+    {
+      startAt: dayjs(),
+      regExp: /^(?:今[天日]|to?day?)(.*)/,
+    },
+    {
+      startAt: dayjs().subtract(1, "days"),
+      regExp: /^(?:昨[天日]|y(?:ester)?day?)(.*)/,
+    },
+    {
+      startAt: dayjs().subtract(2, "days"),
+      regExp: /^(?:前天|(?:the)?d(?:ay)?b(?:eforeyesterda)?y)(.*)/,
+    },
+    {
+      startAt: dayjs().isSameOrBefore(dayjs().weekday(1)) ? dayjs().weekday(1).subtract(1, "week") : dayjs().weekday(1),
+      regExp: /^(?:周|星期)一(.*)/,
+    },
+    {
+      startAt: dayjs().isSameOrBefore(dayjs().weekday(2)) ? dayjs().weekday(2).subtract(1, "week") : dayjs().weekday(2),
+      regExp: /^(?:周|星期)二(.*)/,
+    },
+    {
+      startAt: dayjs().isSameOrBefore(dayjs().weekday(3)) ? dayjs().weekday(3).subtract(1, "week") : dayjs().weekday(3),
+      regExp: /^(?:周|星期)三(.*)/,
+    },
+    {
+      startAt: dayjs().isSameOrBefore(dayjs().weekday(4)) ? dayjs().weekday(4).subtract(1, "week") : dayjs().weekday(4),
+      regExp: /^(?:周|星期)四(.*)/,
+    },
+    {
+      startAt: dayjs().isSameOrBefore(dayjs().weekday(5)) ? dayjs().weekday(5).subtract(1, "week") : dayjs().weekday(5),
+      regExp: /^(?:周|星期)五(.*)/,
+    },
+    {
+      startAt: dayjs().isSameOrBefore(dayjs().weekday(6)) ? dayjs().weekday(6).subtract(1, "week") : dayjs().weekday(6),
+      regExp: /^(?:周|星期)六(.*)/,
+    },
+    {
+      startAt: dayjs().isSameOrBefore(dayjs().weekday(7)) ? dayjs().weekday(7).subtract(1, "week") : dayjs().weekday(7),
+      regExp: /^(?:周|星期)[天日](.*)/,
+    },
+    {
+      startAt: dayjs().add(1, "days"),
+      regExp: /^(?:明[天日]|y(?:ester)?day?)(.*)/,
+    },
+    {
+      startAt: dayjs().add(2, "days"),
+      regExp: /^(?:[后後][天日]|(?:the)?d(?:ay)?a(?:fter)?t(?:omrrow)?)(.*)/,
+    },
+  ]
+}
 
 const patterns = [
   {
@@ -145,7 +148,6 @@ export function parseRelativeDate(date: string, timezone: string = "UTC") {
   // 预处理日期字符串 date
 
   const theDate = toDate(date)
-  console.log(theDate)
 
   // 将 `\d+年\d+月...\d+秒前` 分割成 `['\d+年', ..., '\d+秒前']`
 
@@ -187,7 +189,7 @@ export function parseRelativeDate(date: string, timezone: string = "UTC") {
     const firstMatch = matches.shift()
 
     if (firstMatch) {
-      for (const w of words) {
+      for (const w of words()) {
         const wordMatches = w.regExp.exec(firstMatch)
         if (wordMatches) {
           matches.unshift(wordMatches[1])
@@ -209,12 +211,9 @@ export function parseRelativeDate(date: string, timezone: string = "UTC") {
     // 若日期字符串 date 不匹配 patterns 中所有模式，则默认为 `特殊词 + 标准时间格式` 的情形，此时直接将特殊词替换为对应日期
     // 如今天为 `2022-03-22`，则 `今天 20:00` => `2022-03-22 20:00`
 
-    for (const w of words) {
+    for (const w of words()) {
       const wordMatches = w.regExp.exec(theDate)
       if (wordMatches) {
-        console.log(offset)
-        console.log(w.startAt.format("YYYY-MM-DD"))
-        console.log(`${w.startAt.add(offset).format("YYYY-MM-DD")}`)
         // The default parser of dayjs() can parse '8:00 pm' but not '8:00pm'
         // so we need to insert a space in between
         return dayjs.tz(`${w.startAt.add(offset).format("YYYY-MM-DD")} ${/a|pm$/.test(wordMatches[1]) ? wordMatches[1].replace(/a|pm/, " $&") : wordMatches[1]}`, timezone).toDate()
