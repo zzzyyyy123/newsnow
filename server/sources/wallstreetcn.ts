@@ -2,8 +2,6 @@ interface Item {
   uri: string
   id: number
   title?: string
-  // ad
-  resource_type?: string
   content_text: string
   content_short: string
   display_time: number
@@ -18,6 +16,8 @@ interface LiveRes {
 interface NewsRes {
   data: {
     items: {
+      // ad
+      resource_type?: string
       resource: Item
     }[]
   }
@@ -52,7 +52,7 @@ const news = defineSource(async () => {
 
   const res: NewsRes = await $fetch(apiUrl)
   return res.data.items
-    .filter(k => k.resource.resource_type !== "ad" && k.resource.type !== "live")
+    .filter(k => k.resource_type !== "ad" && k.resource.type !== "live" && k.resource.uri)
     .map(({ resource: h }) => {
       return {
         id: h.id,
