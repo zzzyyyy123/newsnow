@@ -80,7 +80,7 @@ if (isVercel) {
   // You can use other online database, do it yourself. For more info: https://db0.unjs.io/connectors
   nitroOption.database = undefined
 } else if (isCF) {
-  nitroOption.preset = "cloudflare-workers"
+  nitroOption.preset = "cloudflare-pages"
   nitroOption.database = {
     default: {
       connector: "cloudflare-d1",
