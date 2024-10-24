@@ -8,14 +8,14 @@ import tsconfigPath from "vite-tsconfig-paths"
 import unocss from "unocss/vite"
 import dotenv from "dotenv"
 import type { VitePWAOptions } from "vite-plugin-pwa"
-import { VitePWA } from "vite-plugin-pwa"
+// import { VitePWA } from "vite-plugin-pwa"
 import { projectDir } from "./shared/dir"
 
 dotenv.config({
   path: join(projectDir, ".env.server"),
 })
 
-const pwaOption: Partial<VitePWAOptions> = {
+const _pwaOption: Partial<VitePWAOptions> = {
   includeAssets: ["icon.svg", "apple-touch-icon.png"],
   manifest: {
     name: "NewsNow",
@@ -106,7 +106,7 @@ export default defineConfig({
     }),
     unocss(),
     react(),
-    VitePWA(pwaOption),
+    // VitePWA(pwaOption),
     nitro(nitroOption),
   ],
 })
