@@ -3,7 +3,6 @@ import { SignJWT } from "jose"
 import { UserTable } from "#/database/user"
 
 export default defineEventHandler(async (event) => {
-  if (["JWT_SECRET", "G_CLIENT_ID", "G_CLIENT_SECRET"].find(k => !process.env[k])) throw new Error("Missing environment variables")
   const db = useDatabase()
   const userTable = db ? new UserTable(db) : undefined
   if (!userTable) throw new Error("db is not defined")

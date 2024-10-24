@@ -8,27 +8,21 @@ import { preprocessMetadata, primitiveMetadataAtom } from "~/atoms"
 import { safeParseString } from "~/utils"
 
 export async function uploadMetadata(metadata: PrimitiveMetadata) {
-  if (!__ENABLE_LOGIN__) return
   const jwt = safeParseString(localStorage.getItem("jwt"))
   if (!jwt) return
-  try {
-    await ofetch("/api/me/sync", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-      body: {
-        data: metadata.data,
-        updatedTime: metadata.updatedTime,
-      },
-    })
-  } catch (e) {
-    console.error(e)
-  }
+  await ofetch("/api/me/sync", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+    body: {
+      data: metadata.data,
+      updatedTime: metadata.updatedTime,
+    },
+  })
 }
 
 export async function downloadMetadata(): Promise<PrimitiveMetadata | undefined> {
-  if (!__ENABLE_LOGIN__) return
   const jwt = safeParseString(localStorage.getItem("jwt"))
   if (!jwt) return
   const { data, updatedTime } = await ofetch("/api/me/sync", {
@@ -52,8 +46,25 @@ export function useSync() {
   const toaster = useToast()
 
   useDebounce(async () => {
+    const fn = async () => {
+      try {
+        await uploadMetadata(primitiveMetadata)
+      } catch (e: any) {
+        if (e.statusCode !== 506) {
+          toaster("身份校验失败，无法同步，请重新登录", {
+            type: "error",
+            action: {
+              label: "登录",
+              onClick: login,
+            },
+          })
+          logout()
+        }
+      }
+    }
+
     if (primitiveMetadata.action === "manual") {
-      uploadMetadata(primitiveMetadata)
+      fn()
     }
   }, 10000, [primitiveMetadata])
   useMount(() => {
@@ -64,8 +75,8 @@ export function useSync() {
           setPrimitiveMetadata(preprocessMetadata(metadata))
         }
       } catch (e: any) {
-        if (e.statusCode === 401) {
-          toaster("身份校验失败，请重新登录", {
+        if (e.statusCode !== 506) {
+          toaster("身份校验失败，无法同步，请重新登录", {
             type: "error",
             action: {
               label: "登录",

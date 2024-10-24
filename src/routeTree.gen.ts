@@ -17,11 +17,13 @@ import { Route as CColumnImport } from './routes/c.$column'
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
+  id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
 const CColumnRoute = CColumnImport.update({
+  id: '/c/$column',
   path: '/c/$column',
   getParentRoute: () => rootRoute,
 } as any)

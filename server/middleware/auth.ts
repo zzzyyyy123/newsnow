@@ -5,11 +5,12 @@ export default defineEventHandler(async (event) => {
   const url = getRequestURL(event)
   if (["JWT_SECRET", "G_CLIENT_ID", "G_CLIENT_SECRET"].find(k => !process.env[k])) {
     event.context.disabledLogin = true
-    if (url.pathname.startsWith("/api/me")) throw createError({ statusCode: 506, message: "Server not configured" })
+    if (!url.pathname.startsWith("/api/s"))
+      throw createError({ statusCode: 506, message: "Server not configured, disable login" })
   } else {
-    if (/^\/api\/(?:me|s)\//.test(url.pathname)) {
+    if (["/api/s", "/api/me"].find(p => url.pathname.startsWith(p))) {
       const token = getHeader(event, "Authorization")?.replace("Bearer ", "")?.trim()
-      if (token && process.env.JWT_SECRET) {
+      if (token) {
         try {
           const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET)) as { payload?: { id: string, type: string } }
           if (payload?.id) {
@@ -19,9 +20,12 @@ export default defineEventHandler(async (event) => {
             }
           }
         } catch {
-          if (url.pathname.startsWith("/api/me")) throw createError({ statusCode: 401, message: "JWT verification failed" })
-          logger.warn("JWT verification failed")
+          if (url.pathname.startsWith("/api/me"))
+            throw createError({ statusCode: 401, message: "JWT verification failed" })
+          else logger.warn("JWT verification failed")
         }
+      } else if (url.pathname.startsWith("/api/me")) {
+        throw createError({ statusCode: 401, message: "JWT verification failed" })
       }
     }
   }
