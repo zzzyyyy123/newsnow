@@ -10,6 +10,7 @@ import dotenv from "dotenv"
 import type { VitePWAOptions } from "vite-plugin-pwa"
 import { VitePWA } from "vite-plugin-pwa"
 import { projectDir } from "./shared/dir"
+import { RollopGlob } from "./tools/rollup-glob"
 
 dotenv.config({
   path: join(projectDir, ".env.server"),
@@ -61,6 +62,9 @@ const pwaOption: Partial<VitePWAOptions> = {
 const nitroOption: Parameters<typeof nitro>[0] = {
   experimental: {
     database: true,
+  },
+  rollupConfig: {
+    plugins: [RollopGlob()],
   },
   sourceMap: false,
   database: {

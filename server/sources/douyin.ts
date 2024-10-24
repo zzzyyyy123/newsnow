@@ -17,12 +17,11 @@ export default defineSource(async () => {
       cookie: cookie.join("; "),
     },
   })
-  return res.data.word_list
-    .map((k) => {
-      return {
-        id: k.sentence_id,
-        title: k.word,
-        url: `https://www.douyin.com/hot/${k.sentence_id}`,
-      }
-    })
+  return res.data.word_list.map((k) => {
+    return {
+      id: k.sentence_id,
+      title: k.word,
+      url: `https://www.douyin.com/hot/${k.sentence_id}`,
+    }
+  })
 })
