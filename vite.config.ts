@@ -11,9 +11,6 @@ import type { VitePWAOptions } from "vite-plugin-pwa"
 import { VitePWA } from "vite-plugin-pwa"
 import { projectDir } from "./shared/dir"
 
-const isCF = process.env.CF_PAGES
-const isVercel = process.env.VERCEL
-
 dotenv.config({
   path: join(projectDir, ".env.server"),
 })
@@ -68,18 +65,18 @@ const nitroOption: Parameters<typeof nitro>[0] = {
       connector: "sqlite",
     },
   },
+  preset: "node-server",
   alias: {
     "@shared": join(projectDir, "shared"),
     "#": join(projectDir, "server"),
   },
-  preset: "node-server",
 }
 
-if (isVercel) {
+if (process.env.VERCEL) {
   nitroOption.preset = "vercel-edge"
   // You can use other online database, do it yourself. For more info: https://db0.unjs.io/connectors
   nitroOption.database = undefined
-} else if (isCF) {
+} else if (process.env.CF_PAGES) {
   nitroOption.preset = "cloudflare-pages"
   nitroOption.database = {
     default: {
@@ -87,6 +84,13 @@ if (isVercel) {
       options: {
         bindingName: "NEWSNOW_DB",
       },
+    },
+  }
+} else if (process.env.BUN) {
+  nitroOption.preset = "bun"
+  nitroOption.database = {
+    default: {
+      connector: "bun-sqlite",
     },
   }
 }
