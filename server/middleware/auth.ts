@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 506, message: "Server not configured, disable login" })
   } else {
     if (["/api/s", "/api/me"].find(p => url.pathname.startsWith(p))) {
-      const token = getHeader(event, "Authorization")?.replace("Bearer ", "")?.trim()
+      const token = getHeader(event, "Authorization")?.replace(/Bearer\s*/, "")?.trim()
       if (token) {
         try {
           const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET)) as { payload?: { id: string, type: string } }

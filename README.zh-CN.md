@@ -1,8 +1,9 @@
 # NewsNow
-[English](./README.md) | 简体中文
 
 ![](screenshots/preview.light.png#gh-light-mode-only)
 ![](screenshots/preview.dark.png#gh-dark-mode-only)
+
+[English](./README.md) | 简体中文
 
 ## 部署
 

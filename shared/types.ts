@@ -2,7 +2,7 @@ import type { colors } from "unocss/preset-mini"
 import type { columnIds } from "./metadata"
 import type { originSources } from "./sources"
 
-export type Color = Exclude<keyof typeof colors, "current" | "inherit" | "transparent" | "black" | "white">
+export type Color = "primary" | Exclude<keyof typeof colors, "current" | "inherit" | "transparent" | "black" | "white">
 
 type ConstSources = typeof originSources
 type MainSourceID = keyof(ConstSources)
@@ -15,14 +15,14 @@ export type SourceID = {
     }[keyof SubSource] | Key : Key;
 }[MainSourceID]
 
-export type AllSourceID = {
-  [Key in MainSourceID]: ConstSources[Key] extends { sub?: infer SubSource } ? keyof {
-    // @ts-expect-error >_<
-    [SubKey in keyof SubSource as `${Key}-${SubKey}`]: never
-  } | Key : Key
-}[MainSourceID]
+// export type AllSourceID = {
+//   [Key in MainSourceID]: ConstSources[Key] extends { sub?: infer SubSource } ? keyof {
+//     // @ts-expect-error >_<
+//     [SubKey in keyof SubSource as `${Key}-${SubKey}`]: never
+//   } | Key : Key
+// }[MainSourceID]
 
-export type DisabledSourceID = Exclude<SourceID, MainSourceID>
+// export type DisabledSourceID = Exclude<SourceID, MainSourceID>
 
 export type ColumnID = (typeof columnIds)[number]
 export type Metadata = Record<ColumnID, Column>

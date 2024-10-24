@@ -1,8 +1,8 @@
 # NewsNow
-English | [简体中文](README.zh-CN.md)
-
 ![](screenshots/preview.light.png#gh-light-mode-only)
 ![](screenshots/preview.dark.png#gh-dark-mode-only)
+
+English | [简体中文](README.zh-CN.md)
 
 ## Deployment
 

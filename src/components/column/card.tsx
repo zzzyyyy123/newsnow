@@ -67,14 +67,15 @@ function NewsCard({ id, inView, handleListeners }: NewsCardProps) {
     queryFn: async ({ queryKey }) => {
       const [_id, _refetchTime] = queryKey as [SourceID, number]
       let url = `/api/s/${_id}`
+      const headers: Record<string, any> = {}
       if (Date.now() - _refetchTime < 1000) {
         url = `/api/s/${_id}?latest`
+        const jwt = safeParseString(localStorage.getItem("jwt"))
+        if (jwt) headers.Authorization = `Bearer ${jwt}`
       }
       const response: SourceResponse = await ofetch(url, {
         timeout: 10000,
-        headers: {
-          Authorization: `Bearer ${safeParseString(localStorage.getItem("jwt"))}`,
-        },
+        headers,
       })
       return response
     },

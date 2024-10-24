@@ -196,7 +196,7 @@ function genSources() {
       name: source.name,
       type: source.type,
       disable: source.disable,
-      color: source.color ?? "red",
+      color: source.color ?? "primary",
       interval: source.interval ?? Time.Default,
     }
     if (source.sub && Object.keys(source.sub).length) {
