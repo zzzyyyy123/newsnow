@@ -16,6 +16,7 @@ import xueqiu from "./xueqiu"
 import gelonghui from "./gelonghui"
 import tieba from "./tieba"
 import thepaper from "./thepaper"
+import fastbull from "./fastbull"
 import type { SourceGetter } from "#/types"
 
 export const sourcesGetters = {
@@ -28,6 +29,7 @@ export const sourcesGetters = {
   cankaoxiaoxi,
   thepaper,
   sputniknewscn,
+  ...fastbull,
   ...wallstreetcn,
   ...xueqiu,
   gelonghui,

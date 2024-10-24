@@ -169,6 +169,22 @@ export const originSources = {
     interval: Time.Realtime,
     home: "https://www.gelonghui.com",
   },
+  "fastbull": {
+    name: "法布财经",
+    color: "emerald",
+    home: "https://www.fastbull.cn",
+    sub: {
+      express: {
+        title: "快讯",
+        type: "realtime",
+        interval: Time.Realtime,
+      },
+      news: {
+        title: "头条",
+        interval: Time.Common,
+      },
+    },
+  },
 } as const satisfies Record<string, OriginSource>
 
 export const sources = genSources()

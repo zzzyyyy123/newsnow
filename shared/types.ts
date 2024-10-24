@@ -75,6 +75,7 @@ export interface NewsItem {
   title: string
   url: string
   mobileUrl?: string
+  pubDate?: number | string
   extra?: Record<string, any>
 }
 
