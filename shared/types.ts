@@ -15,12 +15,12 @@ export type SourceID = {
     }[keyof SubSource] | Key : Key;
 }[MainSourceID]
 
-// export type AllSourceID = {
-//   [Key in MainSourceID]: ConstSources[Key] extends { sub?: infer SubSource } ? keyof {
-//     // @ts-expect-error >_<
-//     [SubKey in keyof SubSource as `${Key}-${SubKey}`]: never
-//   } | Key : Key
-// }[MainSourceID]
+export type AllSourceID = {
+  [Key in MainSourceID]: ConstSources[Key] extends { sub?: infer SubSource } ? keyof {
+    // @ts-expect-error >_<
+    [SubKey in keyof SubSource as `${Key}-${SubKey}`]: never
+  } | Key : Key
+}[MainSourceID]
 
 // export type DisabledSourceID = Exclude<SourceID, MainSourceID>
 

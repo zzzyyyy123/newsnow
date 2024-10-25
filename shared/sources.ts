@@ -197,6 +197,23 @@ export const originSources = {
     type: "hottest",
     home: "https://news.ycombinator.com/",
   },
+  "producthunt": {
+    name: "Product Hunt",
+    color: "orange",
+    type: "hottest",
+    home: "https://www.producthunt.com/",
+  },
+  "github": {
+    name: "Github",
+    color: "gray",
+    home: "https://github.com/",
+    sub: {
+      "trending-today": {
+        title: "Today",
+        type: "hottest",
+      },
+    },
+  },
 } as const satisfies Record<string, OriginSource>
 
 export const sources = genSources()
