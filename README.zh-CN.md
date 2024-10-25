@@ -5,6 +5,8 @@
 
 [English](./README.md) | 简体中文
 
+***优雅地阅读实时热门新闻***
+
 ## 部署
 
 如果不需要登录，缓存，可以直接部署到 Cloudflare Pages，Vercel 等。Fork 之后在对应平台上导入即可。

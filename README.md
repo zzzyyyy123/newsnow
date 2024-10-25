@@ -4,6 +4,8 @@
 
 English | [简体中文](README.zh-CN.md)
 
+***Elegant reading of real-time and hottest news***
+
 ## Deployment
 
 If login and caching are not required, you can directly deploy to platforms like Cloudflare Pages or Vercel. Just fork the repository and import it into the respective platform.
@@ -23,7 +25,7 @@ INIT_TABLE=true
 
 This project primarily supports deployment on Cloudflare Pages and Docker. For Vercel, you need to set up your own database. Supported databases can be found at https://db0.unjs.io/connectors .
 
-Cloudflare D1 database is free to use. You can manually create a database in the Cloudflare Worker control panel and add the database_id and database_name to the corresponding positions in wrangler.toml. The changes will take effect on the next deployment.
+Cloudflare D1 database is free to use. You can manually create a database in the Cloudflare Worker control panel and add the `database_id` and `database_name` to the corresponding positions in `wrangler.toml`. The changes will take effect on the next deployment.
 
 For Docker deployment. In the project root directory with `docker-compose.yml`, run
 
