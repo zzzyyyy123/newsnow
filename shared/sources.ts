@@ -199,7 +199,7 @@ export const originSources = {
   },
   "producthunt": {
     name: "Product Hunt",
-    color: "orange",
+    color: "red",
     type: "hottest",
     home: "https://www.producthunt.com/",
   },
