@@ -185,6 +185,12 @@ export const originSources = {
       },
     },
   },
+  "solidot": {
+    name: "Solidot",
+    color: "sky",
+    home: "https://solidot.org",
+    interval: Time.Slow,
+  },
 } as const satisfies Record<string, OriginSource>
 
 export const sources = genSources()

@@ -15,7 +15,7 @@ const originMetadata: Metadata = {
   },
   tech: {
     name: "科技",
-    sources: ["ithome", "v2ex", "coolapk"],
+    sources: ["ithome", "v2ex", "coolapk", "solidot"],
   },
   finance: {
     name: "财经",
