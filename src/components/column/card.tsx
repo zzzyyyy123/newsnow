@@ -185,6 +185,7 @@ function NewsListHot({ query }: Query) {
           href={width < 768 ? item.mobileUrl || item.url : item.url}
           target="_blank"
           key={item.id}
+          title={item.extra?.hover}
           className={clsx(
             "flex gap-2 items-center mb-2 items-stretch",
             "hover:bg-neutral-400/10 rounded-md pr-1 visited:(text-neutral-400)",
@@ -226,6 +227,7 @@ function NewsListTimeLine({ query }: Query) {
           <a
             className={clsx("ml-2 px-1 hover:bg-neutral-400/10 rounded-md visited:(text-neutral-400/80)")}
             href={width < 768 ? item.mobileUrl || item.url : item.url}
+            title={item.extra?.hover}
             target="_blank"
           >
             {item.title}
