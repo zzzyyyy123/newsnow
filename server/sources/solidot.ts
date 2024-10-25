@@ -2,13 +2,13 @@ import * as cheerio from "cheerio"
 import type { NewsItem } from "@shared/types"
 
 export default defineSource(async () => {
-  const baseURL = "https://www.solidot.org/"
+  const baseURL = "https://www.solidot.org"
   const html: any = await $fetch(baseURL)
   const $ = cheerio.load(html)
   const $main = $(".block_m")
   const news: NewsItem[] = []
   $main.each((_, el) => {
-    const a = $(el).find(".bg_htit a")
+    const a = $(el).find(".bg_htit a").last()
     const url = a.attr("href")
     const title = a.text()
     const date_raw = $(el).find(".talk_time").text().match(/发表于(.*?分)/)?.[1]

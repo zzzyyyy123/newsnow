@@ -187,9 +187,15 @@ export const originSources = {
   },
   "solidot": {
     name: "Solidot",
-    color: "sky",
+    color: "teal",
     home: "https://solidot.org",
     interval: Time.Slow,
+  },
+  "hackernews": {
+    name: "Hacker News",
+    color: "orange",
+    type: "hottest",
+    home: "https://news.ycombinator.com/",
   },
 } as const satisfies Record<string, OriginSource>
 
